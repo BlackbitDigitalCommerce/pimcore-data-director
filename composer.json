@@ -1,5 +1,5 @@
 {
-  "name": "blackbitDigitalCommerce//pimcore-import",
+  "name": "blackbit_digital_commerce//pimcore-import",
   "description": "Import data from XML, CSV, JSON, Excel files to Pimcore objects, assets, documents",
   "support": {
     "shop": "https://shop.blackbit.de/de/pimcore-modul-bb-import",
