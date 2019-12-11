@@ -1,0 +1,17 @@
+{
+  "name": "blackbit/pimcore-import",
+  "description": "Import data from XML, CSV, JSON, Excel files to Pimcore objects, assets, documents",
+  "support": {
+    "shop": "https://shop.blackbit.de/de/pimcore-modul-bb-import",
+    "docs": "https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf"
+  },
+  "homepage": "https://www.blackbit.de/",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Blackbit",
+      "email": "info@blackbit.de",
+      "role": "Developer"
+    }
+  ]
+}
