@@ -12,7 +12,7 @@ In the Pimcore backend GUI you can define which data is to be extracted from the
 
 During the import, data can be modified and adapted to your data model. This plug-in provides extensive functionality and a convenient user interface and is a battle-tested solution for importing structured data into Pimcore objects, assets and documents. It reduces the effort of programming individual interfaces and reduces the time to commissioning your Pimcore project.
 
-![Import workflow](doc/images/dataflow.png)
+![Import workflow](doc/images/dataflow.jpg)
 
 You can also watch the whole process in a 
 [video](https://youtu.be/O6nsshkOEPU).
