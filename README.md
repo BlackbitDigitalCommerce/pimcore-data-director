@@ -73,6 +73,12 @@ The attribute mapping can also be used to modify the source data. For each field
   * Migrate data from one field type to another without data loss
   * dynamic mass data manipulation (currently that is not possible in the Pimcore grid (for example, increase prices by 10%))
 * Import of documents (filling of the editables)
+* Generate response documents
+  * generate a response document including all successfully imported items and send that to the source system
+  * track import errors
+  * call another import which depends on the current one
+  * create / export documents (JSON / CSV / XML etc.) which other systems can use as import source
+  * create response documents for single-page application / PWA frontend requests
 * Skipping records from the import source, e.g. if data is missing or the quality is insufficient
 * easy import of relations
 * Import of object hierarchies / object trees
