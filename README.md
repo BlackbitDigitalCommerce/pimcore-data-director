@@ -81,6 +81,7 @@ The attribute mapping can also be used to modify the source data. For each field
   * create response documents for single-page application / PWA frontend requests
 * Skipping records from the import source, e.g. if data is missing or the quality is insufficient
 * easy import of relations
+* automatically assign elements to relations via artificial intelligence / machine learning
 * Import of object hierarchies / object trees
   * Specification of the parent element possible
   * Option to optimize inheritance (data is entered as high as possible in the object hierarchy)
