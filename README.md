@@ -14,8 +14,7 @@ During the import, data can be modified and adapted to your data model. This plu
 
 ![Import workflow](doc/images/dataflow.jpg)
 
-You can also watch the whole process in a 
-[video](https://youtu.be/O6nsshkOEPU).
+For a overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
 ## How to get the plugin
 
