@@ -1,6 +1,8 @@
-# Pimcore Import Plugin
+# Pimcore Data Director Bundle
 
-Feature-rich import bundle to connect external systems to Pimcore
+formerly known as Pimcore Import Plugin
+
+Feature-rich import and export bundle to connect external systems to Pimcore
 
 * * *
 
