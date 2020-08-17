@@ -24,14 +24,14 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 
 * * *
 
-## Advantages over own import implementation
+## Advantages compared to own import implementation
 
 * Performance:
-  * Data is only imported if nothing has changed since the last import
-  * If an object has not changed during import, it does not need to be saved
+    * Data is only imported if nothing has changed since the last import
+    * If an object has not changed during import, it does not need to be saved
 * Flexibility:
-  * Imports are customizable to data source and your Pimcore data model
-  * Supports all Pimcore objects including data objects, object bricks, field collections, assets and documents
+    * Imports are customizable to data source and your Pimcore data model
+    * Supports all Pimcore objects including data objects, object bricks, field collections, assets and documents
 * Minimization of programming effort: Only data modifications from the data source require minimal programming
 * Comfort functions: e.g. Optimizing inheritance, reverting imports, replacing placeholders
      
