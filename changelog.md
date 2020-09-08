@@ -1,3 +1,105 @@
+# 2.0.0
+
+Artificial intelligence
+-----------------------
+
+With the checkbox Automatically assign you can now automatically assign elements to a relational field based on artificial intelligence. The training data consists of the data of all mapped fields of this dataport of all published objects of the same class as the imported object. This can e.g. be used to automatically assign categories of a product based on the product name and description.
+
+Virtual Fields
+--------------
+
+You can use {{ VARIABLE NAME }} as a placeholder in the callback functions. This will add a *virtual field* with the given name to the attribute mapping panel. Virtual fields can be used for several things:
+
+-   fetch elements via data query selectors and use them for additional logic, e.g.
+
+    php $object = {{ OTHER OBJECT }}; return $object->getField1() ?: $object->getField2();
+
+    This will create a virtual field OTHER OBJECT where we could have return 'Category:name:'.$params['value']; as callback function. This virtual Field will try to find a Category object with the field name being equal to the assigned raw data field. In the field with above callback function we then return either the content of Field1 or if this is empty then the content of Field2 of the returned Category.
+
+-   reusable templates can contain virtual fields. For example the bundle provides a template for uploading export files via FTP. The template defines the virtual fields FTP Host, FTP Port, FTP username, FTP password, FTP Path. You do not have to edit the code provided by the template but can just change the values for these virtual fields.
+
+Virtual fields support getting values from app/config/parameters.yml and .env files. For example when you create export dataports for a shop API, you could put your API credentials in one of those files, in this example in app/config(/parameters.yml:
+
+`parameters: API_ENDPOINT: <http://example.org/api>`
+
+When there is any callback function which uses the placeholder {{ API_ENDPOINT }} the value from parameters.yml will automatically get used - but of course you can override it by assigning a raw data field or implementing a callback function.
+
+### Reuse value of other field
+
+When the name in the double curly braces refers to a really existing field's name (e.g. {{ Key }} for the object key) the field does not get treated as a virtual field but it will contain the mapped return value of the referenced field. For example, when you have a callback function for the object key and want to use the same logic also for the name field of Product objects without duplicating the callback function, then you can use return {{ key }} to get the same value which got returned from the callback function for the field Key.
+
+BC break: Result callback function now only gets 1 raw data item, not a complete batch
+--------------------------------------------------------------------------------------
+
+Sadly we cannot adjust already existing result callback functions automatically. The migration just prints a warning for dataports which have a result callback function which then has to be edited manually.
+
+Unpublished versions
+--------------------
+
+On the one hand it is important to not overwrite changes of unpublished versions and on the other hand to not publish the changes of unpublished versions. For this reason for elements whose latest version is unpublished, the import gets executed for currently published object version as well as for latest unpublished version - resulting in 2 new versions: one published based on the last published version but including the changes from the import, and one unpublished version based on the latest unpublished version but also including the changes from the import.
+
+For new objects or objects whose latest version is published, of course only one new version will get created (is anything changed during the import).
+
+Import Tags
+-----------
+
+You can import one or multiple [tags](https://pimcore.com/docs/latest/Development_Documentation/Tools_and_Features/Tags.html "https://pimcore.com/docs/latest/Development_Documentation/Tools_and_Features/Tags.html"). Tag levels should be separated by /. You can either just assign a raw data field or use a callback function like this
+
+`return ['Tag-Name','hierarchical/tag'];`
+
+Tags which do not exist yet, get automatically created.
+
+Minor enhancements:
+-------------------
+
+-   allow plain text input to callback functions (callback function "code" without "return" will get returned as is -> also helps to debug code where the return has been forgotten)
+
+-   correctly update localized fields in currentObjectData
+
+-   provide "transfer" object also for result action function (to use values from result callback function in result action function)
+
+-   allow an arbitrary string to be entered in raw data field in attribute mapping - if it does not exist, use it as callback function
+
+-   remove "Export" as source data class for dataports with source data type "Pimcore"
+
+-   prefix commands by "data-director:" instead of "import:"
+
+    -   rename import:rawdata to dd:extract
+
+    -   rename import:pim to dd:process
+
+-   support running exports based on current raw data
+
+-   start imports via object tree right-click on target folder or asset in import resource folder
+
+-   open object(s) which are referenced by raw data item via right-click
+
+-   repair Open API definition to be able to try API calls directly from REST API documentation overview
+
+-   add auto-complete for item xpath (XML imports)
+
+-   do not open import in new window when importing via right-click on target folder / import asset when dataport has no result callback function
+
+-   allow longer dataport names
+
+-   bugfix: isModified did not work for object bricks
+
+-   simplify asset import by reducing available mapping fields
+
+-   simplify data query selector for Pimcore-based imports: ".:.:.:" is not necessary anymore when fetching fields from source class objects
+
+-   auto-create raw data fields for excel dataports
+
+-   show available variables when editing callback function
+
+-   support importing zip files which include import resource file(s) and assets
+
+-   bugfix: allow save event listeners which apply workflow transitions (due to Pimcore / Symfony bug this was not possible for CLI processes)
+
+-   Write logs to separate files (one per import run), link file object to application logs to be able to get context of errors (e.g. which raw data item, which field etc.)
+
+-   list queued commands in dataport's history panel
+
 # 1.21.0
 
 New name
