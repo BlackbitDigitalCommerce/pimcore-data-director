@@ -8,13 +8,27 @@ Feature-rich import and export bundle to connect external systems to Pimcore
 
 ## What does this plugin do?
 
-This plugin imports data from external XML, JSON, CSV, Excel data sources (for example from an ERP system), stores them to an intermediate raw data table, and then assigns them to your data objects, assets and documents.
+This plugin imports data from external XML, JSON, CSV, Excel data sources (for example from an ERP system), stores them to an intermediate raw data table, and then creates / updates data objects, assets and documents with this data.
 
 In the Pimcore backend GUI you can define which data is to be extracted from the import source and assign it to the object fields of your Pimcore objects. All Pimcore data types are supported for import. Also the import of assets and documents is possible (including editing metadata, tags etc.).
 
 During the import, data can be modified and adapted to your data model. This plug-in provides extensive functionality and a convenient user interface and is a battle-tested solution for importing structured data into Pimcore objects, assets and documents. It reduces the effort of programming individual interfaces and reduces the time to commissioning your Pimcore project.
 
 ![Import workflow](doc/images/dataflow.jpg)
+
+It is also possible to export data of the fields you want - including data from relations, images / thumbnails etc. With the intelligent caching system exports are really fast as export data gets updated in the moment when an object gets saved (in the background, so saving does not take any longer) and not when the export is requested. For exports we already provide lots of ready-to-be-used templates:
+* CSV exports
+* CSV as zip file including assets
+* JSON exports
+* JSON as zip file incl. assets
+* XML exports
+* XML exports as zip file incl. assets
+
+It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the follwoing ready-to-be-used result action templates:
+* upload export document via (S)FTP, AWS S3 and other cloud storage providers
+* send export document via email
+
+With the automatic mapping functionalities and the provided templates setting up imports and exports is a matter of minutes - in most cases without any programming necessary. But of course if you want to adjust import or export data, you can by using callback functions.
 
 For a overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
@@ -29,11 +43,20 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 * Performance:
     * Data is only imported if nothing has changed since the last import
     * If an object has not changed during import, it does not need to be saved
+    * Export data gets updated when objects change, so it is already prepared in the moment an export gets requested
 * Flexibility:
-    * Imports are customizable to data source and your Pimcore data model
+    * Imports and exports are customizable to data source and your Pimcore data model
     * Supports all Pimcore objects including data objects, object bricks, field collections, assets and documents
+    * Supports importing tags and properties
 * Minimization of programming effort: Only data modifications from the data source require minimal programming
-* Comfort functions: e.g. Optimizing inheritance, reverting imports, replacing placeholders
+* Comfort functions: 
+    * Automatically extract raw data fields from import resources
+    * Automatically map raw data fields to Pimcore class fields
+    * Optimize inheritance
+    * Replace placeholders (for example to generate texts automatically)
+    * Automatic translation (with DeepL API)
+    * Error monitoring / notification of imports
+    * Revert imports
      
 * * *
 
