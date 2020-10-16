@@ -49,6 +49,11 @@ You can import one or multiple [tags](https://pimcore.com/docs/latest/Developmen
 
 Tags which do not exist yet, get automatically created.
 
+Dedicated Logging
+-----------------
+
+From the dataport history panel you can now view the logs for each dataport run (rawdata extraction / processing) individually. Additionally the background color of each history panel row gets adjusted based on the worst error which happened during the import run.
+
 Minor enhancements:
 -------------------
 
