@@ -1,3 +1,80 @@
+# 2.1.0
+Permissions
+-----------
+
+You can now allow or disallow configuration and execution of each dataport separately via Pimcore's roles and user permissions.
+
+Pimcore 7 compatibility
+-----------------------
+
+-   do not use Pimcore's Webservice API for REST API endpoints (Webservice API gets dropped in Pimcore 7)
+
+-   support symfony/lock (Pimcore\Tool\Lock got deprecated and will be removed in PImcore 7)
+
+-   use twig for templates (PHP templates will not be supported anymore in Pimcore 7)
+
+Auto-map raw data fields
+------------------------
+
+Above the attribute mapping panel there now is a button to automatically assign raw data fields to the fields of the import target class. When the raw data field names match the target class field names exactly or approximately (fuzzy lookup is used, so they do not have to be exactly equal), the raw data fields and also the callback functions for complex data types like relations get assigned automatically.
+
+Minor changes
+-------------
+
+-   added icon to redo imports from history panel
+
+-   provide logs for all raw items in result callback function
+
+-   support auto-creating raw data fields with zip file as import source
+
+-   bugfix: wrong sort of raw items bugfix: manually edited raw data items got wrong hash for exports with key field(s)
+
+-   bugfix: call result callback function with "lastCall"=true when no objects have been found for given query
+
+-   do not execute imports which have callback functions set but callback function engine is not available
+
+-   enhanced regognition if imported element got changed during import
+
+    -   modificatin check did not work correctly for field collections
+
+    -   trigger preUpdate event handler before comparing element with its latest version → not saving unnecessarily if custom logic in preUpdate event handler changes some object data
+
+    -   do not check for importhash property in isModified
+
+-   support importing to image gallery
+
+-   restart queue processor after max. 1 hour to prevent memory problems
+
+-   bugfix when using special chars like ":" or "," in data query selectors
+
+-   bugfix: show virtual fields in attribute mapping
+
+-   suggest folder for "get-by-path" callback function templates for relation fields when all objects of allowed reference class are in same folder
+
+-   improve auto-complete for data query selectors in Pimcore-based imports/exports
+
+-   bugfix: overlapping imports must not remove any raw data
+
+-   support $params['rawItemData']['fieldName'] in callback functions (of course $params['rawItemData']['fieldName']['value'] will continue to work)
+
+-   bugfix: make callback function panel scrollable
+
+-   enhanced option recognition for select fields: try to find option by label if it cannot get found by key
+
+-   Quantity Value fields: use default unit if no unit has been provided and value is not empty
+
+-   add --dry-run, --objects options for data-director:revert command
+
+-   aliases dd:revert, import:revert as well as dd:deployment:dataport-rebuild, import:deployment:dataport-rebuild did not work
+
+-   add --force option to data-director:revert
+
+-   do not delete asset file on path collision without change (as original and duplicate asset share the same filesystem file)
+
+-   do not throw exception for command dd:delete-rawdata when provided object-id / object-type does not exist - just output message
+
+-   shorten REST API URLs (but old endpoints continue to work)
+
 # 2.0.0
 
 Artificial intelligence
