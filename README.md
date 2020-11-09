@@ -24,13 +24,15 @@ It is also possible to export data of the fields you want - including data from 
 * XML exports
 * XML exports as zip file incl. assets
 
+This way you can one the one hand create / edit objects, assets and documents in your Pimcore. On the other hand you can use this bundle to create fully customizable REST API endpoints.
+
 It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the follwoing ready-to-be-used result action templates:
 * upload export document via (S)FTP, AWS S3 and other cloud storage providers
 * send export document via email
 
 With the automatic mapping functionalities and the provided templates setting up imports and exports is a matter of minutes - in most cases without any programming necessary. But of course if you want to adjust import or export data, you can by using callback functions.
 
-For a overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
+For an overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
 ## How to get the plugin
 
@@ -46,7 +48,7 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
     * Export data gets updated when objects change, so it is already prepared in the moment an export gets requested
 * Flexibility:
     * Imports and exports are customizable to data source and your Pimcore data model
-    * Supports all Pimcore objects including data objects, object bricks, field collections, assets and documents
+    * Supports all Pimcore elements including data objects, object bricks, field collections, assets and documents
     * Supports importing tags and properties
 * Minimization of programming effort: Only data modifications from the data source require minimal programming
 * Comfort functions: 
@@ -101,8 +103,9 @@ The attribute mapping can also be used to modify the source data. For each field
   * generate a response document including all successfully imported items and send that to the source system
   * track import errors
   * call another import which depends on the current one
-  * create / export documents (JSON / CSV / XML etc.) which other systems can use as import source
+  * create export documents (JSON / CSV / XML etc.) which other systems can use as import source
   * create response documents for single-page application / PWA frontend requests
+* execute imports and exports with the built-in REST API
 * Skipping records from the import source, e.g. if data is missing or the quality is insufficient
 * easy import of relations
 * automatically assign elements to relations via artificial intelligence / machine learning
