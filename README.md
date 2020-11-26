@@ -25,7 +25,7 @@ It is also possible to export data of the fields you want - including data from 
 * XML exports as zip file incl. assets
 * send export document via email
 
-This way you can one the one hand create / edit objects, assets and documents in your Pimcore. On the other hand you can use this bundle to create fully customizable REST API endpoints.
+This way you can on the one hand create / edit objects, assets and documents in your Pimcore. On the other hand you can use this bundle to **create fully customizable REST API endpoints with configuration only** (everything is configured in Pimcore backend).
 
 It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the following ready-to-be-used result action templates:
 * upload export document via (S)FTP, AWS S3 and other cloud storage providers
