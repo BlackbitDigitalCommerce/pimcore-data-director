@@ -1,3 +1,40 @@
+# 2.2.0
+Import type "Reports"
+---------------------
+
+Pimcore reports are a feature to display information from Pimcore database or Google Analytics (but is also extendable to other connectors). Using the reports as import source enables for example to:
+
+-   send reports by mail (e.g. notify the responsible users when an action for the report objects is necessary)
+
+-   import data from Google Analytics into your Pimcore data objects to further use this data
+
+Memory optimizations
+--------------------
+
+With this version memory usage decreases a lot. Especially the raw data processing (import raw data to Pimcore data objects) got optimized.
+
+But also dataports with type "Pimcore" now use much less memory because before aa objects got loaded to memory and then processed. Now only the currently processed ones get loaded and afterwards removed from memory.
+
+Support easy to set up logic operations for exports
+---------------------------------------------------
+
+It is now easier to set up logic operations for export fields as they now also support callback functions.
+
+Minor changes
+-------------
+
+-   recognize strings like "10 kg" for quantity value fields
+
+-   support default unit for quantity value fields if no unit provided in import data
+
+-   add shortcut $ for .:.:.: in data query selectors (e.g. to be used for placeholders within texts)
+
+    -   e.g. you could have "Buy $name now" in a field for a product's SEO title. This then gets replaced to "Buy christmans socks now" when there is an input field "name" in the current object's class which has the value "christmas socks".
+
+-   support stream wrappers for logs
+
+-   add result callback function to get raw data as HTML table
+
 # 2.1.0
 Permissions
 -----------
