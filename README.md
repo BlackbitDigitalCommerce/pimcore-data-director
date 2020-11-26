@@ -23,12 +23,12 @@ It is also possible to export data of the fields you want - including data from 
 * JSON as zip file incl. assets
 * XML exports
 * XML exports as zip file incl. assets
+* send export document via email
 
 This way you can one the one hand create / edit objects, assets and documents in your Pimcore. On the other hand you can use this bundle to create fully customizable REST API endpoints.
 
-It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the follwoing ready-to-be-used result action templates:
+It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the following ready-to-be-used result action templates:
 * upload export document via (S)FTP, AWS S3 and other cloud storage providers
-* send export document via email
 
 With the automatic mapping functionalities and the provided templates setting up imports and exports is a matter of minutes - in most cases without any programming necessary. But of course if you want to adjust import or export data, you can by using callback functions.
 
@@ -98,6 +98,9 @@ The attribute mapping can also be used to modify the source data. For each field
 * Import data from Pimcore objects:
   * Migrate data from one field type to another without data loss
   * dynamic mass data manipulation (currently that is not possible in the Pimcore grid (for example, increase prices by 10%))
+* Import data from Pimcore reports
+  * e.g. to send reports by mail (e.g. notify the responsible users when an action for the report objects is necessary)
+  * e.g. to import data from Google Analytics into your Pimcore data objects to further use this data
 * Import of documents (filling of the editables)
 * Generate response documents
   * generate a response document including all successfully imported items and send that to the source system
