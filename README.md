@@ -120,6 +120,7 @@ The attribute mapping can also be used to modify the source data. For each field
 * optimized performance:
   * If the source data has not changed, the import of the data record can be skipped
   * If data of an object is not changed in the import, it does not need to be saved
+* generate barcode and QR code images
 * Possibility to revert imports:
   * If an attribute assignment error has crept in and several thousand objects have been filled with incorrect data, the change can be reverted - in this case only the fields mapped in the import are set back, only for the objects changed in the import - a big advantage over a complete backup restore
 
