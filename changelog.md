@@ -1,3 +1,88 @@
+# 2.3.0
+Optimizations for (automatic) exports
+-------------------------------------
+
+-   Better mechanism to ensure that only 1 queue processor process is running.
+
+-   Delete raw data of automatic exports only if raw data item is not covered (anymore) by dataport condition because it gets updated anyway just a few seconds and it is also was a problem when the export got requested in the few seconds between deleting the raw item and updating it with the new values - in this case the item was missing in the export. This does now not happen anymore.
+
+-   background process did not use the cached export document. For this reason even in case that the raw data did not change, the export document had to be recreated completely. Now raw data processing just gets aborted if the cached export document is still up to date.
+
+-   wait for running raw data extraction to finish when export is requested (to not export incomplete data)
+
+Edit-locking
+------------
+
+When an import recognizes that an object is changed but is currently opened by a user in the Pimcore backend, it notifies the user to finish work and afterwards close the object to prevent changes of the import being overwritten as soon as the user clicks the save button. If still locked after 30s waiting, import of the remaining raw items gets queued to be processed later (and skip for current import run). If the object does not get unlocked within the next hour, the import will be done anyway (this copies Pimcore's behavior of showing the edit-lock notification for max. 1 hour is another user opened the object).
+
+Additionally the data director itself obtains an edit lock in the imported objects to notify Pimcore users that an import is running (same notification as if 2 users open the same object at the same time).
+
+Templates for uploading exported documents to cloud hosting providers
+---------------------------------------------------------------------
+
+There are nor ready-to-be-used templates for uploading exported documents to cloud storage providers like AWS S3 and Google Storage.
+
+Also we enhanced uploading exported documents via (S)FTP and FTP Secure.
+
+Enhanced dataport configuration
+-------------------------------
+
+Dataports with Pimcore as import type now support auto-complete in the SQL condition for the dataport.\
+Also the auto-suggest for data query selectors of raw data fields of Pimcore-based dataports has been improved to always show next possible steps.
+
+In attribute mapping it is now possible to use localized fields as key fields.\
+Additionally in attribute mapping panel we enhanced:
+
+-   better performance loading preview data
+
+-   do not show debug / info logs in attribute mapping panel preview (but only "real" errors)
+
+-   bugfix: $params['currentValue'] variable preview did not work for unmapped fields
+
+In dataport preview the configured key fields are now locked. This means that you can scroll horizontically though the other raw data fields while the key fields stay visible.
+
+Translation Providers
+---------------------
+
+-   support AWS Translate as translation provider (in addition to existing DeepL implementation)
+
+-   bugfix: DeepL had problems with recognizing word separators when only <br> tags were used without whitespaces
+
+-   bugfix: saving translations to cache to reuse translations / save money did not work
+
+Minor changes
+-------------
+
+-   support returning DateTime object from callback functions for date and datetime fields
+
+-   sort available classes by name for dropdown in dataport settings
+
+-   create QR codes as SVG
+
+-   do not propose example query for exports in REST API documentation
+
+-   prevent multiple parallel history reload calls
+
+-   do not block session until import / export is finished (only applies when dataport run is started from Pimcore UI)
+
+-   only remove raw data when saving dataport if raw data fields got changed -> do not remove raw data when dataport name or any other option got changed
+
+-   add translate helper function to be used in data query selectors (uses Pimcore translations)
+
+-   delete dataport resources which have not been used recently (configurable with blackbit_pim.importstatus.cleanup_interval parameter)
+
+-   support importing JSON documents like [{field1: value1}] with JMESPath expression "."
+
+-   use default language as default locale for listing queries → allows to query for localized fields in SQL condition
+
+-   hide "target folder" field when setting import mode to "edit only"
+
+-   fix pagination of history panel when some jobs are in queue
+
+-   auto-activate "key field" checkbox in attribute mapping when field is unique or has index and raw data field gets assigned
+
+-   bugfix: when calling command dd:process with certain raw data items, only dataport resources of those given items should be used (previously used all dataport resources of given dataport)
+
 # 2.2.0
 Import type "Reports"
 ---------------------
