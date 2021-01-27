@@ -46,18 +46,18 @@ Translation Providers
 
 -   support AWS Translate as translation provider (in addition to existing DeepL implementation)
 
--   bugfix: DeepL had problems with recognizing word separators when only \<br\> tags were used without whitespaces
+-   bugfix: DeepL had problems with recognizing word separators when only \<br\> tags were used without wrapping whitespaces
 
 -   bugfix: saving translations to cache to reuse translations / save money did not work
 
 Minor changes
 -------------
 
--   support returning DateTime object from callback functions for date and datetime fields
+-   support returning DateTime object from callback functions for date and datetime fields (when using PHP as callback function language)
 
 -   sort available classes by name for dropdown in dataport settings
 
--   create QR codes as SVG
+-   add template to create QR codes as SVG
 
 -   do not propose example query for exports in REST API documentation
 
@@ -73,7 +73,7 @@ Minor changes
 
 -   support importing JSON documents like [{field1: value1}] with JMESPath expression "."
 
--   use default language as default locale for listing queries → allows to query for localized fields in SQL condition
+-   use Pimcore default language as default locale for listing queries → allows to query for localized fields in SQL condition
 
 -   hide "target folder" field when setting import mode to "edit only"
 
