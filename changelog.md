@@ -39,14 +39,14 @@ Additionally in attribute mapping panel we enhanced:
 
 -   bugfix: $params['currentValue'] variable preview did not work for unmapped fields
 
-In dataport preview the configured key fields are now locked. This means that you can scroll horizontically though the other raw data fields while the key fields stay visible.
+In dataport preview the configured key fields are now locked. This means that you can scroll horizontically through the other raw data fields while the key fields stay visible.
 
 Translation Providers
 ---------------------
 
 -   support AWS Translate as translation provider (in addition to existing DeepL implementation)
 
--   bugfix: DeepL had problems with recognizing word separators when only <br> tags were used without whitespaces
+-   bugfix: DeepL had problems with recognizing word separators when only \<br\> tags were used without whitespaces
 
 -   bugfix: saving translations to cache to reuse translations / save money did not work
 
