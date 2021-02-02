@@ -1,6 +1,6 @@
 {
   "name": "blackbit_digital_commerce/pimcore-data-director",
-  "description": "Import and export data from and to XML, CSV, JSON, Excel files and Pimcore objects, assets, documents",
+  "description": "Import XML, CSV, JSON, Excel files to Pimcore objects, assets, documents + Export feeds + create REST API without any programming",
   "version": "2.3.0",
   "support": {
     "source": "https://shop.blackbit.de/de/pimcore-modul-bb-import",
