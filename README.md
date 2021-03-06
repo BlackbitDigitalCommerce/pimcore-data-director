@@ -132,7 +132,7 @@ Initial effort is only necessary once, compared to when you have multiple bundle
 
 ## Workflow
 
-### Step 1: Import XML, Excel and CSV into Pimcore
+### Step 1: Import CSV, XML, JSON or Excel into Pimcore
 
 This plugin has proven itself in many e-commerce and master data management projects and has been developed according to the needs of our customers.
 
@@ -194,4 +194,4 @@ The attribute mapping can also be used to modify the source data. For each field
 
 ## Documentation
 
-To learn more about all options and how they can be configured, please [read the full documentation](https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf).
+To learn more about all options and how they can be configured, please [read the full documentation](https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf) or [watch the tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
