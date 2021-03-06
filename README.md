@@ -62,7 +62,7 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
   * automatically start import for uploaded CSV, JSON, XML, Excel file
 * trigger imports via push from external systems (via REST API) for live interfaces without exchanging files
 * Traceability: import archive (for import files) and searchable import log history to always know when and why a certain field got a certain value
-* revert imports: only revert imported fields to certain date - much better than having to restore a database dump
+* revert imports: if data loss happened due to a mistake, only revert imported fields to certain date - much better than having to restore a database dump (because data of non-imported fields is kept)
 * dataports are also stored as JSON files -> easy to trace changes via VCS (Git), easy to deploy between Pimcore instances. Also downloading and importing dataport settings is possible.
 * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
 * Permission system: for each dataport you can configure who is allowed to configure and / or execute the dataport
