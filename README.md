@@ -123,10 +123,10 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 **Data Director is ONE bundle for:**
 
 * **importing data to Pimcore elements**
-* **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes**
+* **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes' `save()` method or creating event handlers**
 * **exporting data in whatever format you want and whereever the export documents shall be sent to**
 
-Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to solve.  
+Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to fulfill.  
 
 * * *
 
