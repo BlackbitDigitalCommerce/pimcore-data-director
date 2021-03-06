@@ -83,16 +83,6 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 * intelligent checks whether anything changed since the last export. If nothing changed, result document gets delivered from cache
 * access exports via URL, for example to pull data feed in an external system
 
-## One for all
-
-**Data Director is ONE bundle for:**
-
-* **importing data to Pimcore elements**
-* **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes**
-* **exporting data in whatever format you want and whereever the export documents shall be sent to**
-
-Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to solve.  
-
 ## Advantages compared to own import implementation
 
 * Performance:
@@ -112,7 +102,17 @@ Initial effort is only necessary once, compared to when you have multiple bundle
     * Automatic translation (with DeepL API)
     * Error monitoring / notification of imports
     * Revert imports
-     
+    
+## One for all
+
+**Data Director is ONE bundle for:**
+
+* **importing data to Pimcore elements**
+* **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes**
+* **exporting data in whatever format you want and whereever the export documents shall be sent to**
+
+Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to solve.  
+
 * * *
 
 ## Workflow
