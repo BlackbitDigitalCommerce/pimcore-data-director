@@ -79,7 +79,8 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
   * Assets
   * Documents
   * Quantity value units (incl. conversion factors)
-* built-in interface to DeepL API to set up automatic translation with just one click
+* built-in interface to translation providers (DeepL, AWS Translate) to set up automatic translation with just one click (incl. caching of translations to save costs for recurring translation strings)
+* artificial intelligence features, e.g. to automatically assign categories based on product name and description
 
 ## Advantages compared to other Pimcore export plugins
 
