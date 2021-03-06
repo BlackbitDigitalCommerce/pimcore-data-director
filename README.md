@@ -39,6 +39,59 @@ For an overview how to set up imports and exports, please see our [tutorial vide
 You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import).
 
 * * *
+     
+## Advantages compared to other Pimcore import plugins
+
+* everything is configurable in Pimcore backend user interface - no creation of PHP files or anything similar necessary, even for complex imports
+* better import performance
+  * streaming input files allows to also import huge import files
+  * lot of optimizations to accelerate importing data to Pimcore elements - or to check previously if data actually changed
+* auto-complete functions to set up imports very fast and to suggest how to proceed even with complex imports
+* flexible import resource, import data from:
+  * single files
+  * folders
+  * URLs
+  * PHP script for complex requirements like importing a PDF asset file only if a CSV file with the same file name exists in the folder
+  * cURL requests to import data from resources which need authentication (but of course you can also use a PHP script in this case which authenticates and the provides the data to be imported)
+* full flexibility: for common use cases of data transformation the bundle provides ready-to-be used templates. But you can also edit those and even write custom (PHP or JavaScript) functions to set up a transformation pipeline
+* import object hierarchy (set parent element of imported elements)
+* option to write-protect fields: onl import data to certain field if field is empty
+* generate response documents, for example to send success status to source system
+* automatically start imports, for example
+  * automatically assign assets to data objects after uploading
+  * automatically start import for uploaded CSV, JSON, XML, Excel file
+* trigger imports via push from external systems (via REST API) for live interfaces without exchanging files
+* Traceability: import archive (for import files) and searchable import log history to always know when and why a certain field got a certain value
+* revert imports: only revert imported fields to certain date - much better than having to restore a database dump
+* dataports are also stored as JSON files -> easy to trace changes via VCS (Git), easy to deploy between Pimcore instances. Also downloading and importing dataport settings is possible.
+* [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
+* Permission system: for each dataport you can configure who is allowed to configure and / or execute the dataport
+* import different types of elements: 
+  * Data objects
+  * Assets
+  * Documents
+  * Quantity value units (incl. conversion factors)
+* built-in interface to DeepL API to set up automatic translation with just one click
+
+## Advantages compared to other Pimcore export plugins
+
+* access any data which is connected to exported object, for example when exporting products you can easily access assigned categories, images of the assigned categories and even meta data of the images of the assigned categories - you can chain that as long as you want
+* full flexibility for format / document strcuture of export document
+* automatically execute exports whenever an object gets saved whose data gets exported to:
+  * prepare export once the data changes, so that the data does not hasve to be generated in the moment when the export is requested
+  * upload exports automatically to a target system to always have up-to-date export there
+* intelligent checks whether anything changed since the last export. If nothing changed, result document gets delivered from cache
+* access exports via URL, for example to pull data feed in an external system
+
+## One for all
+
+**Data Director is ONE bundle for:**
+
+* **importing data to Pimcore elements**
+* **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes**
+* **exporting data in whatever format you want and whereever the export documents shall be sent to**
+
+Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to solve.  
 
 ## Advantages compared to own import implementation
 
@@ -54,7 +107,7 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 * Comfort functions: 
     * Automatically extract raw data fields from import resources
     * Automatically map raw data fields to Pimcore class fields
-    * Optimize inheritance
+    * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
     * Replace placeholders (for example to generate texts automatically)
     * Automatic translation (with DeepL API)
     * Error monitoring / notification of imports
