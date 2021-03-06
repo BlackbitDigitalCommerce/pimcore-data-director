@@ -85,7 +85,8 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 ## Advantages compared to other Pimcore export plugins
 
 * access any data which is connected to exported object, for example when exporting products you can easily access assigned categories, images of the assigned categories and even meta data of the images of the assigned categories - you can chain that as long as you want
-* full flexibility for format / document strcuture of export document
+* full flexibility for format / document structure of export document
+* predefined export templates to create CSV, XML, JSON exports with or without referenced asset files (e.g. CSV file plus assets (or thumbnails) packed in a zip archive)
 * automatically execute exports whenever an object gets saved whose data gets exported to:
   * prepare export once the data changes, so that the data does not hasve to be generated in the moment when the export is requested
   * upload exports automatically to a target system to always have up-to-date export there
