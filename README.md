@@ -36,7 +36,7 @@ For an overview how to set up imports and exports, please see our [tutorial vide
 
 ## How to get the plugin
 
-You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import).
+You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
 
 * * *
      
@@ -44,66 +44,71 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 
 * everything is configurable in Pimcore backend user interface - no creation of PHP files or anything similar necessary, even for complex imports
 * better import performance
-  * streaming input files allows to also import huge import files
-  * lot of optimizations to accelerate importing data to Pimcore elements - or to check previously if data actually changed
+    * streaming input files allows to also import huge import files
+    * lot of optimizations to accelerate importing data to Pimcore elements - or to check previously if data actually changed (and if not skip import or saving to save time)
 * auto-complete functions to set up imports very fast and to suggest how to proceed even with complex imports
-* flexible import resource, import data from:
-  * single files
-  * folders
-  * URLs
-  * PHP script for complex requirements like importing a PDF asset file only if a CSV file with the same file name exists in the folder
-  * cURL requests to import data from resources which need authentication (but of course you can also use a PHP script in this case which authenticates and the provides the data to be imported)
+* flexible import resource, you can import data from:
+    * single files
+    * folders
+    * URLs
+    * PHP script for complex requirements like importing a CSV file only if a PDF file with the same file name (but different file extension) exists in the import folder
+    * cURL requests to import data from resources which need authentication (but of course you can also use a PHP script in this case which authenticates and then provides the data to be imported)
 * Supported import formats:
-  * CSV
-  * XML
-  * JSON
-  * Excel
-  * Pimcore elements (data objects, assets, documents)
-  * Pimcore reports (e.g. to import data from Google Analytics, external databases or other Pimcore database tables)
-  * File system (e.g. to import assets)
-* full flexibility: for common use cases of data transformation the bundle provides ready-to-be used templates. But you can also edit those and even write custom (PHP or JavaScript) functions to set up a transformation pipeline
+    * CSV
+    * XML
+    * JSON
+    * Excel
+    * Pimcore elements (data objects, assets, documents)
+    * Pimcore reports (e.g. to import data from Google Analytics, external databases or other Pimcore database tables)
+    * File system (e.g. to import assets)
+* full flexibility: for common use cases of data transformation the bundle provides ready-to-be used templates. But you can also edit those and even write custom (PHP or JavaScript) functions to set up a transformation pipeline, conditions etc. for certain fields
 * import object hierarchy (set parent element of imported elements)
 * option to write-protect fields: only import data to certain field if field is empty
-* generate response documents, for example to send success status to source system
-* automatically start imports, for example
-  * automatically assign assets to data objects after uploading
-  * automatically start import for uploaded CSV, JSON, XML, Excel file
+* generate response documents, for example to send success status back to source system
+* automatically start imports, for example to:
+    * automatically assign assets to data objects after uploading
+    * automatically start import for uploaded CSV, JSON, XML, Excel file
 * trigger imports via push from external systems (via REST API) for live interfaces without exchanging files
 * Traceability: import archive (for import files) and searchable import log history to always know when and why a certain field got a certain value
 * revert imports: if data loss happened due to a mistake, only revert imported fields to certain date - much better than having to restore a database dump (because data of non-imported fields is kept)
-* dataports are also stored as JSON files -> easy to trace changes via VCS (Git), easy to deploy between Pimcore instances. Also downloading and importing dataport settings is possible.
+* dataports are also stored as JSON files -> easy to trace changes via VCS (Git), easy to deploy between Pimcore instances. Also downloading and importing dataport configuration is supported.
 * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
 * Permission system: for each dataport you can configure who is allowed to configure and / or execute the dataport
 * import different types of elements: 
-  * Data objects
-  * Assets
-  * Documents
-  * Quantity value units (incl. conversion factors)
+    * Data objects
+    * Assets
+    * Documents
+    * Quantity value units (incl. conversion factors)
 * built-in interface to translation providers (DeepL, AWS Translate) to set up automatic translation with just one click (incl. caching of translations to save costs for recurring translation strings)
 * artificial intelligence features, e.g. to automatically assign categories based on product name and description
 
 ## Advantages compared to other Pimcore export plugins
 
 * access any data which is connected to exported object, for example when exporting products you can easily access assigned categories, images of the assigned categories and even meta data of the images of the assigned categories - you can chain that as long as you want
+* full flexibility in setting up a transformation pipeline to change values to the desired format (e.g. date format conversion, convert quantity values to certain units etc.)
 * full flexibility for format / document structure of export document
 * predefined export templates to create CSV, XML, JSON exports with or without referenced asset files (e.g. CSV file plus assets (or thumbnails) packed in a zip archive)
 * automatically execute exports whenever an object gets saved whose data gets exported to:
-  * prepare export once the data changes, so that the data does not hasve to be generated in the moment when the export is requested
-  * upload exports automatically to a target system to always have up-to-date export there
+    * prepare export once the data changes, so that the data does not have to be generated in the moment when the export is requested -> very fast exports because the export document is already available in the moment of request
+    * upload exports automatically to a target system to always have up-to-date data there
+    * automatically send data the other APIs, e.g. online shops, marketplace distributors
 * intelligent checks whether anything changed since the last export. If nothing changed, result document gets delivered from cache
 * access exports via URL, for example to pull data feed in an external system
 
 ## Advantages compared to own import implementation
 
+* Minimization of programming effort: Only data modifications from the data source require minimal programming
 * Performance:
     * Data is only imported if nothing has changed since the last import
     * If an object has not changed during import, it does not need to be saved
     * Export data gets updated when objects change, so it is already prepared in the moment an export gets requested
 * Flexibility:
-    * Imports and exports are customizable to data source and your Pimcore data model
+    * Imports and exports are fully customizable to data source and your Pimcore data model
     * Supports all Pimcore elements including data objects, object bricks, field collections, assets and documents
     * Supports importing tags and properties
-* Minimization of programming effort: Only data modifications from the data source require minimal programming
+* Transparency:
+    * with import archive and searchable import log history you can always trace why a certain field got a certain value and which import file was responsible for this
+    * always see current import / export status (progress of current job, number of queued items)
 * Comfort functions: 
     * Automatically extract raw data fields from import resources
     * Automatically map raw data fields to Pimcore class fields
