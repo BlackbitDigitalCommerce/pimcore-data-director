@@ -55,7 +55,7 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
   * cURL requests to import data from resources which need authentication (but of course you can also use a PHP script in this case which authenticates and the provides the data to be imported)
 * full flexibility: for common use cases of data transformation the bundle provides ready-to-be used templates. But you can also edit those and even write custom (PHP or JavaScript) functions to set up a transformation pipeline
 * import object hierarchy (set parent element of imported elements)
-* option to write-protect fields: onl import data to certain field if field is empty
+* option to write-protect fields: only import data to certain field if field is empty
 * generate response documents, for example to send success status to source system
 * automatically start imports, for example
   * automatically assign assets to data objects after uploading
