@@ -1,3 +1,140 @@
+# 2.4.0
+Incremental Exports
+-------------------
+
+Non-incremental exports first fetch the data from all data objects which match the configured SQL condition and thereafter update this export data when a related object gets saved. Incremental backups do not fetch the data of all matching objects. Instead they fetch the data only from the saved objects and export this data. As soon as the result callback function does not trigger any error for the exported items and does not return false the raw data gets automatically deleted. Then when saving objects the whole process is repeated.
+
+Performance improvements
+------------------------
+
+-   check if object got modified by import
+
+    -   for fields which support dirty detection, only compare values if field is dirty -> faster recognition if object got modified by import
+
+    -   do not check values of calculated fields for better performance
+
+-   check earlier if import is allowed to edit existing objects -> performance increase for imports which do not allow editing
+
+-   use prepared statement everywhere to not have to parse SQL queries for every call
+
+-   remove redundant OR conditions like "o_path LIKE '/a/%' OR o_path LIKE '/a/b/%" for automatic exports of objects whose class supports inheritance
+
+-   150% performance increasement for CSV raw data import
+
+-   queue processor for automatic dataports: group queued items by dataport and execute groups in parallel processes → faster and new queued items of dataport X do not have to wait to be processed if there are thousands of items in the queue for dataport Y before
+
+User interface improvements
+---------------------------
+
+-   Dataport tree:
+
+    -   support multi-level grouping in tree / repair tree grouping
+
+-   Dataport config:
+
+    -   raw data field config: set raw data field name automatically from data query selector, column name etc. if not filled
+
+    -   use cell editing for raw data field config (instead of row editing -> you always had to click "Update" before saving)
+
+    -   prevent multiple requests which fetch raw data fields
+
+    -   load demo data for raw data fields asynchronically
+
+-   attribute mapping
+
+    -   make available variables tree for callback functions scrollable
+
+    -   allow raw data field dropdown in attribute mapping to be wider than raw data field column
+
+    -   for imports use first raw data item (ordered by raw item fields) as example data
+
+    -   do not open callback function window when clicking "Parsed" column -> be able to copy values from this column
+
+    -   buffer any output from callback functions -> otherwise there is an error in attribute mapping because of invalid JSON and otherwise there is no possibility to remove the debug statement in the callback function
+
+    -   JSON-encoded preview for virtual fields with complex return types
+
+-   History panel
+
+    -   consume less memory when searching for worst error level in log
+
+    -   prevent multiple parallel requests for updating history panel data
+
+    -   add search field to filter dataport logs / find dataport runs of certain element
+
+-   Preview tab
+
+    -   faster rendering (reducing repaints when auto-resizing columns)
+
+    -   add column header menu item to collapse / expand columns to better be able to find certain column
+
+    -   hide columns where no raw item matches search term
+
+        -   if no non-locked column matches search string, show all non-locked columns
+
+        -   if search string is found in locked column (= key column or manually locked), all columns are shown
+
+    -   quick search now also searches for field / column names -> easier to find column "xyz" when there are a lot of columns
+
+    -   support boolean search in dataport preview
+
+Other changes
+-------------
+
+-   add plugin interface so other bundles can provide additional callback function templates, for example [Facebook Feed](https://bitbucket.org/blackbitwerbung/pimcore-plugins-data-director-facebook "https://bitbucket.org/blackbitwerbung/pimcore-plugins-data-director-facebook"), [BMEcat-Export](https://bitbucket.org/blackbitwerbung/pimcore-plugins-data-director-bmecat "https://bitbucket.org/blackbitwerbung/pimcore-plugins-data-director-bmecat")
+
+-   for dataports with Pimcore elements as data source: better serialization of non-scalar results in data query selectors, e.g. to export all fields if a related object
+
+-   support underscore + dash in field aliases in data query selector, e.g. all(field:name#de as name_de)
+
+-   disable SSL certificate check when fetching assets via URL
+
+-   store PHP-compiled data query selector functions in separate files (1 file per data query selector) to not have one huge file per class
+
+-   dynamic abortion threshold -> abort dataport runs only if current batch of 100 raw items takes longer than avg runtime * 6 of 100 previously done items -> imports which need much time by design do not get aborted
+
+-   add helper for UN/CEFACT unit lookup -> e.g. for BmeCat export
+
+-   add helper to convert languages / language codes to different standards (ISO 639-1, ISO 639-2, ISO 639-3, language name)
+
+-   do not use cache for exports with --force
+
+-   bugfix: "force" checkbox when running dataports manually did not work
+
+-   execute imports with "--force" when started via element's context menu
+
+-   support null for boolean select / checkbox
+
+-   bugfix: auto-create raw data fields for CSV did not work with special-char delimiters (e.g. \t)
+
+-   wrap virtual field replacements in braces -> makes casting possible with (int){{ virtual field name }}
+
+-   do not wait 30 seconds for edit-lock to be unlocked because user could save object but in import object is at that time already loaded based on the previous state
+
+-   prevent that same object gets imported from 2 dataports in parallel to prevent data loss
+
+-   add checkbox to auto-create quantity value units (incl. base unit, conversion factor + offset)
+
+-   provide logger in result callback function + result document action
+
+-   BC break: complex data in $params['value'] / $params['rawItemData'] now gets provided as array instead of as stdclass.
+
+-   remove redundant OR conditions like "o_path LIKE '/a/%' OR o_path LIKE '/a/b/%"
+
+-   do not skip importhash property in isModified() when latest version did not have this attribute → otherwise property did not get saved initially
+
+-   correctly sort raw data items with numerical fields
+
+-   bugfix: using virtual fields inside virtual field callback function was not possible for exports
+
+-   bugfix: different SQL conditions of dataport resources were not used for queuing automatic dataports
+
+-   bugfix: advanced many-to-many object relations:
+
+    -   do not add object if already present in relation (and it is not allowed to assign same object multipe times)
+
+    -   fill meta fields which have not been provided with null to ensure AdvancedManyToManyObjectRelation::getForWebserviceExport() does not throw an exception
+
 # 2.3.0
 Optimizations for (automatic) exports
 -------------------------------------
