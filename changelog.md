@@ -29,6 +29,8 @@ User interface improvements
 -   Dataport tree:
 
     -   support multi-level grouping in tree / repair tree grouping
+    
+    -   auto-expand tree child nodes if there is only one child (especially when searching / filtering)
 
 -   Dataport config:
 
