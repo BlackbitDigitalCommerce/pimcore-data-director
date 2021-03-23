@@ -19,7 +19,7 @@ Performance improvements
 
 -   remove redundant OR conditions like "o_path LIKE '/a/%' OR o_path LIKE '/a/b/%" for automatic exports of objects whose class supports inheritance
 
--   150% performance increasement for CSV raw data import
+-   150% performance improvement for CSV raw data import
 
 -   queue processor for automatic dataports: group queued items by dataport and execute groups in parallel processes → faster and new queued items of dataport X do not have to wait to be processed if there are thousands of items in the queue for dataport Y before
 
