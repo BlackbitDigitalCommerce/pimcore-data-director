@@ -230,13 +230,16 @@ The attribute mapping can also be used to modify the source data. For each field
     Or you import assets individually, e.g. when you connect a network drive to your Pimcore server and want to automatically import assets from this folder into Pimcore. For more details see [the tutorial video about importing assets from the filesystem](https://www.youtube.com/watch?v=OJKxWtgwi3c&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=3&t=4161s)
     
 * Can you import multiple files at once? What import resources are supported
-  * Yes. You can import files one by one, files from a folder (including search pattern, e.g. /import/*.xml), data from a URL, data from a cURL request, data from a PHP script. The two latter are especially useful when you want to import data from an API which required authentication.
+  * Yes. You can import files one by one, files from a folder (including search pattern, e.g. /import/*.xml), Files from Pimcore Assets, data from a URL, data from a cURL request, data from a PHP script. The two latter are especially useful when you want to import data from an API which required authentication.
   
 * How can imports be started?
   * Imports can be started:
     * manually from the Pimcore backend
-    * via command-line, this can also be used for periodic imports when called by a cronjob or the [Process Manager Bundle](https://github.com/elements-at/ProcessManager)
-    * via REST API, this can be used to push data from the source system to Pimcore without exchanging files between the systems.
+    * manually via right-click on objects inside the target folder or on assets inside the source folder (when the source folder is inside Pimcore assets)
+    * manually or automatically via command-line, this can also be used for periodic imports when called by a cronjob or the [Process Manager Bundle](https://github.com/elements-at/ProcessManager)
+    * manually or automatically via REST API, this can be used to push data from the source system to Pimcore without exchanging files between the systems.
+    * automatically when import source changes. This can for example be when a new file gets uploaded to a certain folder, you can automatically start an import (one use-case is to automatically assign assets to products by extracting the SKU from the assetfilename).
+    * automatically with dependent imports / dataport pipelines
     
   For more details we have recorded a [tutorial video about the different ways to start imports](https://www.youtube.com/watch?v=otC8-8SYNIM&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=2&t=2156s).
 
