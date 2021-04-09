@@ -192,6 +192,54 @@ The attribute mapping can also be used to modify the source data. For each field
 * Possibility to revert imports:
   * If an attribute assignment error has crept in and several thousand objects have been filled with incorrect data, the change can be reverted - in this case only the fields mapped in the import are set back, only for the objects changed in the import - a big advantage over a complete backup restore
 
+
+## Frequently asked questions (FAQ)
+
+### Import
+
+* Is it poosible to create folders or an object hierarchy (import one object below another in the data object tree)?
+  * Yes. You can create folders or put an imported object below another object. You can also assign a parent element dynamically based on the import data. There is also a [tutorial video about how to set up an object hierarchy](https://www.youtube.com/watch?v=nyhKJTzTq-4&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=1&t=2962s).
+
+* How can existing objects be updated?
+  * You can assign any field of your data object class as a key field. At the beginning of the import it is tried to find an existing object which has the imported values in this key field. It one is found, this object gets updated. For example this can be a SKU for product objects. Also combined key fields are possible, e.g. when your products have a product number and a color - only the combination of product number and color is unique, so you can set both as key fields.
+
+    It is also possible to set the import mode to *only update existing objects* (and not create new ones). This is helpful when you gather data for one data object class from different sources. For example when the product data gets imported from an ERP system but the prices come from pricing system. In this case it could happen that the pricing import gets a product SKU which does not exist yet. In this case you might not want to create a new object only with the price but every other field empty.
+    
+    It is even possible to update multiple objects from one import dataset. So the used key field does not have to be unique. This can be useful if want for example to update all objects which have a certain object assigned to a many-to-many relational field. For more details, we have recorded a [tutorial video about updating multiple objects from one import dataset](https://www.youtube.com/watch?v=OJKxWtgwi3c&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=3&t=324s)
+  
+* Is it possible to assign the target class dynamically?
+  * Every dataport has exactly one target class. But of course you can create multiple dataports which have different target classes. All of them can use the same import file. And as you can skip import items it is possible that every dataport processes the import items which it shall handle. So to summarize: Yes, you can dynamically assign the target class.
+
+    Beside skipping it is also possible to use only some fields. For example you could use a product CSV file with a manufacturer column to create Manufacturer data objects in one dataport and to assign the maniufacturer object to the product in another dataport. It is even possible to connect multiple dataports to a pipeline - in this case first create the Manufacturer objects and afterwards assign them to products. 
+
+* How can localized fields be filled?
+  * A localized field can be mapped for every language individually. This way you can assign different columns / fields from your import file to the different languages of the localized field.
+  
+    Moreover there is a built-in feature to automatically translate values using the DeepL or AWS Translate API. For more details [see the tutorial video about automatic translations](https://www.youtube.com/watch?v=OJKxWtgwi3c&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=3&t=1963s).
+  
+* How can other objects be assigned to relation fields?
+  * You can query related objects by any field of the related object class. For example you can assign a Manufacturer object to a product by querying for a Manufacturer object which has `ABC` in its `name` field. The actual logic is implemented in callback functions within Pimcore backend (no need to create any PHP files or classes somewhere). You do not have to write complex PHP code for this task but we deliver templates for most common tasks. For example to assign above mentioned Manufacturer object, you can just select the function `Assign Manufacturer object by name` from the template list. We also recorded a [tutorial video about assigning related objects](https://www.youtube.com/watch?v=nyhKJTzTq-4&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=1&t=2352s).
+  
+* Is it possible to transform import data?
+  * Yes. For every field you can implement custom logic in a callback function (inside the Pimcore backend, you do not have to create any PHP files somewhere). In this callback function you get the import data and the current object data provided and cam use any language construct like conditions, loops etc. You can use PHP or JavaScript to implement those callback functions.
+  
+* How to assign assets?
+  * Assets can be assigned via URL, file name or you can query for existing assets.
+    You can wither create the assets during a data object import (e.g. when you have a product feed with image URLs). For more details see the [tutorial video about assigning images](https://www.youtube.com/watch?v=nyhKJTzTq-4&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=1&t=3139s).
+    
+    Or you import assets individually, e.g. when you connect a network drive to your Pimcore server and want to automatically import assets from this folder into Pimcore. For more details see [the tutorial video about importing assets from the filesystem](https://www.youtube.com/watch?v=OJKxWtgwi3c&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=3&t=4161s)
+    
+* Can you import multiple files at once? What import resources are supported
+  * Yes. You can import files one by one, files from a folder (including search pattern, e.g. /import/*.xml), data from a URL, data from a cURL request, data from a PHP script. The two latter are especially useful when you want to import data from an API which required authentication.
+  
+* How can imports be started?
+  * Imports can be started:
+    * manually from the Pimcore backend
+    * via command-line, this can also be used for periodic imports when called by a cronjob or the [Process Manager Bundle](https://github.com/elements-at/ProcessManager)
+    * via REST API, this can be used to push data from the source system to Pimcore without exchanging files between the systems.
+    
+  For more details we have recorded a [tutorial video about the different ways to start imports](https://www.youtube.com/watch?v=otC8-8SYNIM&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=2&t=2156s).
+
 ## Documentation
 
 To learn more about all options and how they can be configured, please [read the full documentation](https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf) or [watch the tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
