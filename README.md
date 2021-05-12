@@ -34,10 +34,6 @@ With the automatic mapping functionalities and the provided templates setting up
 
 For an overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
-## How to get the plugin
-
-You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
-
 * * *
      
 ## Advantages compared to other Pimcore import plugins
@@ -84,14 +80,15 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 
 ## Advantages compared to other Pimcore export plugins
 
+* automatically execute or prepare exports whenever an object gets saved whose data gets exported to:
+  * prepare export once the data changes, so that the data does not have to be generated in the moment when the export is requested -> very fast exports because the export document is already available in the moment of request
+    * data is not extracted again and again from the Pimcore database but only when elements change
+  * upload exports automatically to a target system to always have up-to-date data there
+  * automatically send data the other APIs, e.g. online shops, marketplace distributors
+* full flexibility for format / document structure of export document to tailor the export document structure exactly how the target system expects it
 * access any data which is connected to exported object, for example when exporting products you can easily access assigned categories, images of the assigned categories and even meta data of the images of the assigned categories - you can chain that as long as you want
 * full flexibility in setting up a transformation pipeline to change values to the desired format (e.g. date format conversion, convert quantity values to certain units etc.)
-* full flexibility for format / document structure of export document
 * predefined export templates to create CSV, XML, JSON exports with or without referenced asset files (e.g. CSV file plus assets (or thumbnails) packed in a zip archive)
-* automatically execute exports whenever an object gets saved whose data gets exported to:
-    * prepare export once the data changes, so that the data does not have to be generated in the moment when the export is requested -> very fast exports because the export document is already available in the moment of request
-    * upload exports automatically to a target system to always have up-to-date data there
-    * automatically send data the other APIs, e.g. online shops, marketplace distributors
 * intelligent checks whether anything changed since the last export. If nothing changed, result document gets delivered from cache
 * access exports via URL, for example to pull data feed in an external system
 
@@ -124,9 +121,13 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 
 * **importing data to Pimcore elements**
 * **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes' `save()` method or creating event handlers**
-* **exporting data in whatever format you want and whereever the export documents shall be sent to**
+* **exporting data in whatever format you want and wherever the export documents shall be sent to**
 
 Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to fulfill.  
+
+## How to get the plugin
+
+You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
 
 * * *
 
