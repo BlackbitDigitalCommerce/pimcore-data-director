@@ -91,6 +91,7 @@ For an overview how to set up imports and exports, please see our [tutorial vide
 * predefined export templates to create CSV, XML, JSON exports with or without referenced asset files (e.g. CSV file plus assets (or thumbnails) packed in a zip archive)
 * intelligent checks whether anything changed since the last export. If nothing changed, result document gets delivered from cache
 * access exports via URL, for example to pull data feed in an external system
+* filter elements to be exported by any field, either filter via dataport configuration or use ad-hoc filtering for one-time exports
 
 ## Advantages compared to own import implementation
 
