@@ -1,3 +1,182 @@
+#2.5.0
+
+Pimcore 10 compatibility
+------------------------
+
+This version is fully compatible with Pimcore 10 - with the little exception that not all used libraries are already compatible with Pimcore 8. For Pimcore 10 currently you have to install the Data Director with composer update blackbit/data-director --with-dependencies --ignore-platform-reqs. But
+we are working on PHP 8 compatibility also for used libraries...
+
+Grid-filtered exports
+---------------------
+
+It is now possible to use the grid view (folder view) to filter and afterwards export the filtered / selected objects. This way you can do ad-hoc filtered exports without having to enter an SQL condition. To start export there is a new option "Data Director export" in the dropdown menu of the "CSV
+export" button. In the following modal window you can select the dataport to be used for exporting (only compatible exports for selected grid data object class are shown).
+
+Refactor (automatic) exports for API usage
+------------------------------------------
+
+Previously raw data for automatic exports got updated for every previously executed SQL condition. This led to poor performance when saving objects. This has been completely refactored: Now for automatic exports raw data gets only updated for the configured dataport SQL condition (and for every
+language). The updated raw data is then copied to previously executed custom SQL condition raw items (so that the export data is already prepared when an export with this SQL condition gets executed again). This way the raw data has to be only extracted once (for every language) and not for all
+custom SQL conditions again and again.
+
+Also for API usage important: SQL condition from query parameter of REST API calls for Pimcore-based dataports now extend the SQL condition in the dataport settings instead of overwrite it (to not be able to fetch unpublished objects for example).
+
+Restrict elements for Pimcore-based dataports to those which the requesting user has "view" permission for.
+
+For incremental exports the modification timestamp from last successful export is remembered (write to object property, in analogy to imports). When export is triggered again for this object, its current modification timestamp (incl. potentially inherited fields) gets compared to this property, and
+if current modification timestamp is not newer, then object's rawdata does not get extracted -> thus will not be exported. -> this also allows to execute automatic incremental export for all potentially changed objects at once (was previously split to n processes of single-object exports)
+
+Performance
+-----------
+
+- queued items of automatic dataports now get processed automatically in parallel → this also ensures that a dataport with only few queued items does not have to wait for other dataports' queued items to be processed
+
+- reuse raw data when there already is a raw data item with current hash which has same modification date as current object
+
+- when using relational fields as key fields for imports, try to resolve related object ids beforehand to prevent a query like "WHERE relationalField LIKE '%,123,%'" - instead a query like "o_id IN (345,13,58)" will get executed which is much faster
+
+- replace conditions in SQL condition of Pimcore-based dataports with relational fields like "WHERE relationalField LIKE '%,123,%'" to "WHERE o_id IN (SELECT src_id FROM object_relations_* ...)" -> can use index -> faster
+
+- raw data extraction: use INSERT INTO ... ON DUPLICATE KEY UPDATE instead of REPLACE INTO
+
+- remove unnecessary locks in Pimcore parser
+
+- data query selectors got evaluated twice if they did not return a Concrete object
+
+- use relationCache also for data query selectors which return data from the queried object
+
+- 600% performance increase for image gallery / (advanced) many-to-many relation asset-assignment imports
+
+- when checking for isModified() during an import first sort fields by whether they are mapped or not -> first check mapped fields because it is more likely that their values got changed (unmapped fields' values can only change when object gets edited by a pimcore.dataobject.preUpdate event handler)
+
+Raw data extraction
+-------------------
+
+- add option to skip versioning for asset imports
+
+- support glob expressions in combination with asset folders as import resource, e.g. /import/*.csv when /import is a Pimcore asset folder
+
+Attribute Mapping
+-----------------
+
+- recommend index when callback function uses data query selector
+
+- do not auto-reload history panel when dataport runs are filtered (searched) or when currently not page 1 is shown
+
+- add template for adding metadata to assets
+
+History and manual import panel
+-------------------------------
+
+- auto-focus SQL condition field when manually starting Pimcore-based dataports from Pimcore backend
+
+- keep SQL condition from previous execution to easier execute the same import/export multiple times (e.g. during dataport setup / testing)
+
+Other changes
+-------------
+
+- support (advanced) many-to-many relation as key field (is differently stored in database than (advanced) many-to-many object relation)
+
+- enlarge "fieldNo" column so that 3-digit numbers do not get truncated
+
+- add callback function template to generate absolute asset / thumbnail URL
+
+- bugfix: used wrong method for updating raw items
+
+- bugfix: optimize inheritance: check for parent objects if value got actually changed before saving
+
+- exacter field value comparison when checking for isModified (a change from 0 to '' must get recognized!)
+
+- provide element type + class name in Serializer for relational fields
+
+- bugfix: overlapping imports: already processed raw data items got processed again
+
+- use error-tolerant JSON decoder to not abort the whole import on malformed UTF-8 errors
+
+- bugfix: attribute mapping preview missed configured asset source folder (actual import worked correctly)
+
+- prevent multi-assignment of same asset to image gallery and many-many-relation
+
+- prevent multiple parallel requests for updating history panel
+
+- bugfix: when using relative folder path as import resource, deleting asset file did not work
+
+- in forced imports do not check if element is currently locked for editing
+
+- faster hiding/showing of columns when searching in dataport preview panel
+
+- bugfix: starting exports by right-clicking object in object tree did not work
+
+- bugfix: raw data import did not get correct Logger object (thus logs did not appear on import run logs)
+
+- use application_logs table (if used by data director) to find worst log level + search in logs
+
+- use max runtime when searching in history panel logs to avoid timeout although some items may have been found
+
+- set responsible user who started import at versions for better traceability of changes
+
+- bugfix: excel import with column index did not work
+
+- do not delete raw data of currently exported dataport resources
+
+- import manually uploaded data to default dataport resource
+
+- do not write stack trace to versions in database (is not displayed anyway)
+
+- use custom logic to compare image gallery fields for modification (as Pimcore's getVersionPreview() returns only number of assigned images)
+
+- keep existing meta column data for advanced many-to-many relations of assets properly url-encode URLs for importing assets
+
+- do not try to load Pimcore document which matches the URL path for REST API requests
+
+- add support for like search (wildcard search) in data query selector
+
+- support adding items to multiselect field (instead of having to always provide all options to be selected) -> now works the same as relations, image gallerys and other multi-assignment fields
+
+- bugfix: overlapping imports did not process all raw data
+
+- mark dataport runs as "aborted" if an uncaught exception occurs or process gets aborted (manuall on CLI or automatically by operating system)
+
+- support accessing localized fields in sql condition of Pimcore-based dataports, e.g. name#de='abc'
+
+- support accessing object brick fields in sql condition of Pimcore-based dataports, e.g. brickName.fieldName=123
+
+- bugfix variable $params['rawItemData'] preview in attribute mapping for complex data bugfix demo data for complex XML data bugfix XML parsing: multi-value attributes returned [] for child nodes without value
+
+- INSERT ... IN DUPLICATE KEY for queue items instead of REPLACE INTO -> otherwise currently processed queue items could already been deleted
+
+- support accessing element fields of ObjectMetadata, ElementMetadata, Hotspotimage objects without adding "element:" to data query selector
+
+- bugfix Serializer for documents (for Pimcore 4 document structure)
+
+- try to recognize existing assets for image galleries / m2m relations etc. via md5 hash only if files are stored locally (otherwise needs too much time because asset has to be loaded from remote resource to calculated MD5 hash)
+
+- add warning if no key fields have been specified
+
+- support calling service class methods from within a data query selector, e.g. "field:@service_name::method"
+
+- do not show other users' API keys / allowed dataports (except for admin users -> those are allowed to see all users' API keys)
+
+- prevent all fields being locked when new dataport gets created by non-admin user
+
+- prevent error when generating auto-complete SQL condition
+
+- add "__updated" special field for file- and URL-based dataport types
+
+- use Pimcore user's language for exports when no locale has explicitly been requested
+
+- support '{{ field name }}' / "{{ field name }}" syntax (virtual fields with quotes) to better be able to copy callback functions to reformatting IDEs without getting the code scrambled
+
+- better serialize field collections
+
+- include null values in serializer
+
+- add method Importer::translate() to call DeepL / AWS Translate translations for complex field values
+
+- modification check was not working for field collections with localized fields
+
+- support exporting all assigned bricks with data director "brickFieldContainer" of the source data class
+
 # 2.4.0
 Incremental Exports
 -------------------
