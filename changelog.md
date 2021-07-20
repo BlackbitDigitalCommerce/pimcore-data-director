@@ -147,8 +147,6 @@ Other changes
 
 - support accessing element fields of ObjectMetadata, ElementMetadata, Hotspotimage objects without adding "element:" to data query selector
 
-- bugfix Serializer for documents (for Pimcore 4 document structure)
-
 - try to recognize existing assets for image galleries / m2m relations etc. via md5 hash only if files are stored locally (otherwise needs too much time because asset has to be loaded from remote resource to calculated MD5 hash)
 
 - add warning if no key fields have been specified
