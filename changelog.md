@@ -1,3 +1,273 @@
+# 2.6.0
+
+Dynamic import resource
+-----------------------
+
+You can use placeholder variables in the import resource path / URL, e.g.:
+
+- `http://example.org/api/fetch-product-data?sku={{ sku }}`
+
+    - The goal is to exchange the parameter `sku` by the SKU of the just saved product. This is useful for automatic imports: The variable `$sku` refers to the field `sku` of the dataport's configured target class. The variable in the import resource URL gets resolved when an object of this target
+      class gets saved and with this resolved URL a dataport run gets queued for import.\
+      You can also use the notation `http://example.org/api/fetch-product-data?sku=$sku`
+
+- `http://example.org/api/fetch-product-data?username={{ ApiConfiguration:path:/example-org-api:username }}&password={{ ApiConfiguration:path:/example-org-api:password }}`
+
+    - In this case the goal is to store API credentials in a separate `ApiConfiguration` object (class `ApiConfiguration` is a data object class in this case). All features of data query selectors can be used here. This way the API credentials can be maintained in a separate object and not directly
+      in the dataport's import resource configuration.
+
+This feature can be used with all types of import resources, like URLs, files, folder names, cURL requests, PHP scripts etc.
+
+Dynamic attribute mapping for fields for object bricks / classification stores
+------------------------------------------------------------------------------
+
+You can directly map your data to the object brick / classification store container field by returning an associative array whose keys are the brick / classification store group names:
+
+```php
+return [ 
+    'brickName' => [
+        'field1' => $params['rawItemData']['field_1']['value'],
+        'field2' => $params['rawItemData']['field_2']['value'],
+    ]
+];
+```
+
+This way you do not need to map each field individually and the mapping gets automatically adjusted of new fields get added in the import resource.
+
+Optimization
+------------
+
+It is now possible to automatically minimize / maximize the value of a calculated value field by changing the values of other mapped fields. With this feature you can for example solve logistic problems where you want to know the shortest route to visit n places (Traveling Salesman problem). In this
+case the length of the route would be calculated in a calculated value field while the places to be visited (e.g. many-to-many object relation) would get reordered until an optimal solution is found.
+
+But of course this feature is applicable to a wide range of use-cases, whereever you want to optimize a value based on other values: e.g. time budget optimization (order units of work in a way to get maximum revenue), portfolio optimization in stock market, stock production optimization (reduce
+storage costs and nevertheless try to fulfill customer's demand) etc.
+
+Other new features
+------------------
+
+- Automatic translation: Support partial translation with shared translations
+
+    - Exclude terms from being translated
+
+    - Support custom translation for some terms via shared translations (before automatic translation gets executed)
+
+- Better dataport monitoring
+
+    - Log PHP errors / warnings during dataport runs incl. grouping of similar errors
+
+    - Send notification email to users which are allowed to change a dataports' configuration when there is an error during dataport execution
+
+- Support accessing relational fields in SQL condition of Pimcore-based dataports, e.g. for a dataport with source data class "Product" which has a relational field "categories" to class "Category" which has a field "name" you can have SQL condition: categories.name LIKE 'a%' and will only get those
+  products which have at least one category assigned whose name begins with "a" → no need to implement the JOIN yourself
+
+- Support import and export of classification store
+
+- Support for importing field type "Geographic Point"
+
+    - support different formats of geo coordinates
+
+    - support geocoding addresses
+
+- pass request to result callback function + result document action to be able to change logic based on request (URL) parameters
+
+- all library versions are compatible with PHP 8
+
+- save hash of current rawdata in object properties for incremental exports to prevent re-export if dataport's raw data did not change
+
+- recursively replace data query selector placeholders in text data, e.g. when the field for SEO title contains {{ name }} (referring to the name field) and the field for SEO description contains "A {{ seoTitle }} is very nice", then the data query selectors within these fields get resolved
+  recursively.
+
+UI improvements
+---------------
+
+### Dataport configuration Panel
+
+- render demo data in raw data field config with line breaks - prevent horizontal scrolling
+
+- reorder configuration fields for better UX
+
+- strike-through fields which are not used in attribute mapping
+
+### Attribute Mapping Panel
+
+- accelerate attribute mapping load time
+
+- add icons in attribute mapping to see at first sight which additional import settings have been set (write-protected, overwrite images etc.)
+
+- dropdown field to select alternative raw item to be shown in preview (to test special cases before running imports)
+
+- add checkbox to only show mapped fields
+
+- show field type icon before field name, remove field type column -> much more space / less clutter
+
+- show "unexpected output" as tooltip in attribute mapping (e.g. when callback function outputs something)
+
+- only reload attribute mapping panel when a change to dataport settings has been done, otherwise everything should stay the same -> no reload necessary
+
+- support searching for all fields in raw data field dropdown (not only for field name)
+
+- show example data in raw data field dropdown
+
+- do not translate virtual field names as this leads to confusion -> virtual fields are more like variables and must not be translated
+
+### History & Run Panel
+
+- add filter for log type (successful / with errors / queued / running)
+
+- show exacter status description in status column (e.g. if warnings happened, it was "successful" previously)
+
+- add button to monitor / manually start queue processing when there are queued jobs
+
+- show error message on mouseover in history panel (if an error occured during dataport run)
+
+- add dropdown to select language to be used for grid exports / manual exports
+
+- bugfix: redoing pimcore-based dataport runs did not respect sql condition
+
+- option to cancel single queued dataport runs
+
+- save dataport runs' worst error in database -> no need to read through ALL run logs when loading history panel → much faster
+
+- use trigger date in history panel for queued jobs instead of current date
+
+### Preview Panel
+
+- lock raw data key field for exports in preview panel
+
+- support "open object referenced by key fields" from preview panel for exports
+
+- bigger window with logs for single raw item import
+
+- pretty-print and line-wrap values in preview panel (takes less space and is better readable)
+
+Performance
+-----------
+
+- cache raw data per object in Pimcore cache (e.g. redis) -> makes raw data import super-fast if dataport for this object already got extracted before
+
+- cache prepared statements
+
+- accelerate grid exports (only export id of elements to be exported - all the other fields are not used anyway only dataport's fields get used)
+
+- 50 % performance increasement for imports
+
+    - not necessary to apply preUpdate event listeners to a clone of the imported object for modification check
+
+    - less memory consumption during raw data processing
+
+- no need to execute raw data processing for deleted objects which were not present in dataport's raw data before
+
+Grid Exports
+------------
+
+- support grid exports with lots of elements (which would exceed max length of o_id IN(...) condition)
+
+- load available grid export dataports asynchronically
+
+- UI improvements
+
+- bugfix: grid export in "children grid" of objects created very long URL
+
+Minor improvements
+------------------
+
+- delete old file object log files when deleting old DD application logs
+
+- Pimcore 10 compatibility for result callback function templates
+
+- for datatypes which implement PHP's Iterator interface like field collections or image galleries, the "all" selector supports directly accessing the items, e.g. imageGallery:items:all(id) is the same as imageGallery:all(id)
+
+- show dataport name in edit-lock notification (before was only dataport id)
+
+- clearer exception message when no source data class has been selected for Pimcore-based dataports
+
+- write remote import resources to temporary file to be able to reuse it for dependent dataports
+
+- bugfix: when key field returns array in attribute mapping, preview and variables were wrong
+
+- rename field "Key" to "Object Name" in Attribute mapping to prevent confusion with key fields which are used for retrieving existing objects
+
+- overwrite images with 0 byte filesize / non-existing filesystem file even if "overwrite" is not set
+
+- do not process queue when maintenance mode is active
+
+- bypass Pimcore 6.9 core bug: import assets from URLs / remote streams
+
+- catch wrongly ordered firewall configuration and give hint how to solve the problem
+
+- support extracting image gallery, quantity value and other fields which implement OwnerAwareInterface directly without specifying which fields of such complex datatypes to export
+
+- do not return dummy objects in $params['objectIDs'] for raw data items which got actually skipped
+
+- support import to field types which extend Pimcore's core field types
+
+- "delete raw data" now also deletes queued jobs for this dataport
+
+- for advanced relations set all meta fields to ElementMetadata / ObjectMetadata objects, not only those which are provided by import -> solves problem with advanced object search bundle which tries to index all meta fields from the field definition
+
+- support importing to select / multiselect fields with option provider class
+
+- process manager bundle integration: use process bundle manager job logger only if loggers are configured -> if no loggers are configured, use default data director logger
+
+- bugfix: virtual fields in result document action could not be concatenated anymore
+
+- add special field "__index" to keep order of items exactly as in the import resource (no reordering of raw items by raw data fields)
+
+- do not care for trailing empty rows / columns in excel files
+
+- create dataport configuration JSON file if it shall be exported / downloaded but the JSON file does not exist (for whatever reason)
+
+- automatically convert RTF to HTML for wysiwyg fields
+
+- log results of virtual fields for exports
+
+- bugfix: isModified for object bricks did not work for non-localized fields
+
+- use correct path when restarting queue processor if meanwhile a deployment re-linked the pimcore root folder
+
+- accelerate dd:delete-rawdata: do not calculate hash for all languages if dataport resource id with a specified locale is given
+
+- immediately abort dataport runs when ctrl+c is pressed on CLI
+
+- Pimcore versions <= 6.5 return closed stream for Asset::getStream() -> prevent this problem by reopening a new stream
+
+- increase automatic abortion threshold to 1 hour because meanwhile we have a solution for manual abortions (ctrl + c) -> only edge cases will still need the automatic abortion
+
+- bugfix: importing to already existing bricks did not work
+
+- bugfix: trigger garbage collection after 250 items for Pimcore-based dataports (was 1000 before -> caused memory problems)
+
+- show progress bars for queue processing command
+
+- support auto-generation of raw data fields for data object class fields which return array of scalar values, e.g. multiselect which returns an array of strings
+
+- bugfix: automatic decoding of complex raw data was not done for $params['rawItemData']
+
+- bugfix attribute mapping: accessing values of other mapped localized fields did not work, e.g. {{ name#en }}
+
+- log action which triggered dataport job queueing
+
+- support accessing JSON root with selector beginning with "/", e.g. for the structure { metaField: "value", items: [ ... ] } → then you can have item selector "items" and access the metaField with "/metaField"
+
+- catch errors when executing user defined PHP functions via data query selectors
+
+- remove non-printable characters from import resource
+
+- dataport config panel: do not throw error when double-clicking in import resource field and asset is not found (happened whenever import resource is not a Pimcore asset)
+
+- add config if queue processing shall be started automatically
+
+- maintenance job: if queue processing is not running, try to start (if shall be started automatically) - only if this does not work, send mail to admins
+
+- remove temporary grid export dataport resources (tables with prefix "data_director_grid_export_") after 1 day
+
+- result callback function template for exporting CSV with assets as zip could not handle image galleries and many-to-many relations
+
+- result callback function template for exporting CSV with assets as zip could not handle image galleries and many-to-many relations
+
+- result callback function templates: close and open zip archive every 100 files to prevent error of too many files being open
+
 # 2.5.0
 
 Pimcore 10 compatibility
