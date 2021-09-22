@@ -129,7 +129,7 @@ Initial effort is only necessary once, compared to when you have multiple bundle
 
 ## How to get the plugin
 
-You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-modul-bb-import) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
+You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-data-director) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
 
 * * *
 
