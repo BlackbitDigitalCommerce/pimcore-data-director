@@ -35,6 +35,26 @@ With the automatic mapping functionalities and the provided templates setting up
 For an overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
 * * *
+
+## Example use-cases
+
+Just some examples which the Data Director has been used for:
+
+* Import / Export data to SAP, Infor, Webware, JTL etc.
+* Automatically export e-commerce data to online shops like BigCommerce, Shopware, xt:commerce, Shopify etc. when corresponding data objects get saved in Pimcore
+* Import / Export BMEcat
+* Import / Export content from / to Wordpress, Hubspot, Typo3
+* Import / Export customer-related data to CRM systems
+* Export e-commerce related information to Hubspot to automate email marketing
+* Create product feeds for marketplace syndicators like ProductsUp, Channable etc.
+* Create exports feeds for SaaS search providers like FactFinder, Doofinder etc.
+* Export product data to be used in InDesign for product catalogs, datasheets etc.
+* Create product feeds for Google Shopping, Facebook etc.
+* Import product data from Icecat
+* Synchronize asset file folder / DAM system with Pimcore assets
+* Implement data quality checks incl. notification
+* Create REST APIs for reading / writing information from / to Pimcore
+* Automatic translation with DeepL / AWS Translate
      
 ## Advantages compared to other Pimcore import plugins
 
