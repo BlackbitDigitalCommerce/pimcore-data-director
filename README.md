@@ -153,7 +153,7 @@ You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimco
 
 ## Demo
 
-You can test the Data Director at our Pimcore demo system after [requesting the login credentials](https://digital-commerce.blackbit.de/en/pimcore-data-director-demo).
+You can test the Data Director at our Pimcore demo system by [requesting the demo login credentials](https://digital-commerce.blackbit.de/en/pimcore-data-director-demo).
 
 * * *
 
