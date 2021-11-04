@@ -1,3 +1,149 @@
+#2.7.0
+
+New field types: Text generation / Calculated values
+----------------------------------------------------
+
+There are 3 new field types available in Pimcore's class definition view:
+
+- Input with variables
+
+- Textarea with variables
+
+- Wysiwyg with variables
+
+Those fields are a combination of normal text fields and calculated value fields. With those you can write the calculation logic directly in Pimcore backend and have a live preview directly beside the input field.
+
+It supports data query selectors to access data of other fields and other objects, e.g.
+
+`This {{ category:name }} is {{ color }}.`
+
+will get resolved to `This t-shirt is black` if there is a many-to-one relation for the product's category which has a field `name` and if the product has an attribute `color`.
+
+You can also implement any logic operations with [Twig syntax](https://twig.symfony.com/doc/3.x/templates.html "https://twig.symfony.com/doc/3.x/templates.html") with the exception that the variables are defined with data query selectors, e.g.
+
+```twig
+{% if category:name#en == "T-shirts" %}
+  This shirt is made of {{ materials:each(name):implode( and , %s) }}.
+  
+  Properties:
+  <ul>
+  {% for attributeName, attributeValue in attributes:tshirts %}
+    <li>{{ attributeName}}: {{ attributeValue }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+```
+
+If the assigned category's name is "T-shirts" and there is an object brick container which the object brick `tshirts` got assigned, the result will be:
+
+```html
+This shirt is made of cotton and polyester.
+
+Properties:
+<ul>
+    <li>Color: black</li>
+    <li>Size: XL</li>
+</ul>
+```
+
+This allows to define the template for the texts at a high level and then inheriting it down for all descendant products. Thus you have automatic text generation dependent from your template which gets defined directly in Pimcore backend.
+
+This also allows for rapid prototying of applications: For example if you develop a product detail page and know where the product price shall appear, you can create a field `price` and access it in your template. Later on you can either fill this field and / or also refer to other fields of the
+data object or other objects. The advantage of this compared to
+a [calculated value field](https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Data_Types/Calculated_Value_Type.html "https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Data_Types/Calculated_Value_Type.html") is that you
+can implement the logic directly in the data objects and also inherit / override the logic for a certain group of data objects without having to create loads of if conditions in a calculated value calculator.
+
+This way you could for example change the calculation of prices without changing the controllers or frontend templates. This makes you independent of the existence or naming of fields which may be used for price calculation, like date validation range, customer-specific pricing etc.
+
+Transaction bundling
+--------------------
+
+For better performance multiple items are processed in one database transaction. To not overload the system and to reduce the probability of deadlocks a slow start algorithm is used. Only if no deadlocks or long lock wait times occur, the number of items processed in one transaction gets increased.
+In case of a deadlock transaction is automatically rolled back and retried.\
+This brings up to 100% performance improvement for raw data extraction, 40% for raw data processing.
+
+Running dataports
+-----------------
+
+- support --parameters for CLI commands (to change import source dynamically or to provide parameters which are used in attribute mapping)
+
+- support calling dataports by name, e.g. bin/console dd:process "My dataport name" → portable calls in your scripts when dataports have different IDs on different systems
+
+Data extraction
+---------------
+
+- enable inheritance for Pimcore-based dataports only for exports. For imports inheritance gets disabled - e.g. to not get inherited values when setting up a translation import
+
+- add #all helper to get a field's values in all configured languages, e.g. `name#all` will return `['de' => 'Fahrrad', 'en' => 'Bike']`
+
+- support for data query selectors which return multiple items, e.g. `Product:key:a*:all:key` will return an array with the object keys of all product objects whose object key begins with "a"
+
+- support extracting data from namespaced XML tags like `<g:id>`
+
+- support accessing reverse object relation field via data query selector
+
+- support serialising hotspots + markers of Image advanced and image gallery fields
+
+- extract boolean values as 1/0 instead of 1/""
+
+Data processing
+---------------
+
+- skip item if at least one key field is null (previously all key fields had to be null to skip an item)
+
+- support explicit target definition of field collection class in attribute mapping → important when multiple field collection classes have the same fields, then it is difficult for the automatic field collection type detection to use correct field collection type. Now it works the same as for
+  object bricks
+
+- allow to automatically create options for select / multiselect fields
+
+- do not import (input) quantity values with only unit but no value like "A", " A"
+
+- add callback function template to generate URL slugs incl. duplicate prevention
+
+- support synchronous call in callback function template "start dependent dataport" → e.g. to request other dataport to create a missing related object and then continue with import
+
+- support mapping multiselect options by option key (=label)
+
+- bugfix grid export: column heading "id" appeared in the data
+
+- provide `$params['logger']` to all callback function calls for better debugging options
+
+- provide language of localized fields as `$params['locale']` to callback functions
+
+Performance
+-----------
+
+- mark fields as non-dirty when isModified does not recognize a change -> speeds up saving
+
+- shuffle batches in queue processing to prevent lockdown because of always the same jobs being started at first
+
+- queue processor: slow start algorithm to not block $maxParallelProcesses with 4 slow incremental export processes
+
+- raw data processing: only fetch data object's current value if necessary
+
+- when using `$params['currentObjectData']['someField']` in a callback function, only serialize the value of field "someField", not the whole object
+
+UI
+--
+
+- Full-featured code editor for creating callback functions in attribute mapping incl. syntax highlighting and autocomplete
+
+- improve preview panel raw item search
+
+- Remember open dataports on backend reload -> reopen dataports when backend gets reloaded
+
+- Favorite dataports\
+  With a right-click in the dataport tree you can mark a dataport as favourite. Your favourite dataports are listed as submenu entries under the Data Director menu item in the Pimcore backend. This way they are quick to access.\
+  Favourite dataports are user-specific.
+
+- Import resource field now grows automatically, automatically wraps long lines (useful for example for curl requests or when data query selector placeholders are used and thus the string gets long)
+
+- raw items fields panel:
+
+    - add option to copy raw item field
+
+    - add option to move clicked field after currently selected field
+
 # 2.6.0
 
 Dynamic import resource
