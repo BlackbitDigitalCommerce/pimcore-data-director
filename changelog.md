@@ -1,4 +1,4 @@
-#2.7.0
+# 2.7.0
 
 New field types: Text generation / Calculated values
 ----------------------------------------------------
