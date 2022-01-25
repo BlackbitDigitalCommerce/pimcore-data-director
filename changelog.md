@@ -1,3 +1,54 @@
+#2.8.0
+
+Restart failed imports
+----------------------
+
+Whenever raw data processing gets aborted unintenionally (e.g. process killed by operating system or process started via CLI and user logged out from SSH), the import will be queued to be continued from the raw data item where it got aborted.
+
+Initialization function
+-----------------------
+
+In attribute mapping you can now implement an initialization function which gets executed before raw data processing starts. This can for example be used to reset fields of the dataport's target class which will get repopulated by the import.
+
+As a template function it is also provided to abort the dataport run if another process of the current dataport is running.
+
+Improvements: Raw data extraction
+---------------------------------
+
+- support UTF-8 4-byte characters in raw data
+
+- support <ftp://user:password@hostname> and sftp://user:password@hostname as import resource
+
+- add checkbox if inheritance shall be used for Pimcore-based dataports
+
+- data query selector: try to access public property when there is a method but it is not accessible -> e.g. Carbon::timestamp
+
+- add multiSelect:has#option as data query selector for multi-select fields
+
+Improvements: Raw data processing
+---------------------------------
+
+- support specifying character encoding for CSV exports
+
+- bugfix: do not delete existing tags
+
+- queue processor: run exports for same dataport but different dataport resources in parallel
+
+- bugfix Pimcore 10: creating asset from remote stream did not work
+
+- bugfix: importing properties did not work
+
+- resolve ids for dependent / descendent objects of saved object for queueing automatic Pimcore-based dataports in save event listener -> prevents queueing o_path LIKE '/abc/' OR-conditions -> shorter commands and better performance for the queued raw data extraction
+
+- bugfix: creating empty parent objects when a data query selector for field "path" gets returned which does not return an object did not work when the data query selector filter value contained only digits
+
+Improvement: Others
+-------------------
+
+- for worst error tooltip in history panel, do not show stack trace -> otherwise the link to the log file is hard to click
+
+- set default cleanup interval to 14 days -> before was 30 but does not make sense for application_logs because this gets archived every month
+
 #2.7.0
 
 New field types: Text generation / Calculated values
