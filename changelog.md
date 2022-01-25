@@ -1,4 +1,4 @@
-#2.8.0
+# 2.8.0
 
 Restart failed imports
 ----------------------
@@ -49,7 +49,7 @@ Improvement: Others
 
 - set default cleanup interval to 14 days -> before was 30 but does not make sense for application_logs because this gets archived every month
 
-#2.7.0
+# 2.7.0
 
 New field types: Text generation / Calculated values
 ----------------------------------------------------
