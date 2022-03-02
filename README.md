@@ -149,11 +149,11 @@ Initial effort is only necessary once, compared to when you have multiple bundle
 
 ## How to get the plugin
 
-You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.de/de/pimcore-data-director) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
+You can buy this plugin in the [Blackbit Shop](https://shop.blackbit.com/pimcore-data-director/) or write an email to [info@blackbit.de](mailto:info@blackbit.de).
 
 ## Demo
 
-You can test the Data Director at our Pimcore demo system by [requesting the demo login credentials](https://digital-commerce.blackbit.de/en/pimcore-data-director-demo).
+You can test the Data Director at our Pimcore demo system by [requesting the demo login credentials](https://digital-commerce.blackbit.com/en/pimcore_data_director_demo).
 
 * * *
 
