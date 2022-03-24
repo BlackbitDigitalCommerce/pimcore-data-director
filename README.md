@@ -55,6 +55,7 @@ Just some examples which the Data Director has been used for:
 * Implement data quality checks incl. notification
 * Create REST APIs for reading / writing information from / to Pimcore
 * Automatic translation with DeepL / AWS Translate
+* Automatic text generation with artificial intelligence (OpenAI.com API)
      
 ## Advantages compared to other Pimcore import plugins
 
