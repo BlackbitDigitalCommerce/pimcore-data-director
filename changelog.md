@@ -1,3 +1,175 @@
+# 3.0.0
+
+Huge performance improvements
+-----------------------------
+
+### New saving method
+
+Pimcore's default saving method is not optimal concerning performance as it does not only save the changed things but recalculates every aspect for all class fields: e.g. it checks all fields for validity, recalculates dependencies etc. So even if you only change a single input field, all those
+processing steps get done.\
+For this reason the Data Director 3 brings its own saving mechanism which only saves what really has changed. This brings about 200% performance improvement.
+
+But as this is a big change after upgrading to version 3.0 all existing dataports are set to use a so called "compatibility mode". This means they will continue to use the old saving mechanism first to reduce the risk of many non-working dataports. You can disable "compatibility mode" in the
+dataports advanced settings. New dataports automatically have "compatibility mode" off., allowing for optimal performance.
+
+### More efficient loading of latest version data
+
+So far to check if an object got changed during the import the latest object version got loaded but as versions are stored serialized on the filesystem, this operation is quite expensive. In version 3 we fetch the old values of the mapped import fields before changing them - thus there is no need to
+load the version anymore.
+
+Parametrize behaviour
+---------------------
+
+You can now parametrize all elements of a dataport:
+
+- access URL / CLI parameters in data query selectors of Pimcore-based dataports, e.g. image:thumbnail#{{ format }} will return the thumbnail path of the thumbnail definition "500px" when the dataport gets called via /api/export/dataport-name?format=500px
+
+- access URL / CLI parameters in callback functions via {{ param_name }}.
+
+- access URL / CLI parameters in import resource / SQL condition (exists since version 2.6)
+
+It now is also possible to access fields of the source data class in data query selectors oh Pimcore-based dataports. E.g. when you have the data query selector myMethod#{{ sku }} automatically the SKU of the current source class object will get used (as long as no URL parameter "sku" overrides
+this). Or alternatively you can can call service classes this way: @service_name::method#{{ id }} will call the methid "method" of a symfony service "service_name" with the id of the current source class object.
+
+### Import to calculated value fields
+
+It is now possible to import data to calculated value fields without having to create a calculator PHP class. This can be used for all data which is only supposed to be used for displaying but not for editing, e.g.
+for [data quality visualization](https://www.youtube.com/watch?v=M1VVmpTjB_I&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=8&t=68s "https://www.youtube.com/watch?v=M1VVmpTjB_I&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=8&t=68s").
+
+Show raw data in Pimcore report
+-------------------------------
+
+There now is a report adapter for dataport raw data. This has 2 main use-cases:
+
+1. makes raw data reusable between multiple dataports
+
+2. simplifies creating reports because no SQL / Pimcore database knowledge necessary
+
+Prevent duplicate assets
+------------------------
+
+With a single checkbox it is ow possible to create assets only if they do not exist yet. This even works if asset images have different sizes.
+
+UI changes
+----------
+
+### Dataport settings
+
+- enhance auto-complete for data query selectors
+
+- sort suggested data query selectors by levenshtein distance to requested data query selector -> more relevant sorting
+
+- when creating dataport, analyze dataport name to set dataport source type + source / target class
+
+### Attribute mapping
+
+- show language of localized fields as flag to better recognize language
+
+- show dependency visualization when clicking on an attribute mapping field
+
+- accelerate callback function template generation
+
+- update dependent fields when updating callback function
+
+- make callback function window maximizable
+
+### History panel
+
+- support searching for dataport run log file name to easier be able to access import archive file
+
+- format start date according to current user's locale (which gets derived from the user's language)
+
+- do not open new window when result callback function does not generate any output (e.g. for imports which call a dependent import)
+
+Raw data extraction Data query selectors
+----------------------------------------
+
+- trigger warning if CSV / Excel file contains same column heading multiple times
+
+- support ":url" data query selector for assets and image fields to get the absolute URL of assigned asset(s)
+
+- support finding reverse-related objects via `Category:products:.` when the Category class manages the relation to products and export's source data class is Product
+
+- support "ancestors" / "descendants" in data query selectors to get all objects above / below current object
+
+- support filtering arrays in data query selectors, e.g. For example a many-to-many relation `categories` can be filtered with `categories:filter#published,true` to only get the published related category objects.
+
+  Another use case is when you have a field collection of prices and their validity dates, you can use `prices:filter#validFrom,now,>=:filter#validTo,now,<=` to get all field collection items which are valid today
+
+- support "withInheritance" / "withoutInheritance" helpers to enable / disable inheritance for single data query selectors
+
+- support suffix aliases in data query selectors, e.g. (scalar;object:scalar) as group1
+
+Raw data processing
+-------------------
+
+- provide $params['transfer'] also for field callback functions
+
+- support finding relational objects via unique index -> no need to return a data query selector "Manufacturer:name:".$params['value'] when the field "name" is unique in the class Manufacturer, just assigning the manufacturer name raw data field would suffice
+
+- support finding multiple objects via data query selectors
+
+- stream-write result documents to keep memory consumption low even when generating large export documents (currently only implemented for CSV)
+
+- bugfix: object key was not valid when key was 255 characters long and an object with same key already existed -> we need to substract suffix length to get to 255 characters again
+
+- add option to automatically create classification store fields
+
+- support automatic text generation via OpenAI API
+
+- support language mapping to translation provider (e.g. to use en-gb as target language for "en")
+
+- when restarting dataport runs because of unintentional abortion, check if dataport is continuable: Non-incremental exports cannot be continued and have to be rerun completely. Imports and incremental exports can be continued (as before)
+
+- support assigning elements to asset metadata (so far only type "input" was supported)
+
+- bugfix: process virtual fields which are used in key fields
+
+Other changes
+-------------
+
+- delete raw data in chunks -> otherwise it takes ages to delete 1 million raw data items
+
+- refactor logging to not waste memory
+
+- remove spatie/once -> lots of unnecessary debug_backtrace() calls
+
+- group application logger logs (log certain message only once and add "happened 3x")
+
+- find unpublished objects with data query selectors for fields which do not have a getByXyz() method
+
+- data query selector Product:articleNo:.:name#de to get the current value of field "articleNo" is not supported anymore. This data query selector shall find products with articleNo=. And you can use $params['currentObjectData']['articleNo'] anyway to get the current value
+
+- automatically fix wrongly configured default timezones between webserver PHP and CLI PHP by always saving dates in UTC -> otherwise strange effects can happen: dataport runs get aborted because they take too long, negative runtimes shown in history panel etc.
+
+- notification mail informing about queue processor which could not be started was also sent if queue processor got started but finished in less than 5 seconds
+
+- auto-reload elements if they got changed by automatic imports after saving
+
+- skip hash check for pimcore-based imports Use case: Automatic import which sets published based on certain logic of raw data fields. 1st run: published gets set to false -> hash of raw data gets remembered -> object gets saved & published again without changes 2nd run: raw data is the same -> but
+  published got changed -> we have to execute dataport again, otherwise object is published although published logic would unpublish it
+
+- support different request contexts to be able to change behaviour of overridden getter methods
+
+- when renaming dataports, point all redirects for old REST API endpoint URLs of this dataport to new URL -> prevent redirect chains
+
+- bugfix: do not trigger edit-lock message when current user just saved the object
+
+- result document action "send as mail": support sending response document as attachment
+
+- automatic start did not work for Excel imports
+
+- delete temporary files after each batch of processed raw data items -> by default they are deleted when process finishes but this wastes a lot of disk space
+
+- bugfix: cleaning up application logger log files did not work correctly
+
+- log user who started dataport run
+
+- remove behaviour that manually uploaded files should use "default" dataport resource - instead create separate resource for uploaded file but also recognize same file name -> when a dataport is run with the same file, overwrite previous file and also show filename in history panel instead of
+  generated uniqid()
+
+- do not process multiple raw data items in one db transaction -> when there is a problem with one item, all the other can also not be imported
+
 # 2.8.0
 
 Restart failed imports
