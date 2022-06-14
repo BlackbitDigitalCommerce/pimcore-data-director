@@ -83,8 +83,8 @@ Just some examples which the Data Director has been used for:
 * option to write-protect fields: only import data to certain field if field is empty
 * dynamically import to object brick / classification store fields (target field can be defined dynamically based on import data)
 * generate response documents, for example to send success status back to source system
-* automatically start imports, for example to:
-    * automatically assign assets to data objects after uploading
+* automatically start imports based on events, for example to:
+    * automatically assign assets to data objects after uploading an asset
     * automatically start import for uploaded CSV, JSON, XML, Excel file
 * trigger imports via push from external systems (via REST API) for live interfaces without exchanging files
 * Traceability: import archive (for import files) and searchable import log history to always know when and why a certain field got a certain value
