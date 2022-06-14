@@ -81,7 +81,7 @@ Just some examples which the Data Director has been used for:
 * full flexibility: for common use cases of data transformation the bundle provides ready-to-be used templates. But you can also edit those and even write custom (PHP or JavaScript) functions to set up a transformation pipeline, conditions etc. for certain fields
 * import object hierarchy (set parent element of imported elements)
 * option to write-protect fields: only import data to certain field if field is empty
-* dynamically import to object brick / classification store fields (target field can be defined dynamiccaly based on import data)
+* dynamically import to object brick / classification store fields (target field can be defined dynamically based on import data)
 * generate response documents, for example to send success status back to source system
 * automatically start imports, for example to:
     * automatically assign assets to data objects after uploading
