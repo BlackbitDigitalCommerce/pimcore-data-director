@@ -1,3 +1,114 @@
+# 3.1.0
+
+Data Query Selector Grid Operator
+---------------------------------
+
+With Pimcore's default grid operators it sometimes is difficult to extract the desired data. To make this easier there now is a data query selector grid operator to extract data from the shown objects, its relations or even completely different objects. This also supports the auto-suggest feature
+which you might already know from implementing data query selectors in export raw data fields.
+
+Moreover there now also is a new field type "Calculated Value (Data Query Selector)" to define logic at field definition level (similar to Symfony expression language but with Twig syntax and Data Query Selectors you have much more options). This way you can define calculated value fields' logic
+directly in field definition.
+
+Performance Improvements
+------------------------
+
+Raw data extraction and raw data processing now use bulk inserts instead of previously saving raw data / data objects one after another. This brings about 600% performance improvement for raw data extraction!
+
+Another performance improvement is that virtual fields of result callback function now only get processed once - so far this has been done for each raw data item again and again.
+
+Enhanced ad-hoc grid exports
+----------------------------
+
+Data Director now offers out-of-the-box CSV, XML and JSON exports of data which is shown in the currently shown grid - including custom table configuration and operators. All the processing is done server-side which reduces export time compared to Pimcore's default CSV / Excel exports.
+
+Versioning of Dataport settings
+-------------------------------
+
+All changes of dataport settings are now versioned. With this you can compare and revert changes up to 90 days.
+
+Minor Features
+--------------
+
+### Queue Processing
+
+- execute imports with "automatically execute on new data" checkbox which cannot get detected by events (like file system imports), together with maintenance job
+
+- Queue Processing: remember number of allowed parallel processes for each dataport for queue processing (so that it does not start at the same numbers initially)
+
+- keep scrolling position in queue monitor
+
+### Debugging / Logging
+
+- show outputs during dataport run also in preview window (not only in log) -> easier debugging
+
+- support logging complex values with $params['logger'] in callback functions -> no need to convert it to a string first
+
+- log parsed values of callback functions, not only raw return values, e.g. when a callback function returns a data query selector
+
+### Imports / Exports
+
+- with "Enable inheritance" checkbox being disabled for pimcore-based dataports, also SQL condition now goes to non-inherited data tables
+
+- save DeepL (or other translation provider) results to shared translations to not having to pay them again after clearing the Pimcore cache (formerly they were saved to Pimcore cache - if this was deleted the translation for the same input had to be paid again)
+
+- return null when data query selector cannot find object (previously it returned false or even the data query selector string itself)
+
+- support field#locale to import data to classification store fields by mapping callback function for classification store / object brick container
+
+- support multiple classification store groups
+
+- support getting data from block items, e.g. Block:each:(name) or Block:each:(relation:name)
+
+- add byte-order mark to CSV export template -> without this Excel cannot display special characters correctly
+
+- new import source type 'Fixed Length File'
+
+- Dataport::isQueued() now returns false if all the queued jobs for given dataport are already being processed
+
+### User interface
+
+- UX improvement: dataport panel: support auto-creating raw data fields by uploading example import file (no need to set the example file as import resource anymore)
+
+- attrbute mapping: add warning when $params['value'] gets accessed in callback function but no raw data field has been assigned
+
+- history panel:
+
+    - do not show started but still queued jobs in -> caused irritation that 2 processes existed (1 running and 1 queued) but this is actually the queued job which is running
+
+    - support to filter by "done" and "total" items which were processed in the dataport run, e.g.
+
+        - done > 0
+
+        - done > 1000
+
+        - total > 1000
+
+        - done < total
+
+        - done = total
+
+    - do not delete logs / history when clearing raw data or when dataport resources get deleted -> e.g. to know when a dataport was last executed
+
+- preview panel:
+
+    - when processing single raw item in preview panel, make logs window maximizable
+
+    - better performance for search
+
+### Others
+
+- replace symfony firewall for REST API with custom token validation -> easier installation without having to change the global security.yaml
+
+- change plugin_pim_rawitemField.priority to SMALLINT to keep raw item field order correct when having more than 127 raw data fields in one dataport
+
+- add Composer script to automatically execute bundle migrations
+
+- cleanly implement asynchronous dataport runs (side effect: bypass problems with non-overridable max_execution_time or proxy timeouts)
+
+- reduce waiting time for import files in a folder / glob expression to 2 seconds (was 10 before) -> this is the timespan which a file must not have been modified for being used in an import to not import files which are just being uploaded
+
+- show favorite dataport as sub menu items of main menu item "Data Director" when user is not allowed to see main menu "settings"
+
 # 3.0.0
 
 Huge performance improvements
