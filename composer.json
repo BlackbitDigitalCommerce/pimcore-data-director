@@ -6,7 +6,7 @@
     "source": "https://shop.blackbit.de/de/pimcore-modul-bb-import",
     "docs": "https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf"
   },
-  "homepage": "https://pimcore.blackbit.de/pimcore-import-plugin",
+  "homepage": "https://pimcore.blackbit.com/de/loesungen/data-director",
   "license": "GPL-3.0-or-later",
   "type": "pimcore-bundle",
   "authors": [
