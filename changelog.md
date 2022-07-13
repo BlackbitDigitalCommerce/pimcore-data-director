@@ -53,6 +53,8 @@ Minor Features
 
 - return null when data query selector cannot find object (previously it returned false or even the data query selector string itself)
 
+- prevent sending error-log email when another error-log email for current dataport has been sent within 5 minutes
+
 - support field#locale to import data to classification store fields by mapping callback function for classification store / object brick container
 
 - support multiple classification store groups
