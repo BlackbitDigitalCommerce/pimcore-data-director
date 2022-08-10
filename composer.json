@@ -3,7 +3,7 @@
   "description": "Import XML, CSV, JSON, Excel files to Pimcore objects, assets, documents + Export feeds + create REST API without any programming",
   "version": "3.1.0",
   "support": {
-    "source": "https://shop.blackbit.de/de/pimcore-modul-bb-import",
+    "source": "https://shop.blackbit.com/pimcore-data-director/",
     "docs": "https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf"
   },
   "homepage": "https://pimcore.blackbit.com/de/loesungen/data-director",
