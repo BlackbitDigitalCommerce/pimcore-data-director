@@ -1,3 +1,91 @@
+# 3.2.0
+
+Object wizard
+-------------
+
+With the object wizard you can create custom forms in Pimcore admin area. This can be used to set up mass-editing workflows, create objects with mandatory fields and default values (e.g. generate SKU automatically) or start conditional exports. Together with the favourite dataports feature the
+dataports can be accessed from Pimcore's main menu and so support frequent data maintenance use-cases. It is now also supported to set favourite dataports for roles so that for those frequent use-cases the favourite (= main menu) dataports do not have to be configured for each user individually.
+
+Object preview / object dependency graph
+----------------------------------------
+
+Pimcore supports a [preview tab](https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Class_Settings/Preview.html "https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Class_Settings/Preview.html") in the object editing panel.
+This feature can be combined with a Data Director export. The export can create an HTML document which can be shown in the preview panel of the currently opened object.
+
+Two preview templates get shipped currently:
+
+1. All data fields preview\
+   shows the current object's data as known from the [versions panel](https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Versioning.html "https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Versioning.html")
+
+2. Dependency graph\
+   Show dependency graph for current object and its relations (it is configurable which relational fields are taken into account) e.g.
+
+![Object dependency graph](doc/images/object-dependency-graph.png)
+
+Dynamic raw data field selector
+-------------------------------
+
+There now is the "__all" selector to retrieve all raw data fields for current import item, e.g. to implement dynamic imports. This way you can set up imports for documents with different structure, e.g. once there is a CSV with SKU and name, next time the import CSV has columns SKU and price. In
+this case the `__all` raw data field will contain all raw data `{SKU: 123, price: 3.99}` and can be processed in the attribute mapping callback functions.
+
+UI changes
+----------
+
+- Data Director will now appear at first level in main menu so that executing favourite dataports will become easy
+
+- attribute mapping: more efficient loading of `$params['currentValue']` do not load individual classification store fields if there are more than 50 fields possible -> in 99% of cases values will be mapped via the classification store container anyway
+
+- set `overwrite: true` for image galleries, many-to-many-relations etc. by default to prevent masses of duplicate images with _1, _2 etc. being created
+
+- fix buggy dropdown fields (when clicking expand button, option list is shortly expanded but directly closes again)
+
+Other changes
+-------------
+
+- for automatic Pimcore-based dataports: support accessing data from just saved object in dataport condition, e.g. o_id='{{ id }}' -> this will run the dataport only for the just saved object and not for dependent / parent objects
+
+- remove edit-lock check / notification for real users because only "dirty" fields get transfered for saving in Pimcore backend -> when really a certain field gets updated by an import and a real user, the real user will win anyway (because he will save later) only in case, when 2 imports update the
+  same object in parallel, the edit lock exception will appear
+
+- when using --rm option together with __source raw item field, from now the import file gets copied to a temporary file (before the file in __source did not exist anymore after raw data import)
+
+- "truncate before import" option now only truncates relations image galleries etc. on first raw data item whose key fields' match a certain element. When the same object gets referenced by multiple raw items' key field(s), the given field will not get reset again
+
+- history panel: display asset path for linked archive file when archive folder is a Pimcore asset folder (before filesystem folder was shown)
+
+- queue processor: limit max parallel processes to 4 * CPU count (because some processes might be waiting for external APIs). Only increase number of max parallel processes if current CPU load (for 1 CPU) is < 1
+
+- support exporting documents (incl. auto-generate raw data fields)
+
+- disable timeout / SSL certificate check for URL-based imports
+
+- support pipe-separated values in callback function template for m2m relation
+
+- CSV: support importing files with Byte-order mark (BOM)
+
+- performance enhancement: resolving object IDs of dependent elements for automatic dataports needed very long because of multiple conditions like "o_path LIKE /abc/%' OR o_path LIKE '/def/%'"
+
+- support getting thumbnail image of document assets (e.g. PDFs) with ":thumbnail" data query selector (problem is that for documents the Pimcore method is named "getImageThumbnail()" in contrast to getThumbnail() for images - this made it especially difficult for many-to-many-relation fields to get
+  all assets incl. thumbnails via "relation:each:(thumbnail:url)" - but now this is possible)
+
+- asset import from URLs: use actual filename from URL -> strip query + fragment part of URL
+
+- support exporting and importing video field type
+
+- do not abort dataport runs which are in the "lastCall" step because this will naturally need longer than all the previous data because in a lot of cases the export file is created in this step while in previous steps the data is only prepared
+
+- support importing documents to (advanced) many-to-many relations
+
+- BC break: data query selectors of multiselect fields return array (previously semikolon-separated string)
+
+- do not remove history logs which have 0 items but have errors (previously all history items with 0 done items have been deleted after 5 minutes)
+
+- auto-create raw data fields for Pimcore-based dataports will create easier-looking data query selectors, especially for relations with very much fields - the Serializer will create sane values anyway
+
+- attribute mapping: when importing an export with localized fields like name#all (which returns ['de' => 'german name', 'en' => 'english name']), assigning this complete array to name#de will automatically use the "de" value
+
+- support assigning images to image editables when importing documents
+
 # 3.1.0
 
 Data Query Selector Grid Operator
