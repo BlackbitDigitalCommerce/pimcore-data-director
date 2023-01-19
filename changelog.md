@@ -1,3 +1,128 @@
+# 3.3.0
+
+Intelligent logging
+-------------------
+
+For dataport runs which do not get started from Pimcore backend (e.g. cronjob runs, REST API, event-triggered dataport runs) the logger watches for errors (but also buffers less severe errors) - only if an error occurs, the buffered logs get written. When the run finishes successfully without any
+errors, warnings, notices, no log file will get saved. This reduces the amount of disk space for the log files and thus makes very frequent applications possible like real world website user facing REST API interfaces.
+
+Moreover, this version implements lazy logging: the logging information gets only generated if the log level will actually be logged (previously the log string was generated before and then the log was logged - but for log levels which do not get logged anyway, all the effort for generating the log
+information (e.g. object serialization, JSON-encoding etc.) was useless.
+
+More efficient queue processor
+------------------------------
+
+Import runs for same dataport but different import resources now get run in parallel. This makes automatic dataports (e.g. data quality) being executed much faster when doing bulk imports.
+
+Queue processor now more often adjusts the number of parallel processes. Furthermore, the number of max parallel processes get saved in website settings instead of cache to prevent this number being reset when the cache gets cleared. Side effect: it is possible to manually increase number of max
+parallel processes.
+
+UI changes
+----------
+
+### Dataport tree
+
+- mark dataports which have not been used for more than 14 days to support cleaning up old dataports
+
+- show dataports with errors during last runs in red color to immediately see which dataports currently have problems
+
+- show roles which have a dataport as favorite in dataport tree context menu hierarchically for better overview when there are many roles
+
+- for grouping dataports with common prefix, ignore case of first letter
+
+### Dataport configuration
+
+- support bulk edit for raw data fields
+
+### Attribute mapping
+
+- show better preview / explanation when key field returns an array
+
+- support mapping creationDate, modificationDate for asset imports
+
+- do not show single object brick fields if there are more than 50 -> only support mapping via object brick container, otherwise loading time is too slow (but we have to improve this anyway)
+
+### Preview panel
+
+- support multi-select for processing multiple raw data items (for testing)
+
+- support multi-select for opening multiple objects by referencing key fields
+
+- highlight data where search term is found instead of hiding columns where search term is not found
+
+### Object editing panel / grid panel
+
+- show available exports/imports for object in object editing toolbar
+
+- grid export: always set "Content-Disposition: attachment" because grid exports are always executed in same window as Pimcore - but if the result callback function does not create a result document (but e.g. only queues another dataport), a blank page got opened in the Pimcore tab -> now there is
+  always a download for grid exports - if the dataport does not generate a response document, a dummy one with "Dataport successfully executed" gets provided
+
+Other changes
+-------------
+
+- XML imports: log XML errors (previously raw data was just empty but nobody knew why)
+
+- sometimes Cli::exec() blocked the Apache request
+
+- support importing from FTPS resources
+
+- prevent misuse of programmatically started dataports: when dataports get started programatically, it could happen that too many processes were executed and the server went down. Now it is checked if for given dataport there are already many processes running (relative to CPU count) and if too
+  much, new processes get added to queue automatically instead of being executed
+
+  This can for example happen if another dataport gets triggered from result callback function via Cli::execInBackground('bin/console dd:complete 123') - actually the "start dependent dataport" template does prevent this but if the developer does not use this template, he could step into this trap -
+  but not anymore ;-)
+
+- support importing to field type "block"
+
+- support importing strings which look like JSON but shall be treated without parsing, e.g. [100.00] must not be converted to [100]
+
+- automatically install migrations in maintenance job -> prevent all the hassle with Data Director being updated but not appearing in Pimcore backend
+
+- automatically delete queued items which are older than 3 days -> most of the time this comes from wrong result callback functions with "start dependent dataport"
+
+- data query selectors: support finding assets by metadata fields
+
+- enhance recognition of quantity value field's value and unit when provided as string. Following strings have been successfully tested to be imported to quantity value fields:
+
+    - 1,23m
+
+    - 1.23m
+
+    - 1.23 m
+
+    - -10°C
+
+    - 10°C
+
+    - 10 °C
+
+    - 12 turns per minute
+
+    - € 12
+
+- when there were queued processes which refer to dataport resource ids which got deleted in the meantime (e.g. by deleting raw data in preview panel), the corresponding SQL conditions got created as standalone dataport resources -> this could lead to very much dataport resources for those automatic
+  dataports -> all of them had to be checked when an object got saved -> slow saving
+
+- prevent bogus "Queue processor could not be started" email notification
+
+- use league/flysystem-sftp-v3 instead of league/flysystem-sftp → PHP 8.1 compatibility
+
+- asset imports: prevent errors when importing folders
+
+- support special raw data field selector "__count" to get number of records in current import file
+
+- tag elements with import errors to easier search for import problems
+
+- support "__all" raw item data selector for XML resources to get complete raw data item in one raw data field
+
+- provide currency converter service when Quantity Value fields get imported with "auto-create non-existing units"
+
+- support automatically executing dataports without import resource (e.g. as pseudo-cronjobs)
+
+- add callback function template for initialization function to limit frequency of dataport, e.g. execute every x hours only (pseudo-cronjob)
+
+- support CORS preflight request for REST API endpoints
+
 # 3.2.0
 
 Object wizard
