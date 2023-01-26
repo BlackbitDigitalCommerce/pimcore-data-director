@@ -1,5 +1,14 @@
 # 3.3.0
 
+Dataport run summary
+--------------------
+
+There now is a summary window for manually executed dataport runs. This provides a graphical user interface to what happened during imports and exports. It shows dataport run progress, changed data (inclusing diff view) and errors (if any occurred):
+
+![Summary window](doc/images/summary.png)
+
+This enables non-technical people to run dataports and check if everything worked well.
+
 Intelligent logging
 -------------------
 
