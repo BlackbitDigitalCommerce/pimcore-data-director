@@ -42,19 +42,20 @@ Just some examples which the Data Director has been used for:
 
 * Import / Export data to SAP, Infor, Webware, JTL etc.
 * Automatically export e-commerce data to online shops like BigCommerce, Shopware, xt:commerce, Shopify etc. when corresponding data objects get saved in Pimcore
-* Import / Export BMEcat
+* Import / Export BMEcat (in general or for platforms like Mercateo, PSG, Wucato)
 * Import / Export content from / to Wordpress, Hubspot, Typo3
 * Import / Export customer-related data to CRM systems
 * Export e-commerce related information to Hubspot to automate email marketing
 * Create product feeds for marketplace syndicators like ProductsUp, Channable etc.
 * Create exports feeds for SaaS search providers like FactFinder, Doofinder etc.
 * Export product data to be used in InDesign for product catalogs, datasheets etc.
-* Create product feeds for Google Shopping, Facebook etc.
+* Create product feeds for Google Shopping / Merchant Center, Facebook etc.
 * Import product data from Icecat
 * Synchronize asset file folder / DAM system with Pimcore assets
 * Implement data quality checks incl. notification
 * Create REST APIs for reading / writing information from / to Pimcore
 * Automatic translation with DeepL / AWS Translate
+* Connect to translation providers like Trados
 * Automatic text generation with artificial intelligence (OpenAI.com API)
      
 ## Advantages compared to other Pimcore import plugins
@@ -145,6 +146,8 @@ Just some examples which the Data Director has been used for:
 * **importing data to Pimcore elements**
 * **checking and changing data when data objects get saved -> more transparency compared to overriding Pimcore model classes' `save()` method or creating event handlers**
 * **exporting data in whatever format you want and wherever the export documents shall be sent to**
+* **automation of data handling within Pimcore**
+* **support UX-optimized workflows for frequent tasks**
 
 Initial effort is only necessary once, compared to when you have multiple bundles for all the different requirements which the Data Director is able to fulfill.  
 
@@ -252,13 +255,13 @@ The attribute mapping can also be used to modify the source data. For each field
   * Yes. For every field you can implement custom logic in a callback function (inside the Pimcore backend, you do not have to create any PHP files somewhere). In this callback function you get the import data and the current object data provided and cam use any language construct like conditions, loops etc. You can use PHP or JavaScript to implement those callback functions.
   
 * How to assign assets?
-  * Assets can be assigned via URL, file name or you can query for existing assets.
+  * Assets can be assigned via URL, file system path or you can query for existing assets.
     You can wither create the assets during a data object import (e.g. when you have a product feed with image URLs). For more details see the [tutorial video about assigning images](https://www.youtube.com/watch?v=nyhKJTzTq-4&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=1&t=3139s).
     
     Or you import assets individually, e.g. when you connect a network drive to your Pimcore server and want to automatically import assets from this folder into Pimcore. For more details see [the tutorial video about importing assets from the filesystem](https://www.youtube.com/watch?v=OJKxWtgwi3c&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=3&t=4161s)
     
 * Can you import multiple files at once? What import resources are supported
-  * Yes. You can import files one by one, files from a folder (including search pattern, e.g. /import/*.xml), Files from Pimcore Assets, data from a URL, data from a cURL request, data from a PHP script. The two latter are especially useful when you want to import data from an API which required authentication.
+  * Yes. You can import files one by one, files from a folder (including search pattern, e.g. /import/*.xml), files from remote storage ((S)FTP), Files from Pimcore Assets, data from a URL, data from a cURL request, data from a PHP script. The two latter are especially useful when you want to import data from an API which required authentication.
   
 * How can imports be started?
   * Imports can be started:
@@ -274,3 +277,7 @@ The attribute mapping can also be used to modify the source data. For each field
 ## Documentation
 
 To learn more about all options and how they can be configured, please [read the full documentation](https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf) or [watch the tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
+
+## Training
+
+We also offer an [academy course for Data Director](https://academy.blackbit.com/collections/blackbit-data-director-for-pimcore).
