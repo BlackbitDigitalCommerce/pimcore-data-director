@@ -40,7 +40,7 @@ For an overview how to set up imports and exports, please see our [tutorial vide
 
 Just some examples which the Data Director has been used for:
 
-* Import / Export data to SAP, Infor, Webware, JTL etc.
+* Import / Export data to SAP, Infor, Webware, JTL, Navision / Business Central etc.
 * Automatically export e-commerce data to online shops like BigCommerce, Shopware, xt:commerce, Shopify etc. when corresponding data objects get saved in Pimcore
 * Import / Export BMEcat (in general or for platforms like Mercateo, PSG, Wucato)
 * Import / Export content from / to Wordpress, Hubspot, Typo3
