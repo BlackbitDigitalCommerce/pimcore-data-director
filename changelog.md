@@ -1,3 +1,143 @@
+# 3.4.0
+
+ChatGPT integration
+-------------------
+
+It is now possible to infer technical attributes from a text, e.g. use input `Long-sleeved cotton shirt with blue and orange stripes` as input and automatically infer an object brick multiselect attribute `colors` to `blue` and `oraange`.
+
+On the other hand it is possible to generate texts from technical data, e.g. use input
+
+- Name: Cool Casual Shirt
+
+- Material: cotton
+
+- Colors: Blue, Orange
+
+- Gender: Male
+
+and let ChatGPT generate a product description like
+
+> The Cool Casual Shirt is a comfortable and stylish choice for any man. Made from high-quality cotton, it offers breathable comfort that will keep you feeling great all day long. Available in two vibrant colors - blue and orange - this shirt is perfect for casual wear or dressier occasions.
+Designed with the male physique in mind, it provides a flattering fit that looks great on every body type. Whether you're heading to work or out with friends, the Cool Casual Shirt has got you covered!
+
+Performance
+-----------
+
+### Reduce memory consumption
+
+By removing the timestamp and context from each log message less memory gets used. Also a lot of minor refactorings reduced memory usage, especially import for big imports.
+
+### Faster raw data import
+
+More efficient pagination for fetching raw data items -> instead of LIMIT 100000, 100 try to use "priority > <last processed raw data item> LIMIT 100", see <https://ramzialqrainy.medium.com/faster-pagination-in-mysql-you-are-probably-doing-it-wrong-d9c9202bbfd8>
+
+### Smarter check for executing automatic dataports
+
+Automatic dataports get saved if an object of the configured source data class or a dependent object of such an object got saved. In the past this caused loads of queued processes which actually did not make sense because the raw data fields did not access data of the saved object. Now there is a
+smarter check if it is necessary to execute automatic dataports for dependent objects by analyzing data query selector's target classes. The dataport gets only executed for objects whose raw data could potentially be changed through the the saved object.
+
+Pimcore 10.6 compatibility
+--------------------------
+
+Version 3.4 is compatible with Pimcore 10.6. We are currently working on Pimcore 11 compatibility.
+
+Web2Print
+---------
+
+This version introduces a callback function template to generate PDF asset files from Pimcore documents. This way it is easy to set up an automatic PDF generation pipeline like
+
+1. save data object
+
+2. → generate corresponding document
+
+3. → convert document to PDF asset
+
+4. → automatically assign generated PDF asset to saved data object
+
+:before data query selector
+---------------------------
+
+With the "before" data query selector you can access previous version's data. Use case: With the `before` helper you can access data of the previous version of an object, e.g. `before:published` will return if the object was published in the version before the currently published one. This can be
+used to trigger actions when certain fields change, for instance you could set up an automatic dataport with condition `o_published=1` and raw data field `before:published`. As soon as someone publishes an object (so that SQL condition `o_published=1` is true) which was not published before (if this
+is the case you see in the raw data field with data query selector `before:published`), you can now trigger some action. This enables you to set up workflows (e.g. notify reviewer when certain fields get changed).
+
+Dataport settings
+-----------------
+
+- support FTP, SFTP, FTPS for import type "file system" to retrieve files from remote storage as import resource
+
+- support selecting raw data fields for Pimcore-based dataports via Pimcore's grid configuration field selector
+
+- support loading environment variables / website settings as via data query selectors
+
+Attribute mapping
+-----------------
+
+- support setting DeepL / OpenAI API keys via website settings and attribute mapping
+
+- apply write-protection (aka "Do not overwrite if already filled") for mapped object brick container / classification store container fields on field level, not in general for whole container -> empty fields get filled while currently populated fields remain the same
+
+- add option to automatically create referenced related objects for many-to-many object relation fields: when `Keyword:name#en:Test` is tried to get assigned to a many-to-many object relation, an object of class "Keyword" with English name "Test" will get created (if it does not already exists)
+
+- support dynamic creation of object bricks and object brick fields (when enabling "automatically create non-existing fields" for object brick container)
+
+- support for deleting elements
+
+- simpler attribute mapping for field collections (before there were a lot of arrays necessary in callback function)
+
+- when import text for wysiwyg fields does not contain any HTML tags, apply nl2br() to keep line breaks
+
+- support accessing [website settings](https://pimcore.com/docs/platform/Pimcore/Tools_and_Features/Website_Settings/ "https://pimcore.com/docs/platform/Pimcore/Tools_and_Features/Website_Settings/") in "{{ }}" placeholders
+
+- support drag & drop to copy one field's mapping to another field
+
+- support importing localized block fields
+
+- support fetching an element's "tags" via data query selector "tags"
+
+- callback function history: add "restore" and "copy" buttons to restore / copy previous version
+
+Other changes
+-------------
+
+- dataport configuration: add right-click context menu for dataport tabpanel to close all / close other dataport tabs
+
+- provide "dependency graph" as default object preview
+
+- serializing classification store / object brick container now only returns current language data for localized fields
+
+- bugfix: if raw item field for key field contained an array it was provided as single items to $params['value'] -> $params['value'] should always contain the real raw item data
+
+- when an automatic dataport gets cloned, disable "execute automatically" checkbox
+
+- dataport settings: check for settings conflict (when another user saved in the meantime)
+
+- provide $params['translator'] object to callback functions to access Pimcore translations
+
+- send error notification mails even if neither website domain nor debug email address have been set (in this case send with sender=no-reply@Pimcore)
+
+- attribute mapping panel: copy variable via click, open in new window via double click (same as it was some months ago)
+
+- withoutInheritance now also disables fallback languages (before only disabled parent-child inheritance)
+
+- provide universal path formatter which displays the fields, which are configured to be shown in grid view, also in the relation field (instead of Pimcore's default full path)
+
+- provide data option provider which can be used with a data query selector to define dynamic options -> allows for dynamic select fields and even dependent select fields within the same object
+
+- add "HTML container" layout component -> add pure HTML into object editing panel (which as a side effect also supports data query selector placeholders)
+
+- support "deeplink" data query selector (e.g. for workflows)
+
+- add user information to $params['context']
+
+- support placeholders like {{ date#Y-m-d }} (PHP function with parameters)
+
+- disable intelligent logging when executing user is an admin (otherwise it is difficult to debug automatic imports)
+
+- send HTTP 500 for REST API calls if dataport run got aborted (was 200 before)
+
+- support calling dependent dataport by name
+
 # 3.3.0
 
 Dataport run summary
