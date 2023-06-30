@@ -1,0 +1,14 @@
+{
+  "recipes": {
+    "blackbit/data-director": [
+      "3.5"
+    ]
+  },
+  "branch": "master",
+  "is_contrib": true,
+  "_links": {
+    "repository": "github.com/BlackbitDigitalCommerce/pimcore-data-director",
+    "origin_template": "{package}:{version}@github.com/BlackbitDigitalCommerce/pimcore-data-director:master",
+    "recipe_template": "https://api.github.com/repos/BlackbitDigitalCommerce/pimcore-data-director/contents/{package_dotted}.{version}.json"
+  }
+}
