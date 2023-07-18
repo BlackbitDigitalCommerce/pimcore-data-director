@@ -29,7 +29,7 @@ By removing the timestamp and context from each log message less memory gets use
 
 ### Faster raw data import
 
-More efficient pagination for fetching raw data items -> instead of LIMIT 100000, 100 try to use "priority > <last processed raw data item> LIMIT 100", see <https://ramzialqrainy.medium.com/faster-pagination-in-mysql-you-are-probably-doing-it-wrong-d9c9202bbfd8>
+More efficient pagination for fetching raw data items -> instead of LIMIT 100000, 100 try to use "priority > &lt;last processed raw data item&gt; LIMIT 100", see <https://ramzialqrainy.medium.com/faster-pagination-in-mysql-you-are-probably-doing-it-wrong-d9c9202bbfd8>
 
 ### Smarter check for executing automatic dataports
 
