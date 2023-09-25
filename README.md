@@ -70,7 +70,7 @@ Just some examples which the Data Director has been used for:
     * folders
     * URLs
     * PHP script for complex requirements like importing a CSV file only if a PDF file with the same file name (but different file extension) exists in the import folder
-    * cURL requests to import data from resources which need authentication (but of course you can also use a PHP script in this case which authenticates and then provides the data to be imported)
+    * cURL requests to import data from resources which need OAuth or similar authentication (but of course you can also use a PHP script in this case which authenticates and then provides the data to be imported)
 * Supported import formats:
     * CSV
     * XML
