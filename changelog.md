@@ -1,3 +1,152 @@
+# 3.5.0
+
+Pimcore 11 compatibility
+------------------------
+
+This version is fully compatible with Pimcore 11!\
+Pimcore extracted some bundles from the core product (application logger, reports, redirects etc.). Data Director does not depend on those bundles anymore, so it follows Pimcore standard: Just install the bundles which you need, Data Director will work with any set of installed bundles.\
+Beside, we also enhanced compatibility on the opposite direction: Data Director 3.5 is compatible with PHP 7.3, so Pimcore 5 and 6 are still supported.
+
+Separate task for queueing automatic dataports
+----------------------------------------------
+
+In former versions the check which automatic dataports shall get queued / started, was done directly when any Pimcore element got saved. When an automatic dataport had a complex SQL query, this could take some time. This applied also to user-triggered saves in Pimcore backend, so they had to wait
+until this automatic dataport queueing had been finished. Now this queueing got delegated to a separate task, so that saving an element is as fast as it would be without Data Director.\
+This separate queueing taks is named `data-director:start-automatic-dataports` and gets executed by the usual queue processor.
+
+Automatic testing of dataports
+------------------------------
+
+With the command `bin/console data-director:create-test <Dataport ID>` you can create a PHPUnit test for the given dataport. Based on the currently existing raw items and mapping a test class will get created. You can run those automatic tests via PHPUnit.
+
+Main purposes for automatic tests:
+
+1. Assure that after changes in dataport settings or attribute mapping everything works the same as before.
+
+2. Assure that before and after updates / modifications of underlying libraries like Pimcore or Data Director itself, everything still works as before.
+
+To run the tests a `phpunit.xml` is needed. If this does not already exist in the Pimcore root folder, it will also get automatically created. If it already exists, a new test suite will get added to it.\
+The command will display instructions how to run to tests.
+
+Dataport synchronisation between multiple Pimcore systems
+---------------------------------------------------------
+
+The `data-director:deployment:dataport-rebuild` can now also be used to synchronize dataports between multiple Pimcore systems. There are 2 new REST endpoints:
+
+- `GET http(s)://<YOUR-DOMAIN>/api/dataports?apikey=<API key>`
+
+    - returns a JSON list of dataports which the user given by `apikey` is allowed to configure
+
+- `GET http(s)://<YOUR-DOMAIN>/api/dataports/<dataport id or name>?apikey=<API key>`
+
+    - returns the dataport configuration as JSON (which can be used to set up dataports via `data-director:deployment:dataport-rebuild` command (same as when exporting dataport configuration or when using Git for storing JSON configuration files)
+
+To import dataports from a remote system, you can call `bin/console data-director:deployment:dataport-rebuild --source=https://other-pimcore.com --api-key=<API key>`. As optional argument you can provide the dataport id / name to retrieve - otherwise all dataports will get fetched.
+
+When working with remote source, only dataports whose latest version has been imported or which do not exist yet, will get imported. For already existing dataports whose latest version has been edited by a real user, you will get asked if you want to overwrite the local dataport configuration (to
+prevent local changes from being overwritten). As soon as you allow the import, the latest version will be marked as been imported and thus can be synced automatically in future. If you want to always overwrite local changes, use the `--force` flag.
+
+UI changes
+----------
+
+### Pimcore perspective
+
+[Pimcore perspectives](https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Tools_and_Features/Perspectives.html "https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Tools_and_Features/Perspectives.html") are a powerful yet often unused feature of Pimcore. Data Director
+provides a basic perspective based on the data object classes' groups. All data object classes which belong to the same `group` get shown in the same perspective panel. The root folder gets automatically optimized to the lowest parent object which contains all objects of the corresponding class.
+
+The perspective also comes with a dashboard which includes a queue monitor, tagged elements and dataport errors portlets. Of course those portlets are also usable in other dashboards (e.g. the tagged elements portlet could be used as a todo list).
+
+### Element tree tooltips
+
+By default Pimcore only shows the element id and class when hovering an element in the tree. This information is seldom of great use. Data Director now ships with a default tooltip, which shows all fields which are configured to be shown in search window, also in the tooltip.
+
+### Path formatter for assets
+
+The `@DataDirectorSearchViewPathFormatter` and `@DataDirectorGridViewPathFormatter` now support displaying asset metadata for asset-based relations.\
+Furthermore they now support direct editing for MS Office tools for Excel, Word, Powerpoint assets: the shown asset path gets linked - when you click it, the asset gets opened in MS Office. All saved changes will be directly reflected in Pimcore (
+via [Pimcore's WebDAV interface](https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Assets/Accessing_Assets_via_WebDAV.html "https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Assets/Accessing_Assets_via_WebDAV.html")).
+
+### Dataport settings
+
+- support copying multiple raw data fields
+
+- simplify accessing complex import resources
+
+    - support direct input of PHP / shell code, e.g. to access data from OAuth2 APIs → no need to create a separate script file anymore
+
+    - support using PHP code as import resource which returns a URL (e.g. HTTP, FTP, Pimcore Asset path) -> this way the script can focus on the logic to generate the URL while delegating the code to actually access the resource to Data Director
+
+- support querying asset metadata fields in SQL condition via their name, e.g. metaField=1
+
+- support placeholders in target folder / asset target folder (e.g. when providing target folder in dependent dataport parameters)
+
+### Attribute mapping
+
+- enhanced loading performance of attribute mapping panel
+
+- callback function window: in available variables tree, load single raw item fields as sub-tree of `$params['rawItemData']`. Same for single fields of `$params['currentObjectData']`
+
+- save dataport version first, then process attribute mapping example data -> this way in case of critical syntax errors in one of the callback functions you can still revert to the previous version
+
+- fields which got mapped via "automatic mapping" button do not get automatically saved anymore but you can review the mapping result and at the end save it
+
+- add checkbox for `path` mapping to delete child elements before import (same as `Truncate before import` for relational fields)
+
+Other changes
+-------------
+
+- SQL condition: support filtering for metadata columns of advanced many-to-many object relations, e.g. markets.active=1 for an advanced many-to-many relation "markets" with boolean meta field "active"
+
+- for remote dataport resources reduce number of file copies
+
+- add result callback function template for Excel export
+
+- identical raw data items do not get processed multiple times anymore when running `dd:process`
+
+- support importing quantity value strings with thousand separator like 1.234,56 kg
+
+- enhanced logging: add logs to dataport run log which get logged via \Pimcore\Logger::error() and similar methods
+
+- add support for inferring field values from texts via ChatGPT API for advanced many-to-many relations
+
+- change virtual field resolving priority, e.g. {{ field }}:
+
+    - if the field "field" really exists in the target class, use the return value of this (for reusing return values of other fields)
+
+    - use the request parameter "field"
+
+    - use the raw item data field with name "field"
+
+    - and 3. were the other way around which caused problems with dependent dataport parameters when the called dataport had a raw data field with the same name - then there was no way to access the parameter
+
+- serialization bugfix: export boolean values as 0/1 -> was "true"/"false" in some cases
+
+- only provide environment variables which actually get used in callback functions -> reduce memory usage
+
+- support SQL query optimizations for localized relation fields like relationField#de LIKE '%,1234,%' - up to now only non-localized fields were supported
+
+- support accessing localized classification store via data query selector `classificationStore#en`
+
+- data query selector for classification store: support syntax `classificationStoreField:groupName` (returns key-value array of all fields of the group) and `classificationStoreField:groupName:fieldName` (returns value of the given classification store field)
+
+- support `IN()` in data query selectors, e.g. `Product:sku:[123,234]`
+
+- execute Pimcore-based dataports automatically if the initialization function "Execute every x hours" is being used → pseudo cronjob
+
+- export thumbnails in WEBP format if thumbnail format = "Auto (Web optimized)"
+
+- support automatic creation of non-existing select field options for classification store and for multiselect fields
+
+- raw data extraction: do not import empty raw item data fields -> faster raw data extraction (for example CSV with technical data where certain columns only apply to products of a certain product group but are empty for all others)
+
+- automatically delete (temporary) created parent elements which do not have child elements anymore (this happens when import order does not create parent objects first
+
+- serialize dataport's source / target config as JSON, not with serialize() -> better readability / diff view for version files
+
+- queue processor monitor: store status in database instead of file-based (necessary when queue processor runs in different container than Pimcore)
+
+- lots of bugfixes
+
 # 3.4.0
 
 ChatGPT integration
