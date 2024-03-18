@@ -1,3 +1,126 @@
+# 3.6.0
+
+Performance enhancements
+------------------------
+
+- Reduce memory consumption for exports enormously
+
+- build raw item chunks on PHP side to not paginate raw item data in MySQL (raw item ids is not very much memory), before paginating raw item data was rather costly, depending on how much raw items the system has stored (e.g. LIMIT 100000,100 is slow but pagination based on values is also).
+
+- improve change detection for field collections → unchanged field collections get better recognized → data object does not need to be saved → faster imports
+
+- prevent loading remote assets multiple times during imports
+
+- a lot of smaller refactorings to reduce the same code being executed again and again - as import / export tasks normally repeat the logic for all items again and again, there is a lot of potential to save data and thus skip certain program parts
+
+- import performance optimizations:
+
+- add cache to Serializer (e.g. used for log output)
+
+- for creating new elements, create new object instead of cloning the item blueprint
+
+Parameterized dataports
+-----------------------
+
+Now only parameters which are used in the dataport (e.g. in filter condition or callback functions) will get stored as a dataport resource. This will reduce the number of dataport resources drastically (for example from now it does not make a difference if 2 different users run an export if the
+dataport does not use the requesting user as a parameter, e.g. {{ user }}.
+
+In addition parameters now parameters get reused when you only run the process raw data step. Before this was only possible when the parameters got stored in raw data fields.
+
+Multi-step object wizards
+-------------------------
+
+Object wizards are forms in the Pimcore backend which you can use to create a user interface for common data maintenance or export tasks. With multi-step object wizards this concept gets even more powerful. In short, a multi-step object wizard is two object wizard dataports which are connected in a
+pipeline.
+
+Use-cases:
+
+- Paste a list of product numbers into a text field (dataport 1), parse them and provide them as parameters to dataport 2
+
+- dataport 2 is an object wizard form with a many-to-many object relation. This relation field gets prefilled with the provided data from dataport 1. This way you can check which products have been found and are going to be changed / exported
+
+- Implement branching wizards: Depending in the data of an object wizard form, the next page may be dataport 2 or dataport 3. This way you can set up complex wizards like you know from application installation in Windows / MacOS.
+
+General Pimcore features
+------------------------
+
+- track changes of opened objects (e.g. when another user or dataport changes an object, the tab will get reloaded - if there are no changes in the object data)
+
+- in main menu there is an item to open object by id / path. From now there will also be a submenu for each indexed field, e.g. to directly open objects by SKU
+
+- automatically set class icon (if not already set) to random object icon so that different classes have differently colored icons -> easier to distinguish objects of different classes
+
+- automatic tab management: when available width for tab bar gets exceeded, the tab which has not been accessed for longest time, gets closed
+
+- bugfix path formatter: converting absolute full path to relative ones was based on character level - now it is based on folder level to prevent stripping "/products/B" when the only products are /products/Bicycles/A and /products/Belts/B -> before those were shown as "icycles/A" and "elts/B"
+  because the common prefix on character level included the "B" from "Bikes" and "Belts" -> now those get displayed as "Bicycles/A" and "Belts/B"
+
+- integration with [dachcom-digital/formbuilder](https://github.com/dachcom-digital/pimcore-formbuilder "https://github.com/dachcom-digital/pimcore-formbuilder"):
+
+- support Data Director as API channel for dachcom-digital/formbuilder -> create frontend form with the form builder and implement processing logic in DD
+
+Dataport settings
+-----------------
+
+- support split import data into chunks to run import in multiple parallel processes
+
+- support sorting raw data descending
+
+- Permissions:
+
+- Add "Data Director admin" permission for setups with users who are no Pimcore admins but still are allowed to do EVERYTHING with Data Director
+
+- for newly created dataports, allow access to users with same role as the user who created the dataport
+
+- import archive:
+
+- for URL-based imports name archive file with correct file extension (e.g. .json for a JSON-based import - before it was .tmp) -> archive files' content is accessible when opening assets
+
+- for parametrized imports group archive files by parameters, e.g. for import resource `http://example.org/api?product={{ product }}` put archive file to /archive/ABC when using parameter "product"=ABC
+
+- group archive file folders by date, e.g. before an archive file was named 2024-01-15-12-00-00-example.csv; now it is 2024/01/15/12-00-00-example.csv
+
+Attribute mapping
+-----------------
+
+- support importing localized asset metadata with syntax `['fieldname#en' => 'value']`
+
+- add callback function template to convert HTML to text
+
+Dataport run window
+-------------------
+
+- add input fields for parameters of a parametrized dataport resource, e.g. when using `http://example.org/api?product={{ product }}` then "product" can be filled in the dataport run window
+
+Other changes
+-------------
+
+- support importing all files from folders, even when not using --rm flag
+
+- add french and italian as UI languages
+
+- support creating video thumbnails
+
+- also execute dataports from context menu with force=1 -> otherwise iterative exports will not get re-executed on consecutive calls
+
+- support date fields as key fields
+
+- attribute mapping: better preview for ElementInterface objects (before json_encode() was applied but as almost all fields are protected, almost nothing was shown -> now the element gets serialized)
+
+- JSON parser: support JMESpath / JSON pointer conversion -> data.products is the same as data/products
+
+- JSON parser: support ../ to access JSON data above actual item data
+
+- Pimcore-elements-based exports: support enabling / disabling inheritance for classes which do not allow inheritance but which have localized fields with at least one fallback language
+
+- remove moontoast/math as it is abandoned
+
+- add ObjectBricksOptionProvider: Configure the Options provider class or Service Name in your select field configuration to @DataDirectorObjectBricksOptionProvider. In Options Provider Data enter <className>:<object brick container field>, then your select fields with contain the allowed object
+  bricks of the referenced field. A use-case for this is that you can assign on category level which object brick applies to all products which get assigned to this category. For this, you have to set up a dataport which retrieves the brick name of the category and "imports" the corresponding brick
+  to the object brick container field. Enable `Run automatically on new data` to automatically run this dataport when a product object gets saved.
+
+- periodically optimize table plugin_pim_rawItemData to reduce disk usage, in analogy to [https://github.com/pimcore/pimcore/pull/11817](https://github.com/pimcore/pimcore/pull/11817)
+
 # 3.5.0
 
 Pimcore 11 compatibility
