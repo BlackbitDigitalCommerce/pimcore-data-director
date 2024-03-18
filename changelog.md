@@ -13,11 +13,9 @@ Performance enhancements
 
 - a lot of smaller refactorings to reduce the same code being executed again and again - as import / export tasks normally repeat the logic for all items again and again, there is a lot of potential to save data and thus skip certain program parts
 
-- import performance optimizations:
-
 - add cache to Serializer (e.g. used for log output)
 
-- for creating new elements, create new object instead of cloning the item blueprint
+- imports: for creating new elements, create new object instead of cloning the item blueprint
 
 Parameterized dataports
 -----------------------
