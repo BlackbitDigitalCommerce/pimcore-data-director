@@ -117,8 +117,6 @@ Other changes
   bricks of the referenced field. A use-case for this is that you can assign on category level which object brick applies to all products which get assigned to this category. For this, you have to set up a dataport which retrieves the brick name of the category and "imports" the corresponding brick
   to the object brick container field. Enable `Run automatically on new data` to automatically run this dataport when a product object gets saved.
 
-- periodically optimize table plugin_pim_rawItemData to reduce disk usage, in analogy to [https://github.com/pimcore/pimcore/pull/11817](https://github.com/pimcore/pimcore/pull/11817)
-
 # 3.5.0
 
 Pimcore 11 compatibility
