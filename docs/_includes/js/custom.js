@@ -23,7 +23,7 @@ jtd.onReady(function () {
                 activeMenuItem = navmenu.querySelector('a[href*=' + i + ']');
                 activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class')+' active');
 
-                navmenu.scrollTo(sections[i]);
+                navmenu.scrollTo(0, sections[i]);
             }
         }
     };
