@@ -24,7 +24,7 @@ jtd.onReady(function () {
                 activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class')+' active');
 
                 navmenu.scrollTo({
-                    top: sections[i] + navmenu.clientHeight,
+                    top: activeMenuItem.offsetTop,
                     behavior: 'smooth',
                 });
             }
