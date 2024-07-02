@@ -3,7 +3,8 @@ layout: default
 title: Pimcore Data Director
 ---
 
-{:toc}
+1. TOC
+   {:toc}
 
 {% raw %}
 
