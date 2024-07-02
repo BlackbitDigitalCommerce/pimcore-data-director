@@ -19,7 +19,9 @@ jtd.onReady(function () {
                 if(activeMenuItem) {
                     activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class').replace('active', ''));
                 }
-                navmenu.querySelector('a[href*=' + i + ']').setAttribute('class', activeMenuItem.getAttribute('class')+' active');
+
+                activeMenuItem = navmenu.querySelector('a[href*=' + i + ']');
+                activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class')+' active');
             }
         }
     };
