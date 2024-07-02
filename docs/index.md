@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Pimcore Data Director
+has_toc: true
 ---
 
 1. TOC
