@@ -1,6 +1,7 @@
 jtd.onReady(function () {
     'use strict';
 
+    var navmenu = document.querySelector('#site-nav');
     var section = document.querySelectorAll("h2,h3,h4,h5,h6");
     var sections = {};
     var i = 0;
@@ -14,9 +15,12 @@ jtd.onReady(function () {
 
         for (i in sections) {
             if (sections[i] <= scrollPosition) {
-                document.querySelector('.active').setAttribute('class', ' ');
-                document.querySelector('a[href*=' + i + ']').setAttribute('class', 'active');
+                var activeMenuItem = navmenu.querySelector('.active');
+                if(activeMenuItem) {
+                    activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class').replace('active', ''));
+                }
+                navmenu.querySelector('a[href*=' + i + ']').setAttribute('class', 'active');
             }
         }
     };
-})();
+});
