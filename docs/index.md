@@ -4,7 +4,7 @@ title: Pimcore Data Director
 ---
 
 1. TOC
-   {:toc}
+{:toc}
 
 {% raw %}
 
