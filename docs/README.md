@@ -1584,7 +1584,8 @@ will get resolved to `This t-shirt is black` if there is a many-to-one relation 
 
 You can also implement any logic operations with [Twig syntax](https://twig.symfony.com/doc/3.x/templates.html) with the exception that the variables are defined with data query selectors, e.g.
 
-```
+{% raw %}
+```twig
 {% if category:name#en == "T-shirts" %}
   This shirt is made of {{ materials:each(name):implode( and , %s) }}.
   
@@ -1596,6 +1597,7 @@ You can also implement any logic operations with [Twig syntax](https://twig.symf
   </ul>
 {% endif %}
 ```
+{% endraw %}
 
 If the assigned category's name is "T-shirts" and there is an object brick container which the object brick `tshirts` got assigned, the result will be:
 
