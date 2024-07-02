@@ -3,6 +3,8 @@ layout: default
 title: Pimcore Data Director
 ---
 
+{:toc}
+
 {% raw %}
 
 # Blackbit Data Director Bundle
