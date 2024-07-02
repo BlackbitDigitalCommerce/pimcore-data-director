@@ -1,12 +1,7 @@
 ---
 layout: default
 title: Pimcore Data Director
-has_children: true
-has_toc: true
 ---
-
-1. TOC
-{:toc}
 
 {% raw %}
 
