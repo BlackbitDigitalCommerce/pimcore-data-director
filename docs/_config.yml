@@ -3,3 +3,7 @@ description: A starter template for a Jeykll site using the Just the Docs theme!
 theme: just-the-docs
 
 url: https://blackbitdigitalcommerce.github.io/pimcore-data-director
+
+aux_links:
+  Tutorial videos: https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt
+  Need help?: mailto:help@blackbit.com

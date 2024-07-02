@@ -23,7 +23,7 @@ jtd.onReady(function () {
                 activeMenuItem = navmenu.querySelector('a[href*=' + i + ']');
                 activeMenuItem.setAttribute('class', activeMenuItem.getAttribute('class')+' active');
 
-                activeMenuItem.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+                activeMenuItem.scrollIntoView({behavior: 'smooth', block: 'center'});
             }
         }
     };
