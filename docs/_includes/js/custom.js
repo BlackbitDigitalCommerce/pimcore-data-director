@@ -1,4 +1,4 @@
-(function () {
+jtd.onReady(function () {
     'use strict';
 
     var section = document.querySelectorAll("h2,h3,h4,h5,h6");
