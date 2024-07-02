@@ -5,5 +5,8 @@
 }
 
 .main {
-  max-width: none !important;
+  max-width: 80rem;
+  @include mq(lg) {
+    margin-left: calc((70% - #{$nav-width + $content-width}) / 2 + #{$nav-width});
+  }
 }
