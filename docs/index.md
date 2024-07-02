@@ -1116,7 +1116,7 @@ return [
 
 When a certain field gets changed by multiple dataports it can be difficult to keep track of all the dependencies. In this case it might be helpful to visualize all the dataports which use a certain field. This can be accessed by clicking the field name in the attribute mapping panel, the result looks like this:
 
-![Dependency graph for field published](doc/img/dependency-graph.png)
+![Dependency graph for field published](img/dependency-graph.png)
 
 In this example the dependency graph for the field `published` of class `Product` is shown. In this case 2 dataports (`Item Import ERP`, `Data Quality Check`) import to the field `published`. `Item Import ERP` might also be called as a dependent import of dataport `Pipeline import`.
 On the right side we see that the dataport `Export products to shop` accesses the field `published`.
@@ -1985,7 +1985,7 @@ Pimcore supports a [preview tab](https://pimcore.com/docs/pimcore/current/Develo
 #import-result-callback--result-document-generation).
 
 One use-case which the Data Director already supports out-of-the-box is a dependency graph:
-![Object dependency graph](doc/img/object-dependency-graph.png)
+![Object dependency graph](img/object-dependency-graph.png)
 
 ## Translatable element names in element tree
 
@@ -2063,7 +2063,7 @@ Alternatively, if you want to use the same dataport for multiple FormBuilder for
 
 [dachcom-digital/pimcore-toolbox](https://github.com/dachcom-digital/pimcore-toolbox) enables you to use area bricks to create Pimcore documents. In combination with Data Director this can be used for prototyping of product datasheets, workflow email notification documents etc. You can create a document which supports the toolbox area bricks by creting a new `Page` document:
 
-![Pimcore Toolbox integration](doc/img/toolbox-integration.png)
+![Pimcore Toolbox integration](img/toolbox-integration.png)
 
 ## Troubleshooting
 
