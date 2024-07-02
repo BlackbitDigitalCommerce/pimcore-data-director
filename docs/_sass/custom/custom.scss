@@ -10,3 +10,9 @@
     margin-left: calc((70% - #{$nav-width + $content-width}) / 2 + #{$nav-width});
   }
 }
+
+.site-nav, .site-header, .site-footer {
+  @include mq(lg) {
+    width: 100%;
+  }
+}
