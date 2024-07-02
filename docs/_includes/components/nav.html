@@ -70,7 +70,7 @@
       {%- endfor -%}
       </ul>
     {%- endif -%}
-  {% include toc.html html=content sanitize=true class="nav-list" item_class="nav-list-item" anchor_class="nav-list-link" %}
+  {% include toc.html html=content sanitize=true class="nav-list" item_class="nav-list-item" anchor_class="nav-list-link" h_min=2 %}
   </li>
 {%- endfor -%}
 </ul>
