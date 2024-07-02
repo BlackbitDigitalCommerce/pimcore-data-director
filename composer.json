@@ -4,7 +4,7 @@
   "version": "3.6.0",
   "support": {
     "source": "https://shop.blackbit.com/pimcore-data-director/",
-    "docs": "https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf"
+    "docs": "https://blackbitdigitalcommerce.github.io/pimcore-data-director/"
   },
   "homepage": "https://pimcore.blackbit.com/de/loesungen/data-director",
   "license": "GPL-3.0-or-later",
