@@ -5,5 +5,7 @@
 }
 
 .main {
-  max-width: none;
+  @include mq(lg) {
+    max-width: none;
+  }
 }
