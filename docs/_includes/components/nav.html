@@ -26,7 +26,7 @@
     | where_exp: "item", "item.grand_parent == nil" -%}
 {%- assign third_level_pages = sorted_pages
     | where_exp: "item", "item.grand_parent != nil" -%}
-
+<span class="site-footer">by <a href="http://pimcore.blackbit.com/">Blackbit digital Commerce</a></span>
 <ul class="nav-list">
 {%- for node in first_level_pages -%}
   {% include toc.html html=content sanitize=true class="nav-list" item_class="nav-list-item" anchor_class="nav-list-link" h_min=2 %}

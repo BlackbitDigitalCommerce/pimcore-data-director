@@ -4,6 +4,12 @@
   }
 }
 
+#site-nav {
+  @include mq(md) {
+    padding-top: 0;
+  }
+}
+
 .main {
   max-width: 80rem;
   @include mq(lg) {
