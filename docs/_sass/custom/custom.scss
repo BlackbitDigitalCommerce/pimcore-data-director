@@ -8,6 +8,10 @@
   @include mq(md) {
     padding-top: 0;
   }
+
+  ul.nav-list:first-child {
+    margin-top: 2em;
+  }
 }
 
 .main {
