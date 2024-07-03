@@ -276,7 +276,7 @@ The attribute mapping can also be used to modify the source data. For each field
 
 ## Documentation
 
-To learn more about all options and how they can be configured, please [read the full documentation](https://pimcore.blackbit.de/Blackbit/1.pimcore/Handb%C3%BCcher/Ultima-Import-Bundle.pdf) or [watch the tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
+To learn more about all options and how they can be configured, please [read the full documentation](https://blackbitdigitalcommerce.github.io/pimcore-data-director/) or [watch the tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
 ## Training
 
