@@ -1937,13 +1937,13 @@ This bundle brings its own REST API interface with the following endpoints:
   - `<Status key>` is the key which gets returned by `/api/rest/import` with `async=1`
   - as long as `HTTP 102 Processing` gets returned the import has not finished yet (so the response body contains only data up to the last imported item)
 
-In all above requests the API key can also be transfered via `X-API-Key` header instead of the `apikey` parameter.
+In all above requests the API key can also be transferred via `X-API-Key` header instead of the `apikey` parameter.
 
 ### API Keys {#api-keys}
 
 Below the dataport tree there is a button `Permissions & API Keys`. There you see all users which the current account is allowed to administer (admin accounts will see all users, other users will only see the dataports which they are allowed to configure). Initially the uses do not have API keys but as soon as you double-click in the column `API Key` for a certain user an API key will get created. If you want to change it, you can double-click again and edit it. Optionally you can set an expiration date if you want to limit the lifetime of this API key.
 
-Of course the user needs [execution permission](#permissions) for the dataport to be able to execute it via REST API.
+The user needs [execution permission](#permissions) for the dataport to be able to execute it via REST API.
 
 ### Dataport configuration REST API {#dataport-configuration-rest-api}
 
@@ -2064,6 +2064,10 @@ Alternatively, if you want to use the same dataport for multiple FormBuilder for
 [dachcom-digital/pimcore-toolbox](https://github.com/dachcom-digital/pimcore-toolbox) enables you to use area bricks to create Pimcore documents. In combination with Data Director this can be used for prototyping of product datasheets, workflow email notification documents etc. You can create a document which supports the toolbox area bricks by creting a new `Page` document:
 
 ![Pimcore Toolbox integration](img/toolbox-integration.png)
+
+### SEO bundle
+
+[dachcom-digital/seo](https://github.com/dachcom-digital/pimcore-seo) offers an additional tab where you can enter SEO-relevant data. Data Director supports importing data into those SEO fields.
 
 ## Troubleshooting
 
