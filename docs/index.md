@@ -209,7 +209,7 @@ You can provide the path to a PHP script which gets used as import source. This 
 
 You can even provide arguments to this PHP script, e.g. `import.php Supplier1 Supplier2`. In your script you can access these arguments via `$arguments`.
 
-#### Importing data from Pimcore objects {#importing-data-from-pimcore-objects}
+#### Extracting data from Pimcore elements {#importing-data-from-pimcore-objects}
 
 Sometimes Pimcore's built-in mass-data editing is not suitable for certain requirements:
 
@@ -217,11 +217,11 @@ Sometimes Pimcore's built-in mass-data editing is not suitable for certain requi
 - when you want dynamic values depending on another object field
 - data of some field types cannot be edited in grid view
 
-In these cases you can choose "Pimcore" as data source to import data from Pimcore data objects / assets / documents. After choosing a source class all methods starting with "get" are provided as raw data fields. You can extend this list by [overriding the data model class](https://pimcore.com/docs/5.x/Development_Documentation/Extending_Pimcore/Overriding_Models.html).
+In these cases you can choose "Pimcore Elements" as source data type to import data from Pimcore data objects / assets / documents. After choosing a source class, all methods starting with "get" are provided as raw data fields. You can extend this list by [overriding the data model class](https://pimcore.com/docs/5.x/Development_Documentation/Extending_Pimcore/Overriding_Models.html).
 
 Another use-case for this feature is when you want to change a data type of a class / brick / classification store / field collection field without losing existing data. You can first import existing data as raw data, then change the class / brick / classification store / field and thereafter reimport the data to the new field.
 
-And last but not least you can use this to implement a save hook for your objects - e.g. to only publish objects which fulfill some quality criteria (has a title, has images etc.). Of course you could do this via [model overriding](https://pimcore.com/docs/latest/Development_Documentation/Extending_Pimcore/Overriding_Models.html) but an import has the advantage that all things which edit an object's state can be reviewed from the Pimcore backend - while overridden model classes often are a magic black box for Pimcore users.
+And last but not least you can use this to implement automations / workflows for your objects - e.g. to only allow to publish objects which fulfill certain quality criteria (have a title, have images etc.). Of course, you could do this via [model overriding](https://pimcore.com/docs/latest/Development_Documentation/Extending_Pimcore/Overriding_Models.html) but an import has the advantage that all things which edit an object's state can be reviewed from the Pimcore backend - while overridden model classes often are a magic black box for Pimcore users.
 
 The objects to be used can be restricted with the `SQL condition`. You can access here
 
@@ -370,6 +370,16 @@ When processing raw data the order of raw data fields defines the order of data 
 Side note: For imports raw data gets first sorted by modification timestamp of the import files to guarantee correct import order when importing data from multiple files at once. Raw data items with the same modification timestamp are ordered by raw data fields as described above.
 
 When you want to import the items exactly as they are in the import file, you can use the special field `__index`. When you add this as your first raw data field, the items are processed in the same order as they are in the import file.
+
+### Special attributes
+
+All source data types support the following special fields:
+
+- `__updated`: contains the UNIX timestamp of the last modification of the import resource. For file-based imports this is the modification timestamp, for Pimcore elements it is the maximum value of the `modificationDate`s of the currently processed element itself and all its dependent elements.
+- `__source`: contains the file system path to the currently processed file. This can be useful when the import resource is a folder or URL but you want to forward / reuse it on a follow-up dataport.
+- `__index`: contains the index of the currently processed item in the context of the current raw data extraction. This is mainly being used to [process import data in the same order as in the import file](#define-order-of-import).
+- `__all`: contains all import data in one field. This can be useful if the structure of the file to be imported is dynamic (e.g. for example when importing technical data for products of different product groups, when the products of each group are in separate files which differ in the columns as they have different technical data attributes)
+- `__count`: Number of total items. When importing multiple files this will be the total count of items of all processed files.
 
 ## Attribute mapping
 
