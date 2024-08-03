@@ -1,4 +1,4 @@
-# Pimcore Data Director Bundle
+# Data Director: Pimcore imports, exports, automation
 
 Pimcore plugin to optimize Pimcore concerning all PIM-related features, especially imports, exports, automation, workflows
 
