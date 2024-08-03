@@ -10,33 +10,46 @@ Pimcore plugin to optimize Pimcore concerning all PIM-related features, especial
 
 ## What does this plugin do?
 
-This plugin imports data from external XML, JSON, CSV, Excel data sources (for example from an ERP system), stores them to an intermediate raw data table, and then creates / updates data objects, assets and documents with this data.
+Data Director can
 
-In the Pimcore backend GUI you can define which data is to be extracted from the import source and assign it to the object fields of your Pimcore objects. All Pimcore data types are supported for import. Also the import of assets and documents is possible (including editing metadata, tags etc.).
+- import XML, JSON, CSV, Excel and other data sources to Pimcore data objects, assets and documents
+- export data from Pimcore to XML, JSON, CSV, Excel and other formats
+- create REST APIs for writing or reading Pimcore data
+- push data to external systems (shops, websites, etc.)
+- create automations and workflows within Pimcore
+- make daily tasks in Pimcore much more efficient
 
-During the import, data can be modified and adapted to your data model. This plug-in provides extensive functionality and a convenient user interface and is a battle-tested solution for importing structured data into Pimcore objects, assets and documents. It reduces the effort of programming individual interfaces and reduces the time to commissioning your Pimcore project.
+## How does it work?
+
+In the Pimcore backend GUI you can define which data is to be extracted from the import source and assign it to the object fields of your Pimcore objects. All Pimcore field types are supported for import. Also the import into assets and documents is supported (including editing metadata, tags etc.).
+
+During the import, data can be modified and adapted to your data model.
 
 ![Import workflow](doc/images/dataflow.jpg)
 
-It is also possible to export data of the fields you want - including data from relations, images / thumbnails etc. With the intelligent caching system exports are really fast as export data gets updated in the moment when an object gets saved (in the background, so saving does not take any longer) and not when the export is requested. For exports we already provide lots of ready-to-be-used templates:
-* CSV exports
-* CSV as zip file including assets
-* JSON exports
-* JSON as zip file incl. assets
-* XML exports
-* XML exports as zip file incl. assets
+Also exporting Pimcore data is supported - including data from relations, images / thumbnails etc. With the intelligent caching system exports are really fast as export data gets updated in the moment when an object gets saved (in the background, so saving does not take any longer) and not when the export is requested. For exports Data Director provides lots of ready-to-be-used templates:
 
-This way you can on the one hand create / edit objects, assets and documents in your Pimcore. On the other hand you can use this bundle to **create fully customizable REST API endpoints with configuration only** (everything is configured in Pimcore backend).
+CSV exports (file only or CSV file + assets as zip)
+- JSON exports (file only or JSON file + assets as zip)
+- XML exports (file only or XML file + assets as zip)
+- Excel exports
+- industry-standard formats like BMEcat, Datanorm via plugins
 
-It is also possible to not only generate those export documents but you can also specify what to do with the export document: the bundle already ships with the following ready-to-be-used result action templates:
-* send export document via email
-* upload export document via (S)FTP, AWS S3 and other cloud storage providers
+For every import or export, automatically also a **REST API** incl. authentication gets created without any further effort.
 
-With the automatic mapping functionalities and the provided templates setting up imports and exports is a matter of minutes - in most cases without any programming necessary. But of course if you want to adjust import or export data, you can by using callback functions.
+Besides generating such export documents, it is also possible to specify what to do with the export documents: some ready-to-be-used actions are:
+
+- upload export document via (S)FTP, AWS S3 and other cloud storage providers
+- send emails
+
+Imports and exports can be started from backend UI, via cronjobs or event-based (as soon as an object of source data class gets saved). The latter can be used to set up automations like
+
+- automatically send data to external systems as soon as Pimcore data object gets changed
+- workflows which get executed when Pimcore data object gets changed (trigger translations, business processes, etc.)
 
 For an overview how to set up imports and exports, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
-* * *
+***
 
 ## Example use-cases
 
@@ -96,11 +109,11 @@ Just some examples which the Data Director has been used for:
 * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
 * Permission system: for each dataport you can configure who is allowed to configure and / or execute the dataport
 * import different types of elements: 
-    * Data objects
+    * Data Objects
     * Assets
     * Documents
     * Quantity value units (incl. conversion factors)
-* built-in interface to translation providers (DeepL, AWS Translate) to set up automatic translation with just one click (incl. caching of translations to save costs for recurring translation strings)
+* built-in connectors to translation providers (DeepL, AWS Translate) to set up automatic translation with just one click (incl. caching of translations to save costs for recurring translation strings)
 * artificial intelligence features, e.g. to automatically assign categories based on product name and description
 
 ## Advantages compared to other Pimcore export plugins
