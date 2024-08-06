@@ -48,9 +48,9 @@ Data Director's purpose is not only to provide a fast and flexible way to implem
 
 - change quick search behaviour:
 
-- find only elements which contain ALL search terms
+  - find only elements which contain ALL search terms
 
-- exclude files in import archive folders
+  - exclude files in import archive folders
 
 There are also some [demonstration videos](https://www.youtube.com/watch?v=apOC8VXcle0&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=13&t=51s&pp=iAQB "https://www.youtube.com/watch?v=apOC8VXcle0&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=13&t=51s&pp=iAQB") to see those core-related tweaks in
 action.
@@ -68,11 +68,11 @@ action.
   Initially the object's data is unapproved. This can be modeled with a checkbox or a select field. After review, the status gets set to approved. Later the data will get updated and the status will become unapproved again. But at this time it may still be necessary to access the latest approved
   data. This can be done with the data query selector latestVersionWith. For example, to retrieve the latest approved name of the object, you can use latestVersionWith#status,approved:name
 
-- latestVersionWith#status,approved will retrieve the latest version which has status=approved and from this version the name gets retrieved
+  - latestVersionWith#status,approved will retrieve the latest version which has status=approved and from this version the name gets retrieved
 
-- This way you can create exports which only export approved data
+  - This way you can create exports which only export approved data
 
-- If you want to use a different comparison operator, use the third parameter, e.g. latestVersionWith#validUntil,2024-01-01,>=.
+  - If you want to use a different comparison operator, use the third parameter, e.g. latestVersionWith#validUntil,2024-01-01,>=.
 
 - support strings as import resource like `{ "sku": {{ type }}, image: {{ image }} }` for a JSON import and dynamically fill placeholders via parameters
 
@@ -82,17 +82,17 @@ action.
 
 - History panel:
 
-- faster loading of history items
+  - faster loading of history items
 
-- provide dataport run log files > 100 MB as download and do not try to display in browser
+  - provide dataport run log files > 100 MB as download and do not try to display in browser
 
-- in case of an error, only show the error message in tooltip of log link, not the whole callback function code
+  - in case of an error, only show the error message in tooltip of log link, not the whole callback function code
 
-- show parameters as import resource for queued runs of parametrized dataports
+  - show parameters as import resource for queued runs of parametrized dataports
 
-- move "extract raw data" and "process raw data" to dropdown if "start complete import / export" button
+  - move "extract raw data" and "process raw data" to dropdown if "start complete import / export" button
 
-- dynamically show / hide queue processor button
+  - dynamically show / hide queue processor button
 
 - preview panel: when processing single raw data items, improve scrolling in log window
 
