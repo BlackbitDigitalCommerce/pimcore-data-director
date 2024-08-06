@@ -24,7 +24,7 @@ Furthermore it adds also some useful features (also for Pimcore <= 10):
 
 - sticky table headers to see the column names when you scroll down
 
-- add tooltip for show human readable date format for UNIX timestamps
+- add tooltip for show human-readable date format for UNIX timestamps
 
 ### Pimcore core improvements
 
