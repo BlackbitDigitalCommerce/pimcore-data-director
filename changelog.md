@@ -1,3 +1,173 @@
+# 3.7.0
+
+### Refactored summary window
+
+To make it easier to understand if an import / export went well, the summary window got refactored. I now features an accordion with 3 sections:
+
+- Errors (including links to elements which were affected)
+
+- Changed elements (including filter for elements which got changed by the import or were not changed + search)
+
+- Result document (for providing the download file or individual result messages
+
+This way data maintainers without technical skills can execute imports and exports (e.g. via main menu links or object wizard forms) and get a visually appealing result summary.
+
+### Reintroduce Adminer
+
+In Pimcore 11 the database administration tool got removed. For Data Director users this meant a big disadvantage because it was not possible anymore to look into the database to try out SQL conditions for dataports. Data Director reintroduces this for Pimcore 11.
+
+Furthermore it adds also some useful features (also for Pimcore <= 10):
+
+- [fix error "Cannot modify header information"](https://github.com/pimcore/pimcore/issues/11304 "https://github.com/pimcore/pimcore/issues/11304")
+
+- auto-suggest for SQL
+
+- sticky table headers to see the column names when you scroll down
+
+- add tooltip for show human readable date format for UNIX timestamps
+
+### Pimcore core improvements
+
+Data Director's purpose is not only to provide a fast and flexible way to implement imports and exports but it cares about all PIM-related tasks. For this reason Data Director adds some useful (yet overridable) defaults to make daily PIM tasks more efficient:
+
+- support browser back / forward button to easier navigate between tabs
+
+- extend context menu for tab panel: add close tabs left / right of current tab
+
+- add button to class definition to start a dataport directly from within editing context
+
+- faster deletion of elements: instead of 2*n sequential AJAX requests, delete all selected elements in 1 background process (incl. put deleted elements to recycle bin)
+
+- auto-sync changed fields if open element got changed by another user / import (if the field value has not been edited by current user)
+
+- show recently opened elements as submenu of "recently opened elements" menu icon
+
+- translatable element tree keys
+
+- live update for calculated value fields
+
+- change quick search behaviour:
+
+- find only elements which contain ALL search terms
+
+- exclude files in import archive folders
+
+There are also some [demonstration videos](https://www.youtube.com/watch?v=apOC8VXcle0&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=13&t=51s&pp=iAQB "https://www.youtube.com/watch?v=apOC8VXcle0&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=13&t=51s&pp=iAQB") to see those core-related tweaks in
+action.
+
+### New import / export features
+
+- Implement Template for filling predefined Excel File
+
+- support wildcards (*) for ftp/sftp/ftps import resources, e.g. <ftp://user:password@example.org/import/*.xml>
+
+- support `sftp://username:password@example.org/folder/BMEcat_*.xml | latest` to use wildcards in FTP URLs but still only retrieve the latest (= last modified) file
+
+- add data query selector helper "latestVersionWith": For reviewing / approval workflows objects can have multiple states at the same time:
+
+  Initially the object's data is unapproved. This can be modeled with a checkbox or a select field. After review, the status gets set to approved. Later the data will get updated and the status will become unapproved again. But at this time it may still be necessary to access the latest approved
+  data. This can be done with the data query selector latestVersionWith. For example, to retrieve the latest approved name of the object, you can use latestVersionWith#status,approved:name
+
+- latestVersionWith#status,approved will retrieve the latest version which has status=approved and from this version the name gets retrieved
+
+- This way you can create exports which only export approved data
+
+- If you want to use a different comparison operator, use the third parameter, e.g. latestVersionWith#validUntil,2024-01-01,>=.
+
+- support strings as import resource like `{ "sku": {{ type }}, image: {{ image }} }` for a JSON import and dynamically fill placeholders via parameters
+
+### UI improvements
+
+- add status panel to have an overview over all dataport jobs (similar to history panel but for all dataports)
+
+- History panel:
+
+- faster loading of history items
+
+- provide dataport run log files > 100 MB as download and do not try to display in browser
+
+- in case of an error, only show the error message in tooltip of log link, not the whole callback function code
+
+- show parameters as import resource for queued runs of parametrized dataports
+
+- move "extract raw data" and "process raw data" to dropdown if "start complete import / export" button
+
+- dynamically show / hide queue processor button
+
+- preview panel: when processing single raw data items, improve scrolling in log window
+
+- dataport search: support keyword-based search -> search for "import products" will also find dataport "import new products"
+
+### Performance improvements
+
+- when callback function returns object / array, do not serialize whole object but use Importer::getLogOutput() - otherwise objects with loads of related elements would all have to be loaded only for preview
+
+- cache values for fields of type "Calculated value (Data Query Selector)"
+
+- do not queue automatic exports if raw data has not changed since last run → less items in queue
+
+### Minor changes
+
+- Add `fields` selector to retrieve field definitions of classes and object bricks including all their settings
+
+- change detection for field collections: if the same field collection items are present after import but only in different order, do not save
+
+- support translating object brick / classification store field titles via objectbrick:labels#en
+
+- OpenAI integration: support inferring value for field type "country multiselect"
+
+- DeepL translation: support automatic usage of glossaries
+
+- show DD version in Pimcore icon tooltip on bottom left - otherwise there is no possibility to see installed version since "bundles" panel got removed from backend
+
+- add callback function template to convert HTML to Markdown
+
+- SQL condition transpiling: For source data class "Asset", support direct access of properties via propertyName='value'
+
+- if an object got saved 2 times during same second, the queue processor sometimes did not start the automatic dataport because first version did not match dataport's SQL condition and second version was not checked
+
+- support importing localized block fields via #locale syntax, e.g. [ 'fieldName#de' => 'value' ]
+
+- support advanced many-to-many relation as key field
+
+- streamed XML parsing: Better tolerance when same tag appears within data again, e.g.\
+  `<Product><related_products><Product></Product></related_products></Product>`
+
+- Mapping panel: separate "other mapped fields" and "environment variables in "available variables" tree"
+
+- translate element keys via admin translations
+
+- attribute mapping: if field type is not supported to be used as key field, add 1=0 as dataport condition and log alert - before this field was skipped without adding any condition, thus a lot of unmatched records got found
+
+- support PHP code for calculated value fields
+
+- support importing field type "table"
+
+- support reading UTF-16 XML files
+
+- bugfix: custom views could get damaged when a class did not have any objects
+
+- support starting object wizard via button and prefill matching fields with data from current object
+
+- support AWS S3 as import resource
+
+- move dataport version files to Pimcore version directory -> easier to add var/bundles/BlackbitDataDirectorBundle to git
+
+- performance improvement for zip exports
+
+- support importing data to dachcom-digital/seo bundle
+
+- execute dataports also for target dependencies (e.g. wehn having publication with many-to-many relation to products, you can right-click publication and export all assigned products
+
+- do not check "view" permission when executing automatic dataports -> otherwise an inconstent state could result:
+
+  1. user only has access to class A
+
+  2. user changes ibject of class A
+
+  3. automatic dataport for source class B gets started for objects which depend on the just saved product of class 
+  4. previously: error because triggering user does not have permission for class B -> inconsistent state now: dataport gets executed
+
 # 3.6.0
 
 Performance enhancements
