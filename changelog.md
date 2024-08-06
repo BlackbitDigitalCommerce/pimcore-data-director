@@ -2,7 +2,7 @@
 
 ### Refactored summary window
 
-To make it easier to understand if an import / export went well, the summary window got refactored. I now features an accordion with 3 sections:
+To make it easier to understand if an import / export went well, the summary window got refactored. It now features an accordion with 3 sections:
 
 - Errors (including links to elements which were affected)
 
