@@ -1874,7 +1874,7 @@ This result callback function receives the following parameters in variable `$pa
     - `id`: dataport ID
     - `dataportName`: dataport name
   - `resource`: array with set import source, may contain the following keys:
-    - `file`: import resource (e.g. file name for file-based imports or SQL condition for Pimcore-based imports)
+    - `file`: import resource (e.g. file name for file-based imports or SQL condition for Pimcore-based dataports)
     - `locale`: language to be used - especially for Pimcore-based exports
   - `user`
     - `id`: id of the user who started the dataport run
@@ -2013,9 +2013,7 @@ Pimcore's default quick search searches across all element types (objects, asset
 
 In the real world this makes the quick search difficult to use as the user has to check which of the found items is the desired one.
 
-Data Director changes this behaviour by only searching in *indexed* fields for data objects and in filename / key for documents. This way the search results are more exact and faster to be retrieved (because the database index is much smaller). Furthermore, it distinguishes the quick search from the element-specific full-text search features (e.g. data object search).
-
-To add fields for the quick search, activate the `Indexed` checkbox to the desired field in the class definition.
+Data Director changes the Quick Search behaviour: All search terms have to be present in search results and files in import archive folders of any dataport are excluded from search results (otherwise searching for a product name or SKU will often find the archived import files). This way the search results are more exact and it distinguishes the quick search from the element-specific full-text search features (e.g. data object search).
 
 ## Path formatter
 
@@ -2031,8 +2029,12 @@ Compared to Pimcore's default view of related items the Data Director path forma
 |---------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | Data object reference                             | Full path                                  | Fields which are configured to be `Visible in search Result`                                                                             |
 | Images in (advanced) many-to-many relations | Display full path of assigned asset images | Display thumbnail images and full path                                                                                                   |
-| Asset metadata                                    | Not accessible from relation view          | Asset metadata gets shown                                                                                                                |
+| Asset metadata                                    | Not accessible from relation view          | Asset metadata gets shown as tooltip                                                                                                     |
 | Direct edit of assigned assets                    | Not available                              | Supported files are displayed with a link to open the assigned asset file directly in the application (e.g. open xlsx directly in Excel) |
+
+## Element Tree Pagination
+
+By default Data Director sets the number of items per page in the tree to 1000 - in practice this means it disables paging. This way all the elements are visible by scrolling - so it is the same behaviour as for example in tools like Windows Explorer or MacOS Finder.
 
 ## Data option providers
 
