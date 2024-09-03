@@ -3,7 +3,7 @@
 Pimcore plugin to optimize Pimcore concerning all PIM-related features, especially imports, exports, automation, workflows
 
 - [Presentation](https://www.youtube.com/watch?v=V0fgqcKkhGI&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=7&t=1080s&pp=iAQB)
-- [YouTube videos for diferent use-cases](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt)
+- [YouTube videos for different use-cases](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt)
 - [Documentation](https://blackbitdigitalcommerce.github.io/pimcore-data-director)
 
 ***
