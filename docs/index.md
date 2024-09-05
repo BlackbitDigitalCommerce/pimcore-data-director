@@ -1810,6 +1810,9 @@ With the command `bin/console data-director:deployment:dataport-rebuild` you can
 
 Additionally, this command can be used to synchronize dataports between different Pimcore systems, e.g. `bin/console data-director:deployment:dataport-rebuild --source=https://other-pimcore.com --api-key=1234` will use the [dataport configuration REST API](#dataport-configuration-rest-api) to retrieve available dataports from the remote system `https://other-pimcore.com`. When working with remote source, only dataports whose latest version has been imported or which do not exist yet, will get imported. For already existing dataports whose latest version has been edited by a real user, you will get asked if you want to overwrite the local dataport configuration (to prevent local changes from being overwritten). As soon as you allow the import, the latest version will be marked as been imported and thus can be synced automatically in future. If you want to always overwrite local changes, use the `--force` flag.
 
+To only synchronize some dataports from the remote system, you can provide the dataport ids or names as comma-seaprated list: 
+`bin/console data-director:deployment:dataport-rebuild --source=https://other-pimcore.com --api-key=1234 "1,2,Dataport ABC"`.
+
 ## Automatic tests
 
 With the command `bin/console data-director:create-test <Dataport ID>` you can create a PHPUnit test for the given dataport. Based on the currently existing raw items and mapping a test class will get created. You can run those automatic tests via PHPUnit.
