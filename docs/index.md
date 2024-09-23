@@ -1868,7 +1868,7 @@ This result callback function receives the following parameters in variable `$pa
   - response headers can be set via `$params['response']->headers->set('Header Name', 'Header value');`
 - `rawItemData` - array with imported raw data
 - `request` - object of class `Symfony\Component\HttpFoundation\Request` (even when called via CLI)
-  - access current language via `$params['reques']->getLocale()`
+  - access current language via `$params['request']->getLocale()`
   - request parameters can be accessed via `$params['request']->get('parameterName')` but are also available via `{{ parameterName }} placeholders
 - `transfer` - object for data holding between different raw data items, initially empty
 - `lastCall` - boolean value to determine if current call is the last one before import / export is finished
