@@ -2055,9 +2055,9 @@ Configure the `Options provider class or Service Name` in your select field conf
 
 ## Perspectives / Dashboards
 
-Pimcore supports [perspectives](https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Tools_and_Features/Perspectives.html) to customize the backend layout. Data Director provides a basic perspective based on the data object classes' groups. All data object classes which belong to the same `group` get shown in the same perspective panel. The root folder gets automatically optimized to the lowest parent object which contains all objects of the corresponding class.
+Pimcore supports [perspectives](https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Tools_and_Features/Perspectives.html) to customize the backend layout. Data Director provides a basic `PIM` perspective based on the data object classes' groups. All data object classes which belong to the same `group` get shown in the same perspective panel. The root folder gets automatically optimized to the lowest parent object which contains all objects of the corresponding class.
 
-The Data Director perspective also comes with a dashboard which includes a queue monitor, tagged elements and dataport errors portlets. Of course those portlets are also usable in other dashboards.
+The `PIM` perspective also comes with a dashboard which includes a queue monitor, tagged elements and dataport errors portlets. Of course those portlets are also usable in other dashboards.
 
 ## Integration with other Pimcore plugins
 
