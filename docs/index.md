@@ -155,7 +155,13 @@ sftp://username:password@example.org/folder/BMEcat_*.xml
 ```
 This will import data from all files inside folder `/folder` whose name begins with `BMEcat_` and ends with `.xml`.
 
-If you want to use the wildcard operator but still only want to use the last modified matching file, you can use
+The `*` placeholder does not traverse to sub directories, so `sftp://username:password@example.org/*.xml` will find `/file.xml` but not `/folder/file.xml`.
+If you want to recursively traverse all subdirectories, you can use `**`:
+
+`sftp://username:password@example.org/**.xml`
+This will find `/file.xml`, `/folder/file.xml` and also `/any/number/of/subdirectories/file.xml`
+
+If you want to use the wildcard operators but still only want to use the last modified matching file, you can use
 
 ```
 sftp://username:password@example.org/folder/BMEcat_*.xml | latest
