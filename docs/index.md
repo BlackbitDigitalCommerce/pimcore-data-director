@@ -235,6 +235,7 @@ The objects to be used can be restricted with the `SQL condition`. You can acces
 - localized fields with `fieldname#<language-code>`, e.g. name#en='example'
 - object brick fields with `<brick name>.fieldname`, e.g. Chairs.legCount=3
 - relational fields, e.g. with source data class "Product" which has a relational field "categories" to class "Category" which has a field "name" you can have SQL condition: categories.name LIKE 'a%' and will only get those products which have at least one category assigned whose name begins with "a"
+- `__updated` to filter for last modification date of the element itself and of all its dependent elements
 
 To create raw data from Pimcore objects you can enter a [data query selector](#data-query-selectors).
 
