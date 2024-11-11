@@ -176,7 +176,7 @@ You can also specify login credentials via placeholders, e.g. `ftp://{{ FTP_USER
 - [Pimcore website settings](https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Website_Settings.html)
 - [Environment variables](https://symfony.com/doc/current/configuration.html#configuring-environment-variables-in-env-files)
 
-Priority is in this order, more upper ones have higher priority if the variable contains in multiple sources.
+Priority is in this order, more upper ones have higher priority if the variable exists in multiple sources.
 
 Alternatively for Amazon S3 access, you can also use the Amazon-SDK-specific authentication with [credential files](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/guide_index.html#shared-files) or [specific environment variables](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/guide_credentials_environment.html).
 
