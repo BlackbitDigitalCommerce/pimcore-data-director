@@ -167,6 +167,19 @@ If you want to use the wildcard operators but still only want to use the last mo
 sftp://username:password@example.org/folder/BMEcat_*.xml | latest
 ```
 
+##### Login credentials 
+
+You can also specify login credentials via placeholders, e.g. `ftp://{{ FTP_USERNAME }}:{{ FTP_PASSWORD }}@example.org/folder/file.csv`. These placeholders can be provided via:
+
+- Data object fields
+- [Symfony secrets](https://symfony.com/doc/current/configuration/secrets.html)
+- [Pimcore website settings](https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Website_Settings.html)
+- [Environment variables](https://symfony.com/doc/current/configuration.html#configuring-environment-variables-in-env-files)
+
+Priority is in this order, more upper ones have higher priority if the variable contains in multiple sources.
+
+Alternatively for Amazon S3 access, you can also use the Amazon-SDK-specific authentication with [credential files](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/guide_index.html#shared-files) or [specific environment variables](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/guide_credentials_environment.html).
+
 #### Importing remote data via SOAP, authentication token or other complex methods
 
 You can use a `curl` command as import resource when you want to access data from an API. Examples:
