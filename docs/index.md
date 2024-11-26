@@ -367,10 +367,10 @@ When you set a Pimcore asset folder or a filesystem folder as `archive folder` t
 You can also provide an FTP, FTPS, SFTP or AWS S3 URL:
 
 ```
-ftp://username:password@example.org/folder/file.csv
-ftps://username:password@example.org/folder/file.csv
-sftp://username:password@example.org/folder/file.csv
-s3://key:secret@region/bucket/path/to/files
+ftp://username:password@example.org/folder1/folder2
+ftps://username:password@example.org/folder
+sftp://username:password@example.org/folder
+s3://key:secret@region/bucket/folder
 ```
 
 By default files older than 30 days get automatically deleted from the archive folder to not waste hard disk space. You can change this by overriding the parameter `blackbit_pim.importstatus.cleanup_interval` in your `/config/parameters.yml`.
