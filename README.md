@@ -58,6 +58,7 @@ Just some examples which the Data Director has been used for:
 * Import / Export data to ERP systems like SAP, Navision / Business Central, Infor, Webware, JTL etc.
 * Automatically export e-commerce data to online shops like BigCommerce, Shopware, Shopify, xt:commerce etc.
 * Import / Export BMEcat (in general or for platforms like Mercateo, PSG, Wucato)
+* Automatic translation with DeepL / AWS Translate
 * Import / Export content from / to Wordpress, Hubspot, Typo3
 * Import / Export customer-related data from / to CRM systems like Salesforce, Hubspot
 * Export e-commerce related information to Hubspot to automate email marketing
@@ -69,7 +70,6 @@ Just some examples which the Data Director has been used for:
 * Synchronize asset file folder / DAM system with Pimcore assets
 * Implement data quality checks incl. notification
 * Create REST APIs for reading / writing information from / to Pimcore
-* Automatic translation with DeepL / AWS Translate
 * Connect to translation providers like Trados
 * Automatic text generation with artificial intelligence (OpenAI.com API (ChatGPT), GPT-3, GPT-4)
      

@@ -364,6 +364,15 @@ You can use `__all` selector to get all fields of the current raw data item in o
 
 When you set a Pimcore asset folder or a filesystem folder as `archive folder` the import files which get used for a certain import will afterwards get saved to that folder. This makes it is easier to analyze import errors in future. If you use a Pimcore asset folder, the archive file will be directly linked from the history panel so whenever there is an error, you can directly jump to the corresponding import file in the archive folder.
 
+You can also provide an FTP, FTPS, SFTP or AWS S3 URL:
+
+```
+ftp://username:password@example.org/folder/file.csv
+ftps://username:password@example.org/folder/file.csv
+sftp://username:password@example.org/folder/file.csv
+s3://key:secret@region/bucket/path/to/files
+```
+
 By default files older than 30 days get automatically deleted from the archive folder to not waste hard disk space. You can change this by overriding the parameter `blackbit_pim.importstatus.cleanup_interval` in your `/config/parameters.yml`.
 
 ### Raw data fields {#raw-data-fields}
