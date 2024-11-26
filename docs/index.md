@@ -1444,13 +1444,16 @@ For workflows it may be useful to know exactly what has changed between two vers
 
 ##### changes
 
-The `changes#<fieldName>` selector can be used to ompare the current value of a certain field to a previous time. For example `changes#name` will return a JSON object
+The `changes#<fieldName>` selector can be used to compare the current value of an object to a previous time or draft version.
+
+If you are only interested in the changes to a certain field, you can provide a data query selector, e.g. `changes#name` will return a JSON object
 
 ```json
 {
   "date": "2023-09-14 13:49:31",
   "oldValue": "ABC123",
   "newValue": "ABC123-DEF",
+  "diff": "ABC123<ins>-DEF</ins>",
   "user": "john.doe",
   "versionId": 123
 }
@@ -1459,6 +1462,10 @@ The `changes#<fieldName>` selector can be used to ompare the current value of a 
 Localized fields are supported via `lastChange#name#de`.
 
 To only retrieve changes after the object got reviewed last time, please store the review date into a `date` or `datetime` field `reviewDate` (or any other name but use the same name in the following data query selector) and then you can use `changes#name,{{ reviewDate:timestamp }}`.
+
+When using `changes` without any arguments, it will return the complete previus and current state. In the field `diff` you will get an HTML diff table of the differing field values. This can be used for review workflows. You can use the data query selector `changes:diff` for this use case.
+
+To compare a version of a certain date, you can provide a date, e.g. `changes#2024-01-01` but this becomes even more powerful in combination with dynamic replacement like `changes#{{ reviewedAt }}` if your data object class has a date field named `reviewAt`. In this case the `changes` selector will compare the version from this date (or older) with the current version. 
 
 #### Group fields
 
