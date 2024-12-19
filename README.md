@@ -134,26 +134,28 @@ Just some examples which the Data Director has been used for:
 
 ## Advantages compared to own import implementation
 
-* Minimization of programming effort: Only data modifications from the data source require minimal programming
+* Minimization of programming effort: Only if data is to be transformed from the import source  minimal programming effort is required (although templates already exist for common use cases, so you don't have to write the code from scratch)
 * Performance:
-    * Data is only imported if nothing has changed since the last import
-    * If an object has not changed during import, it does not need to be saved
-    * Export data gets updated when objects change, so it is already prepared in the moment an export gets requested
-* Flexibility:
+    * Performance-optimised saving of objects: Saving multiple objects with one database operation (in contrast to Pimcore's save() method)
+    * If an object has not changed during import, it does not need to be saved -> more performance and object history remains clean
+    * Data is only imported if the corresponding import data has not changed since the last import (except you want to import anyway)
+    * Export data gets updated when objects change, so it is already prepared in the moment an export gets requested -> faster exports than when loading the data in the moment of request
+* just as flexible as a self-written script:
     * Imports and exports are fully customizable to data source and your Pimcore data model
-    * Supports all Pimcore elements including data objects, object bricks, field collections, assets and documents
-    * Supports importing tags and properties
+    * Transformations can be created individually using PHP code -> full customisability
+    * Supports all Pimcore element types including data objects, object bricks, field collections, assets and documents, tags and properties
 * Transparency:
     * with import archive and searchable import log history you can always trace why a certain field got a certain value and which import file was responsible for this
-    * always see current import / export status (progress of current job, number of queued items)
+    * Status information on the progress of imports and exports
+    * automatic error monitoring / notification of errors
 * Comfort functions: 
-    * Automatically extract raw data fields from import resources
-    * Automatically map raw data fields to Pimcore class fields
-    * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
-    * Replace placeholders (for example to generate texts automatically)
+    * Automatically configure import fields from import resources
+    * Automatically map import fields to Pimcore class fields
     * Automatic translation (with DeepL API)
-    * Error monitoring / notification of imports
-    * Revert imports
+    * Automatic text generation (with OpenAI API)
+    * Replace placeholders (for example to generate texts automatically)
+    * [Optimize inheritance feature](https://www.youtube.com/watch?v=l6s6YnbFOxM)
+    * Revert imports (because if you notice that a mistake in an import has damaged thousands of objects, you cannot use a database backup anymore as you would also lose all other changes - instead with Data Director you can revert only the imported fields of the affected objects)
     
 ## One for all
 
