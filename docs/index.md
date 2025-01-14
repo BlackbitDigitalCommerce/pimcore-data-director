@@ -1820,7 +1820,7 @@ This bundle also supports [elements-at/ProcessManager](https://github.com/elemen
 
 ## Notifications
 
-Whenever there is an error during an import which did not get executed with the `--force` flag, all users who are allowed to configure the dataport are notified via email.
+Whenever there is an error during a dataport run which did not get started with the `--force` flag, all users who are allowed to configure the dataport get notified via email. You can limit the recipients by configuring `Error notification recipients` in the dataport settings.
 
 For more advanced notifications you can create a custom email in the [result callback function](#import-result-callback--result-document-generation) and send it with the included [result document action](#result-document-actions) for sending emails. This can for example be used to:
 
