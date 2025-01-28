@@ -535,6 +535,8 @@ return array_map(
 );
 ```
 
+THe different options for `filename` are described in the [image field section](#image-field).
+
 If you want to search for existing assets, you can provide a [data query selector](#data-query-selectors) instead of the `url`:
 
 ```php
@@ -568,7 +570,11 @@ return [
 ];
 ```
 
-Providing a `filename` does also support dynamic folders. So when you provide `/images/abc.jpg` in the `filename` parameter, the asset will get the name `abc.jpg` and will be created in / moved to the asset folder `/images`. When you provide a relative path like `images/abc.jpg` the image will be put in the folder `images` below the dataport's configured asset target directory.
+Providing a `filename` does also support dynamic folders. So when you provide `/images/abc.jpg` in the `filename` parameter, the asset will get named `abc.jpg` and will be created in / moved to the asset folder `/images`. 
+
+If you provide a relative path like `images/abc.jpg` the image will be put in the folder `images` below the dataport's configured asset target directory.
+
+If you provide a path without a file name, e.g. `/images/`, the file name will get extracted from the `url` and the image will get put to the folder `/images/`.
 
 You can also assign already existing Pimcore assets via:
 
