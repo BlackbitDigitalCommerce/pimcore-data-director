@@ -260,8 +260,8 @@ Importing data from Pimcore reports has especially 4 use cases:
 
 1. Load data from import source once and reuse it on multiple import dataports (especiall useful when working with remote import resources). The "Load data" dataport can be a usual file-based dataport and the imports are report-based dataports. To set up the report, you can right-click the "Load data" dataport and click "Create raw data report". It will create a Pimcore report which contains all raw data from the "Load data" dataport. Please uncheck the "Always refresh data" checkbox in the report definition, otherwise the import resource would get loaded from all import dataports again and again.
 2. You can use the [result callback function](#import-result-callback--result-document-generation) to check for certain deviations in your report's data and to create a response document (e.g. text or CSV) and with the [result document action](#result-document-actions) send this data as an email. This way you can get notified about certain problems even without continuously looking at the reports.
-2. Use custom report adapters like the Google Analytics Adapter which gets shipped with Pimcore or the [adapter to import data from external databases](https://shop.blackbit.com/pimcore-reports-access-external-database) to import data from external services / systems.
-3. Export data from any Pimcore database table like Quantity Value Units, translations etc.
+3. Use custom report adapters like the Google Analytics Adapter which gets shipped with Pimcore or the [adapter to import data from external databases](https://shop.blackbit.com/pimcore-reports-access-external-database) to import data from external services / systems.
+4. Export data from any Pimcore database table like Quantity Value Units, translations etc.
 
 #### Exporting data from Pimcore objects {#exporting-data-from-pimcore-objects}
 
