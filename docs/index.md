@@ -1158,6 +1158,24 @@ return [
 ];
 ```
 
+### Distinguish import and manual save
+
+Sometimes it may be useful to detect if saving an element got triggered by a dataport or by another mechanism (e.g. manual save in Pimcore backend). You can detect this in your event listener for `pimcore.dataobject.preUpdate`, `pimcore.dataobject.postUpdate` etc., by checking the `dataport` argument in the callback function:
+
+```php
+public function myListener(ElementEventInterface $e) {
+    try {
+        // skip event listener if save got triggered by Data Director
+        if ($e->getArgument('dataportId')) {
+            return;
+        }
+    } catch (\InvalidArgumentException $exception) {
+    }
+
+    // custom event listener logic
+}
+```
+
 ### Dependency graphs
 
 When a certain field gets changed by multiple dataports it can be difficult to keep track of all the dependencies. In this case it might be helpful to visualize all the dataports which use a certain field. This can be accessed by clicking the field name in the attribute mapping panel, the result looks like this:
