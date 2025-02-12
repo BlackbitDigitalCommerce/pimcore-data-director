@@ -15,15 +15,15 @@ New features
 
 - Asset import:
 
-- support importing assets via FTP URL
+  - support importing assets via FTP URL
 
-- support providing target folder via "filename" while the target filename gets used from "url"
+  - support providing target folder via "filename" while the target filename gets used from "url"
 
-- when importing assets via URL, use the filename from the HTTP header
+  - when importing assets via URL, use the filename from the HTTP header
 
-- support placeholders in archive folder path, e.g. environment variables
+  - support placeholders in archive folder path, e.g. environment variables
 
-- support FTP, FTPS, SFTP, AWS S3 URLs as import archive folder
+  - support FTP, FTPS, SFTP, AWS S3 URLs as import archive folder
 
 - support accessing Symfony secrets (same syntax as for env variables `{{ SECRET_NAME }}`)
 
