@@ -29,7 +29,7 @@ New features
 
 - execute initialization function before raw data extraction to not waste time for raw data extraction if initialization function will cancel the run anyway
 
-- support setting `limit` and `offset` for raw data extraction -> faster pagination for API usage
+- support setting `limit` and `offset` for raw data extraction -> faster pagination when accessing exports via REST API
 
 - Performance improvements when saving objects
 
