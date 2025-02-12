@@ -42,15 +42,15 @@ UI changes
 
 - Dataport settings:
 
-- add option to define error email recipients (to not notify all `admin` users)
+  - add option to define error email recipients (to not notify all `admin` users)
 
-- convert dataport description field to textarea to have more space for comments
+  - convert dataport description field to textarea to have more space for comments
 
 - Attribute mapping:
 
-- support multi-select to remove multiple mappings at once
+  - support multi-select to remove multiple mappings at once
 
-- attribute mapping: preview for "initialization function"
+  - attribute mapping: preview for "initialization function"
 
 - History Panel:
 
@@ -66,11 +66,11 @@ UI changes
 
 - Pimcore Core UI:
 
-- by default, increase `tree_paging_limit` for data objects so that more objects are visible with scrolling - most users get confused by paging within the tree - you can override this setting in your project's `config.yaml`
+  - by default, increase `tree_paging_limit` for data objects so that more objects are visible with scrolling - most users get confused by paging within the tree - you can override this setting in your project's `config.yaml`
 
-- update object name in tree and tab title if object name gets changed in the background (by another user or by an import)
+  - update object name in tree and tab title if object name gets changed in the background (by another user or by an import)
 
-- support translating element name in tree and tab title
+  - support translating element name in tree and tab title
 
 Other changes
 -------------
