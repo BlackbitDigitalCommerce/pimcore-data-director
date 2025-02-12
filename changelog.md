@@ -1,3 +1,128 @@
+# 3.8.0
+
+Job processing
+--------------
+
+Follow-up / Predecessor dataport jobs which get started via `Cli::exec()` now run in same PHP process. This allows to define functions in a predecessor dataport or access $params['transfer'] of the first dataport in the follow-up dataport.
+
+Automatic Pimcore-based dataports with the same source and target class get executed immediately in the post-update event listener without any queuing (if the save got triggered by a real user and not an import). Thus automations like automatically renaming objects based on its data fields,
+multi-class inheritance, automatic relation assignment etc. work in real-time.
+
+New features
+------------
+
+- for remote filesystems (FTP, SFTP, FTPS, S3 etc.) support `**` placeholder for recursive walk through all subfolders and `*` for any character within the given folder
+
+- Asset import:
+
+- support importing assets via FTP URL
+
+- support providing target folder via "filename" while the target filename gets used from "url"
+
+- when importing assets via URL, use the filename from the HTTP header
+
+- support placeholders in archive folder path, e.g. environment variables
+
+- support FTP, FTPS, SFTP, AWS S3 URLs as import archive folder
+
+- support accessing Symfony secrets (same syntax as for env variables `{{ SECRET_NAME }}`)
+
+- execute initialization function before raw data extraction to not waste time for raw data extraction if initialization function will cancel the run anyway
+
+- support setting `limit` and `offset` for raw data extraction -> faster pagination for API usage
+
+- Performance improvements when saving objects
+
+- Performance improvements when retrieving last modification date of the current object and all its anchestors
+
+- Attribute mapping: support mapping / applying workflow transition
+
+UI changes
+----------
+
+- Dataport settings:
+
+- add option to define error email recipients (to not notify all `admin` users)
+
+- convert dataport description field to textarea to have more space for comments
+
+- Attribute mapping:
+
+- support multi-select to remove multiple mappings at once
+
+- attribute mapping: preview for "initialization function"
+
+- History Panel:
+
+- when executing a Pimcore-based dataport with a custom SQL condition, show the custom condition before the dataport condition to easier see the custom condition in history panel
+
+- support filtering by aborted jobs (previously errors + abortions could only be filtered together)
+
+- execute dataport runs via element tree context menu and element toolbar in summary window
+
+- show queue processor monitor button on global status page
+
+- Combine logs for raw data extraction and processing into one log file
+
+- Pimcore Core UI:
+
+- by default, increase `tree_paging_limit` for data objects so that more objects are visible with scrolling - most users get confused by paging within the tree - you can override this setting in your project's `config.yaml`
+
+- update object name in tree and tab title if object name gets changed in the background (by another user or by an import)
+
+- support translating element name in tree and tab title
+
+Other changes
+-------------
+
+- group error tags to not end up with lots of similar tags which only differ in object id
+
+- accelerate importing big Excel files
+
+- reduce log file size for field collections and errors in result callback function
+
+- maintenance cleanup job: delete old error notification emails
+
+- support selector localizedfields#en to get all localized fields in a certain language
+
+- if errors in callback functions occur, and in callback function other functions get called, add stack trace for those functions to make it easier to understand where the actual error happened
+
+- automatic import source deletion: if an import has an archive folder and the dataport is not being started from the Pimcore backend (= it does not get executed with --force), then the import source file will get automatically deleted
+
+- REST API for imports: do not delete delete import file immediately after called dataport is finished because the called dataport could have follow-up dataports which gets the same import file as import resource (the temporary import file will get cleaned up after 5 min by maintenance job)
+
+- support importing images from rate-limited APIs -> in case of HTTP 429 Too many Requests the process waits 60 seconds and then retries (up to 3 times)
+
+- BC: result callback functions with `$params['response']->getContent()` and `setContent()` were terribly slow since we changed to file-based response handling
+
+- SQL transpiling: support accessing reverse relation fields via reverseRelation:fieldName = 'abc' (same as for many-to-many relations)
+
+- accelerate maintenance cleanup command
+
+- provide all languages when serializing classification store container
+
+- also automatically restart unintentionally aborted exports (not only imports)
+
+- support creating dataports from templates (e.g. process manager jobs, later also from other plugins)
+
+- add initialization function template for time-based cronjobs
+
+- support using debugger tools xDebug / Zend Debugger to debug callback functions
+
+- dataport definition JSON files: use human-readable representation of field mapping "format" settings and callback functions to make them easier comparable
+
+- exclude import archive folders in quicksearch
+
+- keep remote connections open -> better performance when accessing lots of files via FTP
+
+- support importing data for one field collection items from multiple raw data items
+
+- attribute mapping: support mapping / applying workflow transition
+
+- better recognize "empty" image fields -> when option "Do not import if already filled" is used for image fields but currently assigned asset has no underlying file in file system, interpret it as *empty*
+
+- support importing data to dachcom-digital/seo bundle
+
 # 3.7.0
 
 ### Refactored summary window
