@@ -32,7 +32,7 @@ When we allow your account to access our repository, please add the repository t
 
 (Please [add your public SSH key to your Bitbucket account](https://support.atlassian.com/bitbucket-cloud/docs/add-access-keys/#Step-3.-Add-the-public-key-to-your-repository) for this to work)
 
-Alternatively if you received the plugin code as zip file, please upload the zip file to your server - e.g. create a folder `bundles` in the Pimcore root folder) and add the following to your `composer.json`:
+Alternatively if you received the plugin code as zip file, please put the zip file into your Pimcore project - e.g. create a folder `bundles` in the Pimcore root folder) and add the following to your `composer.json`:
 
 ```json
 "repositories": [
