@@ -2098,7 +2098,15 @@ Compared to Pimcore's default view of related items the Data Director path forma
 
 ## Element Tree Pagination
 
-By default Data Director sets the number of items per page in the tree to 1000 - in practice this means it disables paging. This way all the elements are visible by scrolling - so it is the same behaviour as for example in tools like Windows Explorer or MacOS Finder.
+By default Data Director sets the number of items per page in the tree to 500 - in real projects this often means that it disables paging. This way all the elements are visible by scrolling - so it is the same behaviour as for example in tools like Windows Explorer or MacOS Finder.
+
+You can override this behaviour by setting
+```yaml
+pimcore:
+  objects:
+    tree_paging_limit: 50
+```
+in your `config.yaml`.
 
 ## Data option providers
 
