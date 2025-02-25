@@ -1,5 +1,22 @@
 # 3.8.0
 
+Dual-Licensing
+--------------
+
+Up to now, Data Director was licensed under GPLv3. Thus you could only use it with other GPLv3 or similar libraries / frameworks. Now it is dual-licensed: If you use Pimcore community edition (GPLv3), you can still use Data Director under GPLv3. If you use Pimcore Enterprise license or Pimcore Commercial License, you can use Data Director under Blackbit Commercial License:
+
+> In accordance with the provisions of the respective licences, it is only possible to
+>
+> - use Blackbit software under GPLv3 with the Pimcore Community Edition under GPLv3 or
+> - combine Blackbit software under a commercial licence and Pimcore under a commercial licence.
+> 
+> You can use the software under the terms of the GNU General Public Licence, Version 3 (GPLv3). This brings with it many rights of use and freedoms:
+> - Open source: You can view the unencrypted programme code of our software.
+> - Customisation: You can adapt the software to your needs and develop it further as you wish.
+> - Distribution: You can copy, distribute and even sell the software or further developments of the software as long as you comply with the GNU GPL v3 licence. Because you become the owner of the code when you purchase the bundle, there is no warranty and no free service.
+> 
+> Alternatively, you can use the software under the Blackbit Commercial Licence. This means that the software remains the property of Blackbit and may be used in one instance per licence. Blackbit grants the user a limited right of use and eliminates defects and errors and provides updates free of charge during the contract period. 
+
 Job processing
 --------------
 
