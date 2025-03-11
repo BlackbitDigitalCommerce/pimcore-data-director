@@ -1294,6 +1294,18 @@ The `filterValue` can also be a comma-separated list of values. In this case an 
 Product:id:[123,234]
 ```
 
+### Query by relation field
+
+When you want to find objects by a relation field you can use the following syntax:
+
+```
+// look for a product which has category with id 123 assigned in relation field "categories"
+Product:categories:123
+
+// look for a product which has a category object in relation field "categories" which has name="Shoes"
+Product:"categories:name":Shoes
+```
+
 ### Data query selector chaining
 
 You can chain these data selectors as long as you want. For example `Product:articleNo:123:crossSellingProducts:0:manufacturer:name#de` first searches for an object with `articleNo=123`. From this object the first item of the `crossSellingProducts` many-to-many relation gets fetched. From this object we fetch the assigned manufacturer object (many-to-one relation) whose german name finally gets returned.
