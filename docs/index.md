@@ -1294,7 +1294,7 @@ The `filterValue` can also be a comma-separated list of values. In this case an 
 Product:id:[123,234]
 ```
 
-### Query by relation field
+### Query by relational field
 
 When you want to find objects by a relation field you can use the following syntax:
 
