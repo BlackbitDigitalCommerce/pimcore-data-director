@@ -968,7 +968,7 @@ In attribute mapping there is an option for automatic translation of text fields
 
 #### Translation Provider Configuration
 
-##### DeepL
+##### DeepL (#deepl)
 
 You will need an [DeepL API key](https://www.deepl.com/pro.html#developer) to use this feature. Please add your API key in attribute mapping panel or via `config/services.yaml`:
 
@@ -978,14 +978,21 @@ parameters:
     blackbit_pim.deepl_api_key: <Your API key>
 ```
 
-[DeepL glossaries](https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary-feature) will automatically get applied for the current pair of source and target language. You do not have to configure anything but it will get automatically checked if a DeepL glossary exists. If you have multiple glossaries for the same source and target language, the first one will get applied.
+###### Glossaries (#glossaries)
 
-The DeepL API supports to ignore certain words for translation. This can be useful for brand names, product names or other phrases which shall not be translated. By default, you can mark such phrases by wrapping them into `<x>` tags. You can change the tag for ignored phrases by overriding the parameter `blackbit_pim.skip_translation_tag` in your `app/config/parameters.yml`:
+[DeepL glossaries](https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary-feature) can be used to improve translation quality by manually translating certain terms, brand names etc. You can maintain the glossary in your DeepL account or via [Pimcore admin translations](
+#exclude-terms-from-translation).
+
+Glossaries will automatically get applied for the current pair of source and target language. You do not have to configure anything but it will get automatically checked if a DeepL glossary exists. If you have multiple glossaries for the same source and target language, the first one will get applied.
+
+###### Exclude terms from translation
+
+Beside the [glossaries](#glossaries), the DeepL API also supports to ignore certain words for translation. This can be useful for brand names, product names or other phrases which shall not be translated. By default, you can mark such phrases in the source text by wrapping them into `<x>` tags. You can change the tag for ignored phrases by overriding the parameter `blackbit_pim.skip_translation_tag` in your `app/config/parameters.yml`:
 
 ```yaml
 parameters:
     ...
-    blackbit_pim.skip_translation_tag: dfn
+    blackbit_pim.skip_translation_tag: ignore
 ```
 
 Afterwards clear the cache (via Pimcore UI or `bin/console cache:clear`).
@@ -1003,12 +1010,14 @@ parameters:
 
 Afterwards clear the cache (via Pimcore UI or `bin/console cache:clear`).
 
-#### Exclude terms from translation / Manually translate phrases
+#### Exclude terms from translation / Manually translate phrases (#exclude-terms-from-translation)
 
 When you want to exclude some phrases from translation or are not satisfied with the translation, you can exclude phrases from being translated or provide custom translations. To achieve that you have to create translations in [Pimcore's shared translations](https://pimcore.com/docs/pimcore/current/Development_Documentation/Multi_Language_i18n/Shared_Translations.html) whose key starts with `translate.`.
 
 - When in the target language no translation is set, the phrase will be excluded from translation, so the translation in the source language will get used. If this is also empty, the translation key (without `translate.` prefix) will get used
 - When there is a translation in the target language, this will get used (internally during translation the phrase in the source language gets ignored and after translation it gets replaced with the custom translation from Pimcore's shared translations)
+
+If you use [DeepL](#deepl) as translation provider, the Pimcore translations which are prefixed with `translate.` get automatically created as a [DeepL glossary](#glossaries). This has the advantage that the terms do not only get translated in the exact grammar form (tense, singular/plural etc.) but DeepL is clever enough to apply them in the correct context.
 
 #### Translate complex data / Manipulate translated content
 
