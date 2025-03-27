@@ -984,7 +984,22 @@ parameters:
 
 Glossaries will automatically get applied for the current pair of source and target language. You do not have to configure anything but it will get automatically checked if a DeepL glossary exists. If you have multiple glossaries for the same source and target language, the first one will get applied.
 
-###### Exclude terms from translation
+###### Context and other API parameters
+
+To get even better translation quality you can provide translation context. This helps DeepL to understand the data which you want to translate and thus provide a better translation. This is especially important when translating short terms like single words, e.g. the German word "Farbe" can be translated to "Colour" or "Paint" depending if the color tone is meant or the liquid to put on walls. In this context providing other fields content as `context` helps DeepL to translate it correctly.
+
+The `context` can be provided in the callback function:
+```php
+return [
+  'text' => $params['value'], // text to be translated
+  'context' => $params['currentObjectData']['name'].' '.$params['currentObjectData']['description'], // information about the object which the data to be translated belongs to'
+  'formality' => 'default' // alternative: 'prefer_more' (more formal), 'prefer_less' (more informal)
+];
+```
+
+This way all [DeepL API parameters](https://developers.deepl.com/docs/api-reference/translate#request-body-descriptions) parameters can get customized.
+
+###### Ignore terms from translation
 
 Beside the [glossaries](#glossaries), the DeepL API also supports to ignore certain words for translation. This can be useful for brand names, product names or other phrases which shall not be translated. By default, you can mark such phrases in the source text by wrapping them into `<x>` tags. You can change the tag for ignored phrases by overriding the parameter `blackbit_pim.skip_translation_tag` in your `app/config/parameters.yml`:
 
