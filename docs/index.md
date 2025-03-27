@@ -968,7 +968,7 @@ In attribute mapping there is an option for automatic translation of text fields
 
 #### Translation Provider Configuration
 
-##### DeepL (#deepl)
+##### DeepL {#deepl}
 
 You will need an [DeepL API key](https://www.deepl.com/pro.html#developer) to use this feature. Please add your API key in attribute mapping panel or via `config/services.yaml`:
 
@@ -978,7 +978,7 @@ parameters:
     blackbit_pim.deepl_api_key: <Your API key>
 ```
 
-###### Glossaries (#glossaries)
+###### Glossaries {#glossaries}
 
 [DeepL glossaries](https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary-feature) can be used to improve translation quality by manually translating certain terms, brand names etc. You can maintain the glossary in your DeepL account or via [Pimcore admin translations](
 #exclude-terms-from-translation).
@@ -1010,7 +1010,7 @@ parameters:
 
 Afterwards clear the cache (via Pimcore UI or `bin/console cache:clear`).
 
-#### Exclude terms from translation / Manually translate phrases (#exclude-terms-from-translation)
+#### Exclude terms from translation / Manually translate phrases {#exclude-terms-from-translation}
 
 When you want to exclude some phrases from translation or are not satisfied with the translation, you can exclude phrases from being translated or provide custom translations. To achieve that you have to create translations in [Pimcore's shared translations](https://pimcore.com/docs/pimcore/current/Development_Documentation/Multi_Language_i18n/Shared_Translations.html) whose key starts with `translate.`.
 
