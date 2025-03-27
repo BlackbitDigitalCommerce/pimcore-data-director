@@ -974,7 +974,6 @@ You will need an [DeepL API key](https://www.deepl.com/pro.html#developer) to us
 
 ```yaml
 parameters:
-    ...
     blackbit_pim.deepl_api_key: <Your API key>
 ```
 
@@ -991,7 +990,6 @@ Beside the [glossaries](#glossaries), the DeepL API also supports to ignore cert
 
 ```yaml
 parameters:
-    ...
     blackbit_pim.skip_translation_tag: ignore
 ```
 
@@ -1003,7 +1001,6 @@ To use Amazon Translate you need to [set up your AWS credentials](https://docs.a
 
 ```yaml
 parameters:
-    ...
     blackbit_pim.aws_translate_access_key: <Your access key>
     blackbit_pim.aws_translate_secret_key: <Your secret key>
 ```
