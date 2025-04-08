@@ -258,7 +258,7 @@ You can use [Pimcore custom reports](https://pimcore.com/docs/pimcore/current/De
 
 Importing data from Pimcore reports has especially 4 use cases:
 
-1. Load data from import source once and reuse it on multiple import dataports (especiall useful when working with remote import resources). The "Load data" dataport can be a usual file-based dataport and the imports are report-based dataports. To set up the report, you can right-click the "Load data" dataport and click "Create raw data report". It will create a Pimcore report which contains all raw data from the "Load data" dataport. Please uncheck the "Always refresh data" checkbox in the report definition, otherwise the import resource would get loaded from all import dataports again and again.
+1. Load data from import source once and reuse it on multiple import dataports (especially useful when working with remote import resources). The "Load data" dataport can be a usual file-based dataport and the imports are report-based dataports. To set up the report, you can right-click the "Load data" dataport and click "Create raw data report". It will create a Pimcore report which contains all raw data from the "Load data" dataport. Please uncheck the "Always refresh data" checkbox in the report definition, otherwise the import resource would get loaded from all import dataports again and again.
 2. You can use the [result callback function](#import-result-callback--result-document-generation) to check for certain deviations in your report's data and to create a response document (e.g. text or CSV) and with the [result document action](#result-document-actions) send this data as an email. This way you can get notified about certain problems even without continuously looking at the reports.
 3. Use custom report adapters like the Google Analytics Adapter which gets shipped with Pimcore or the [adapter to import data from external databases](https://shop.blackbit.com/pimcore-reports-access-external-database) to import data from external services / systems.
 4. Export data from any Pimcore database table like Quantity Value Units, translations etc.
@@ -1024,7 +1024,7 @@ Afterwards clear the cache (via Pimcore UI or `bin/console cache:clear`).
 
 #### Exclude terms from translation / Manually translate phrases {#exclude-terms-from-translation}
 
-When you want to exclude some phrases from translation or are not satisfied with the translation, you can exclude phrases from being translated or provide custom translations. To achieve that you have to create translations in [Pimcore's shared translations](https://pimcore.com/docs/pimcore/current/Development_Documentation/Multi_Language_i18n/Shared_Translations.html) whose key starts with `translate.`.
+When you want to exclude some phrases from translation or are not satisfied with the translation, you can exclude phrases from being translated or provide custom translations. To achieve that you have to create translations in the `DataDirector_Glossary` domain in [Pimcore's translations](https://pimcore.com/docs/pimcore/current/Development_Documentation/Multi_Language_i18n/Shared_Translations.html).
 
 - When in the target language no translation is set, the phrase will be excluded from translation, so the translation in the source language will get used. If this is also empty, the translation key (without `translate.` prefix) will get used
 - When there is a translation in the target language, this will get used (internally during translation the phrase in the source language gets ignored and after translation it gets replaced with the custom translation from Pimcore's shared translations)
@@ -1196,6 +1196,10 @@ public function myListener(ElementEventInterface $e) {
     // custom event listener logic
 }
 ```
+
+### Defining / Calling custom functions / PHP classes
+
+As the callback functions are normal PHP code, you can call any PHP classes which exist in your project. But beware that one of the main 
 
 ### Dependency graphs
 
@@ -2029,7 +2033,7 @@ This bundle brings its own REST API interface with the following endpoints:
     123,My cool product
     ```
 
-  - via [import callback function](#import-result-callback--result-document-generation) you can generate a response document
+  - via [result callback function](#import-result-callback--result-document-generation) you can generate a response document
   - requests with `async` parameter are run in the background. As response you get a URL from which you can fetch the current status and result of the started import (see next bullet point)
   - provided parameters can be accessed in raw data fields and attribute mapping via `{{ parameter1 }}` or `{{ anotherParam }}` - the values come from the URL parameters and can be named however you want, see [parametrized dataports](#parametrized-dataports)
 - ```
