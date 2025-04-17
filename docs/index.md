@@ -2155,6 +2155,10 @@ For example you can use `Brand:published:true:each(name)` to define the names of
 
 Additionally, you can access values of the currently opened object to implement dependent select fields: Imagine you have a multiselect field in the `Category` class and use `Product:category:{{ id }}:each(brand:id as value;brand:name as label)`. {{ id }} will get resolved to ID of the currently opened object (but also all other fields or chained data query selectors are possible here). In this case you will get a list of all brands of the products which have the currently opened category object assigned in their `category` field.
 
+## Class field option provider
+
+When you want to have all class fields of a certain class as select field options, you can use `@DataDirectorClassFieldsOptionProvider` in the field `Options provider class or Service Name` and set the desired class whose fields you want to list in `Options Provider Data`. This way you will automatically have all class fields as available options in the select field.
+
 ### Object brick option provider
 
 Configure the `Options provider class or Service Name` in your select field configuration to `@DataDirectorObjectBricksOptionProvider`. In `Options Provider Data` enter `<className>:<object brick container field>` to provide the allowed object bricks of the referenced field as select field options. You can use this to assign on category level which object brick(s) apply to all products of this category. To automatically assign the set object brick(s) to all products of this category, you have to set up a dataport which retrieves the brick name of the category and "imports" the corresponding brick to the object brick container field. Enable `Run automatically on new data` to automatically run this dataport when a product object gets saved.
