@@ -1,6 +1,6 @@
 # 3.9.0
 
-Pimcore 12 Compatibility
+Pimcore 12 (Platform Version 2025) Compatibility
 ------------------------
 
 Data Director 3.9 is compatible with Pimcore 12 (and still everything is still compatible down to Pimcore 6). Pimcore's new Studio UI is not supported yet but we are working on this.
