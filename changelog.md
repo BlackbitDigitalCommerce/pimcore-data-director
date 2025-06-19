@@ -1,3 +1,184 @@
+# 3.9.0
+
+Pimcore 12 Compatibility
+------------------------
+
+Data Director 3.9 is compatible with Pimcore 12 (and still everything is still compatible down to Pimcore 6). Pimcore's new Studio UI is not supported yet but we are working on this.
+
+Enhanced DeepL translation
+--------------------------
+
+### Glossaries
+
+[DeepL glossaries](https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary-feature "https://support.deepl.com/hc/en-us/articles/360021634540-About-the-glossary-feature") can now be maintained
+via [Pimcore admin translations](https://blackbitdigitalcommerce.github.io/pimcore-data-director/#exclude-terms-from-translation "https://blackbitdigitalcommerce.github.io/pimcore-data-director/#exclude-terms-from-translation"). There is a separate translation domain `DataDirector_Glossary` whose
+content gets autoamtically transferred to DeepL.
+
+Glossaries will automatically get applied when you implement translations in attribute mapping. You do not have to configure anything but it will get automatically checked if a DeepL glossary exists.
+
+### Translation Context
+
+To get even better translation quality you can provide translation context now. This helps DeepL to understand the data which you want to translate and thus provide a better translation. This is especially important when translating short terms like single words, e.g. the German word "Farbe" can be
+translated to "Colour" or "Paint" depending if the color tone is meant or the liquid to put on walls. In this context providing other field's content as `context` helps DeepL to translate it correctly.
+
+Real API pagination
+-------------------
+
+Every export dataport automatically has an API endpoint which also supports `limit` and `offset` parameters. Before 3.9 those parameters only got applied *after* raw data extraction. This means that first *all* raw data needed to be extracted and only then offset and limit got applied. This made the
+REST API endpoint fairly unusable for paginated requests. From now `limit` and `offset` already get applied during raw data extraction step. This allows for real API pagination usage.
+
+Configure number of parallel requests per dataport
+--------------------------------------------------
+
+You can now configure the number of parallel processes to use when executing the dataport in the dataport settings. This replaces the checkbox `Execute with parallel processes` which used some odd logic to find a suitable number of parallel processes.
+
+Additionally the auto-scale algorithm in the queue processor has been removed because sometimes it scaled up when the server load was low - but this sometimes resulted in 3rd party systems to break down because they could not stand the load (e.g. when Pimcore has sent API requests to the 3rd party
+system).
+
+This gives you full control of how many parallel process shall be used in total over all dataports and how many every singel dataport may execute in parallel.
+
+Pimcore Core: Restore Versions
+------------------------------
+
+Pimcore has a versioning system that allows you to restore data objects to a previous state. But with Pimcore's default version restore feature, you can only restore ALL class fields of ONE object to a previous state.
+
+- But what if you only want to restore some fields but not all of them?
+
+- And what if you want to restore versions of multiple objects?
+
+Data Director overrides the version restore feature, offering to restore:
+
+- multiple versions to a certain point in time
+
+- single fields of a version for one or multiple objects
+
+This feature can be a life-saver if you accidentally overwrote data for lots of objects but only notice this one week later while in the meantime other data has been edited (so you cannot restore a database dump).
+
+Import / Export Features
+------------------------
+
+### Status Panel
+
+- show only dataports which the current user is allowed to configure or execute
+
+### Dataport Settings
+
+- support importing UTF-16 files
+
+- For exports: only show classes which current user has permission to use
+
+- support remote storages (FTP, FTPS, SFTP) for File System Parser
+
+- support auto-create raw data fields for dataports with long import source (e.g. GraphQL queries)
+
+### Attribute Mapping
+
+- add data query selector "levels" to restrict number if recursion levels - e.g. when using `self:levels#1` (get all field values of current object) without recursive loading of fields of relations
+
+- add result callback function template to export raw data as zipped Excel incl. assets
+
+- data query selector: support filtering by a field of a relation, e.g. Product:"categories:name":Shoes will look for a product which has a category in relation field "categories" which has name="Shoes"
+
+- Data Query Selectors: support filtering with placeholders via Product:path:*/Supplier A/* -> will find
+
+  - /Parent/Supplier A/Product A
+
+  - /Supplier A/Product B
+
+  - /Supplier A/Sub Folder/Product C
+
+- support getting asset URLs via data query selector `asset:url` when using CDN
+  via [frontend_prefixes configuration](https://docs.pimcore.com/platform/Pimcore/Installation_and_Upgrade/System_Setup_and_Hosting/File_Storage_Setup/ "https://docs.pimcore.com/platform/Pimcore/Installation_and_Upgrade/System_Setup_and_Hosting/File_Storage_Setup/")
+
+- support data query selector "url" (and synonym "link") to get the URL of a data object (
+  via [Pimcore's link generator](https://docs.pimcore.com/platform/Pimcore/Objects/Object_Classes/Class_Settings/Link_Generator/ "https://docs.pimcore.com/platform/Pimcore/Objects/Object_Classes/Class_Settings/Link_Generator/"))
+
+- Support applying workflow transition via attribute mapping
+
+- select fields: if value was not found, fall back to default value (if configured)
+
+- object wizards: also provide meta fields of advanced many-to-many relations
+
+- support specifying regular expressions for key field values (only for querying -> value gets skipped when writing data to objects)
+
+### History Panel / Summary Window
+
+- add remaining time as tooltip in duration column
+
+- support filtering by aborted jobs (previously errors + abortions could only be filtered together)
+
+- Run dataport: support providing "LIMIT 50" or "LIMIT 30,20" in SQL condition -> possibility to set offset and limit from Pimcore GUI (previously was only possible via REST API / CLI interface)
+
+- Summary Window:
+
+  - add filter for newly created elements
+
+  - show progress of follow-up / dependent dataports
+
+- use summary window also for rerun of previous jobs and for "process raw data"
+
+- try to kill php process when aborting dataport run (works only on single-container setups / classical one-server hostings)
+
+- automatically restart unintentionally aborted jobs only up to 10 times to prevent infinite loop
+
+### Preview Panel
+
+- when deleting raw data while processes are running for this dataport, first only delete raw data for dataport resources which do not have running processes, then ask for confirmation to delete also data for running processes
+
+### Pimcore Core
+
+- when moving / renaming assets, create link in old path to still support old public URLs
+
+- cleanup version files of elements which do not exist anymore
+
+Raw Data reports
+----------------
+
+- Do not show duplicate raw data from different import files / SQL conditions
+
+- dataport as Pimcore report: if "skip data loading" is configured, data loading should be skipped also with force=1
+
+Other Changes
+-------------
+
+- Memory optimization during raw data processing
+
+- in $params['logs'] in result callback function, provide only logs for current raw data item -> simplifies custom action based on errors
+
+- path formatter: display relative paths if no visible fields for search have been configured
+
+- reduce I/O effort for importing XML files with namespaces
+
+- add new field type "WYSIWYG with placeholders" (similar to textarea with placeholders but with formatting support)
+
+- raw data extraction: if user's language is no valid system language (e.g. user: de, system language: de_DE), search for valid system language with same prefix as user's language
+
+- field type "color": support importing via hexadecimal notation #ff00ff and array [255,0,255]
+
+- Result callback function templates for XML export: Remove non-printable characters
+
+- support setting max number of parallel processes in queue processor monitor
+
+- DeepL: memory + performance optimization for all Pimcore backend requests: put cached translations to separate domain ("DataDirector_Cache" instead of "messages") because Pimcore's translator loads ALL translations when the translator gets initialized
+
+- data query selectors: treat null as null, not as ""
+
+- queue processor monitor: do not order workers by remaining time -> only causes confusion
+
+- logging: log statically mapped field values only once instead of for every raw data item again and again
+
+- [Class Field Option Provider](https://blackbitdigitalcommerce.github.io/pimcore-data-director/#class-field-option-provider "https://blackbitdigitalcommerce.github.io/pimcore-data-director/#class-field-option-provider"): list every language as separate option for localized fields
+
+- object wizard: support assigning selected elements from grid to object wizard field
+
+- Pimcore-based dataports: do not serialize reverse relations when using data query selector with the relation field only, e.g. "categories" should not serialize the reverse relation to products -> better performance and better sync (as reverse relations are kind of calculated value field)
+
+- Support automatic execution of file-based dataports when Pimcore assets are stored on remote storage like AWS S3 / Google Cloud Storage
+
+- support importing quoted strings like "value" (was converted to only value before)
+
+- support executing imports with parallel processes in combination with "Only execute every x hours" initialization function template
+
 # 3.8.0
 
 Dual-Licensing
