@@ -1544,7 +1544,7 @@ It is also possible to fetch multiple fields and assign an array function to thi
 
 #### Get all fields of an object
 
-You can fetch all fields of the current object via `self`. But beware that this will also retrieve fields which you may not need and thus cause slower performance than if you specify the fields as shown in [Group fields](#group-fields).
+You can fetch all fields of the current object via `self`. But beware that this will also retrieve fields which you may not need and thus cause slower performance than if you [specify the fields](#group-fields) to be loaded.
 
 By default `self` will retrieve data recursively, so also data from relatd objects will get loaded. If you nly want to load the fields of the current objects, you can use `self:levels#1`.
 
