@@ -1542,6 +1542,12 @@ Aliasing field names does not only work with the `each` helper but also when you
 
 It is also possible to fetch multiple fields and assign an array function to this group, e.g. `(title;description):implode#<br>,%s`. This would fetch the title and description of the object and concatenate them using an HTML line-break.
 
+#### Get all fields of an object
+
+You can fetch all fields of the current object via `self`. But beware that this will also retrieve fields which you may not need and thus cause slower performance than if you specify the fields as shown in [Group fields](#group-fields).
+
+By default `self` will retrieve data recursively, so also data from relatd objects will get loaded. If you nly want to load the fields of the current objects, you can use `self:levels#1`.
+
 #### Enable / Disable inheritance for single fields
 
 With the helper functions `withInheritance` / `withoutInheritance` it is possible to enable / disable inheritance for single data query selectors / raw data fields. The set status stays active until the opposite function gets called or the processing of the current data query selector is finished.
