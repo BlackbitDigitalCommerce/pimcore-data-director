@@ -2052,7 +2052,7 @@ This bundle brings its own REST API interface with the following endpoints:
 - `GET http(s)://<YOUR-DOMAIN>/api/rest/status?apikey=<API-KEY>&statusKey=<Status key>`
   - get result of asynchronous import
   - `<Status key>` is the key which gets returned by `/api/rest/import` with `async=1`
-  - as long as `HTTP 102 Processing` gets returned the import has not finished yet (so the response body contains only data up to the last imported item)
+  - as long as `HTTP 202 Accepted` gets returned the import has not finished yet (so the response body contains only data up to the last imported item)
 
 In all above requests the API key can also be transferred via `X-API-Key` header instead of the `apikey` parameter.
 
