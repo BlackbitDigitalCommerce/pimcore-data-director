@@ -2177,6 +2177,12 @@ The `PIM` perspective also comes with a dashboard which includes a queue monitor
 
 ## Integration with other Pimcore plugins
 
+### Pimcore Core
+
+#### Custom Pimcore Backend CSS
+
+You can add a custom CSS file to Pimcore assets and assign this to a website setting `custom.css`. This will automatically get loaded when a user accesses the Pimcore backend. This way you can customize the look and feel of the Pimcore backend or hide functions which are not configurable via permissions.
+
 ### Pimcore Process Manager Bundle
 
 To run dataports periodically you can either use a real cronjob or you can use [elements/process-manager-bundle](https://github.com/elements-at/ProcessManager). With the latter you are able to configure dataport start times directly from Pimcore backend. 
