@@ -86,12 +86,14 @@ Importing will run in two phases:
 
    You can [skip single raw data items](#skipping-items) from being processed by returning `null` for a key field.
 
-## How to import data to objects
+## How to trigger imports and exports
 
 You can start an import on multiple ways:
 
 - manually in the Pimcore backend on the panel `History & manual import` with the buttons `Start rawdata import`, `Import raw data to objects` and `Start complete import`
 - manually by right-clicking the target folder in the data objects tree or on the import resource (if Pimcore assets are used as import resource)
+  - If you do not want to execute the dataport also for dependent objects, you can add {% if id %} o_id = '{{ id }}' {% endif %} to the dataport’s SQL condition. As soon as an object gets saved this placeholder gets replaced by the just saved object’s ID and thus the dataport will only get
+    automatically executed for this one object.
 - via CLI by executing one of these scripts:
   - `bin/console data-director:extract <Dataport-ID> [--rm]` - Parse source resource (e.g. file or URL) and write data to a flat database table (replace <Dataport-ID> with the real ID).
   
