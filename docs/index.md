@@ -92,8 +92,7 @@ You can start an import on multiple ways:
 
 - manually in the Pimcore backend on the panel `History & manual import` with the buttons `Start rawdata import`, `Import raw data to objects` and `Start complete import`
 - manually by right-clicking the target folder in the data objects tree or on the import resource (if Pimcore assets are used as import resource)
-  - If you do not want to execute the dataport also for dependent objects, you can add {% if id %} o_id = '{{ id }}' {% endif %} to the dataport’s SQL condition. As soon as an object gets saved this placeholder gets replaced by the just saved object’s ID and thus the dataport will only get
-    automatically executed for this one object.
+  - If you do not want to execute the dataport also for dependent objects, you can add `{% if id %} id = {{ id }} {% endif %}` to the dataport’s SQL condition. This is Twig syntax. `id` gets extracted from the clicked element. So before the dataport gets started, the Twig statement gets evaluated and extends the SQL condition.
 - via CLI by executing one of these scripts:
   - `bin/console data-director:extract <Dataport-ID> [--rm]` - Parse source resource (e.g. file or URL) and write data to a flat database table (replace <Dataport-ID> with the real ID).
   
@@ -114,7 +113,7 @@ You can start an import on multiple ways:
   
   This is also useful when you dynamically create text data from product attributes via [placeholders](#data-query-selectors). This way you will always have the updated text even if you have placeholders which fetch data from referenced objects.
   
-  If you do not want to execute the dataport also for dependent objects, you can add `{% if id %} o_id = '{{ id }}' {% endif %}` to the dataport's SQL condition. As soon as an object gets saved this [placeholder](#data-query-selectors) gets replaced by the just saved object's ID and thus the dataport will only get automatically executed for this one object.
+  If you do not want to execute the dataport also for dependent objects, you can add `{% if id %} id = '{{ id }}' {% endif %}` to the dataport's SQL condition. As soon as an object gets saved this [placeholder](#data-query-selectors) gets replaced by the just saved object's ID and thus the dataport will only get automatically executed for this one object.
 - start imports via [REST API call](#rest-interface)
 
 ## Dataport settings
