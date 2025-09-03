@@ -1211,6 +1211,12 @@ When a certain field gets changed by multiple dataports it can be difficult to k
 In this example the dependency graph for the field `published` of class `Product` is shown. In this case 2 dataports (`Item Import ERP`, `Data Quality Check`) import to the field `published`. `Item Import ERP` might also be called as a dependent import of dataport `Pipeline import`.
 On the right side we see that the dataport `Export products to shop` accesses the field `published`.
 
+## Import preview / Ignore values from import source permanently
+
+With the checkbox `Data review (show what would change but not save anything)` you can run an import in dry-run mode. In the summary window (and also the import log) you see what would change. In this summary window you can also decide to ignore certain import values for a certain field and object permanently. This is useful when you have a field which gets filled by an external system but you want to keep your manually maintained values in Pimcore. In this case you can ignore the import values for this field and object combination permanently. The next time the import runs, the ignored values will not get applied anymore.
+
+![Dry-run](img/dry-run.png)
+    
 ## Import pipelines
 
 In the [result callback function](#import-result-callback--result-document-generation) there is a template for setting up a dependent dataport which can be called during a run of the current dataport - either after every raw data item or at the end. If necessary you can provide [parameters](#parametrized-dataports) to be used in the import resource or callback functions of the follow-up dataport.
