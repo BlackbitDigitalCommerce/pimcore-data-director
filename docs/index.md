@@ -1962,15 +1962,15 @@ It is also possible to first do a dry run with the option `--dry-run`. With this
 
 In attribute mapping there is a special field named `Initialization function`. This allows you set define a callback function which gets executed once before raw data processing starts. Here you can for example check if another process of this dataport is currently running or reset a certain field of a data object which afterwards gets set again by the imported raw data items.
 
-## Import result callback / Result document generation {#import-result-callback--result-document-generation}
+## Exports / Import result documents {#import-result-callback--result-document-generation}
 
 In attribute mapping there is a special field named `Result callback function`. This function gets executed after a raw data item has been processed.
-For example you can use this field to:
+For example, you can use this field to:
 
-- generate a response document including all successfully imported items and send that to the source system
+- create / export documents (Excel, CSV, JSON, XML etc.)
+- generate an import status report document including all successfully imported items and send that to the source system
 - track import errors
 - call another import which depends on the current one
-- create / export documents (JSON / CSV / XML etc.) which other systems can use as import source
 - create response documents for single-page application / PWA frontend requests
 
 This result callback function receives the following parameters in variable `$params`:
@@ -2009,6 +2009,25 @@ This result callback function receives the following parameters in variable `$pa
 - `objectIDs` - array with object IDs which got changed by the rawdata item
 - `logger` - Logger object which implements `\Psr\Log\Logger`
   - Usage example: `$params['logger']->error('Something unexpected happened');`
+
+## Export Templates
+
+For common use-cases there are result callback function templates available for exporting
+
+- CSV (plain or as zip file including referenced asset files)
+- Excel (plain or as zip file including referenced asset files)
+- XML (plain or as zip file including referenced asset files)
+- JSON (plain or as zip file including referenced asset files)
+- Filling data to Excel template file
+
+Moreover, we offer enterprise add-ons for industry-standard export formats like:
+
+- BMEcat
+- Datanorm
+- Facebook Product Feed
+- Shopify integration
+- Shopware integration
+- and others. Please contact [info@blackbit.com](mailto:info@blackbit.com) for certain formats or 3rd party integrations. Probably we have already implemented this before and can give you a head start.
 
 ## Result document actions
 
