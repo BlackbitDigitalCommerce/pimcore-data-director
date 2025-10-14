@@ -2353,6 +2353,8 @@ For debugging [CLI commands](#how-to-trigger-imports-and-exports), go to PhpStor
 
 To start debugging CLI commands, just add a breakpoint to your code and run the command, e.g. `bin/console dd:extract 1`.
 
+Breakpoints can also be added to callback functions by adding `xdebug_break();`.
+
 #### Profiling / Performance Analysis
 
 You can also use xDebug for profiling and performance analysis. To start tracing, prepend `XDEBUG_MODE=profile` to your CLI command, e.g. `XDEBUG_MODE=profile bin/console dd:complete 1`. This will create a file `cachegrind.out.<random>` in your project directory. You can analyze this file in PhpStorm via `Analyze > Analyze Performance Profile...` to see which functions use the most memory / time.
