@@ -2326,6 +2326,8 @@ Once you have installed it and only want to restart the container, just call `do
 
 ### xDebug
 
+#### Debugging
+
 For debugging purposes you can use xDebug. Follow the steps below to set it up:
 
 1. In PhpStorm configure xDebug under PHP > Debug:
@@ -2345,11 +2347,15 @@ For debugging purposes you can use xDebug. Follow the steps below to set it up:
 3. Install xDebug browser extension for [Firefox](https://addons.mozilla.org/firefox/addon/xdebug-helper-for-firefox/) or [Chrome](https://chromewebstore.google.com/detail/xdebug-chrome-extension/oiofkammbajfehgpleginfomeppgnglk)
 4. In the browser extension settings set IDE key to `PHPSTORM`
 
-Start debugging by enable `Debug` in the browser extension button, enable `Start Listening for PHP Debug COnnections` in PhpStorm (bug icon in the toolbar). Then add a breakpoint in the PHP code by clicking a line number. When you now access the Pimcore backend or call a dataport via REST API, the debugger will stop at your breakpoints.
+Start debugging by enable `Debug` in the browser extension button, enable `Start Listening for PHP Debug Connections` in PhpStorm (bug icon in the toolbar). Then add a breakpoint in the PHP code by clicking a line number. When you now access the Pimcore backend or call a dataport via REST API, the debugger will stop at your breakpoints.
 
 For debugging [CLI commands](#how-to-trigger-imports-and-exports), go to PhpStorm settings > PHP. Add CLI interpreter by clicking "+" icon and select `From Docker, Vagrant, VM, WSL ...`, everything else should be configured automatically.
 
-To start debugging CLI commands, just add a breakpoint to your code and run the command.
+To start debugging CLI commands, just add a breakpoint to your code and run the command, e.g. `bin/console dd:extract 1`.
+
+#### Tracing / Performance Analysis
+
+You can also use xDebug for tracing and performance analysis. To start tracing, prepend `XDEBUG_MODE=profile` to your CLI command, e.g. `XDEBUG_MODE=profile bin/console dd:complete 1`. This will create a file `cachegrind.out.<random>` in your project directory. You can analyze this file in PhpStorm via `Analyze > Analyze Performance Profile...` to see which functions use the most memory / time.
 
 ### Tutorials
 
