@@ -105,6 +105,7 @@ You can start an import on multiple ways:
   - you can additionally use `-vvv` to get all log / error messages
   - To see all parameters and a description of these commands you can use `bin/console data-director:extract --help` or `bin/console data-director:process --help`.
   - `bin/console data-director:complete <Dataport-ID>` combines raw data extraction and data processing - it first executes `data-director:extract` and afterwards `data-director:process`
+  - when starting long-running imports / exports, the run will get aborted as soon as your CLI user gets logged out or your SSH connection times out. This can be solved with `nohup`, e.g. `nohup bin/console data-director:complete 1 > /tmp/import.log 2>&1 &` - this will run the command in the background and write all output to the given log file, even if the user who started the process logs out.
 - start import automatically if import source changes (configurable via checkbox `Run automatically on new data` in dataport settings). If activated the import gets started as soon as a file / object gets saved which is inside the configured `import file path` (for Pimcore asset based imports) or which matches the given filter criteria (SQL condition for Pimcore-based imports). In this case the import gets started **only for the modified file / object** (not for all files / objects which match the path / filter criteria).
 
   Automatic imports also get triggered if an element is referenced by the saved object.
@@ -2321,7 +2322,34 @@ To run the demo you need to run `./docker-setup.sh` to create a docker container
 - User: admin
 - Password: admin
 
-The installation will need some time. When you installed it once and only want to restart the container, just call `docker-compose up -d`. You can stop it via `docker-composer stop`.
+Once you have installed it and only want to restart the container, just call `docker-compose up -d`. You can stop it via `docker-composer stop`.
+
+### xDebug
+
+For debugging purposes you can use xDebug. Follow the steps below to set it up:
+
+1. In PhpStorm configure xDebug under PHP > Debug:
+    - Debug port: 9003
+    - Can accept external connections: checked
+    - Max. simultaneous connections: 1
+    - Force break at first line when no path mapping specified: unchecked
+    ![xDebug config](img/xdebug-config.png)
+2. In PhpStorm under PHP > Servers, add a new server with the following settings:
+    - Name: Data Director Demo
+    - Host: localhost
+    - Port: 2000
+    - Debugger: Xdebug
+    - Use path mappings: checked
+    - Map the project root to `/data-director-bundle`
+    ![xdebug server config](img/xdebug-servers.png)
+3. Install xDebug browser extension for [Firefox](https://addons.mozilla.org/firefox/addon/xdebug-helper-for-firefox/) or [Chrome](https://chromewebstore.google.com/detail/xdebug-chrome-extension/oiofkammbajfehgpleginfomeppgnglk)
+4. In the browser extension settings set IDE key to `PHPSTORM`
+
+Start debugging by enable `Debug` in the browser extension button, enable `Start Listening for PHP Debug COnnections` in PhpStorm (bug icon in the toolbar). Then add a breakpoint in the PHP code by clicking a line number. When you now access the Pimcore backend or call a dataport via REST API, the debugger will stop at your breakpoints.
+
+For debugging [CLI commands](#how-to-trigger-imports-and-exports), go to PhpStorm settings > PHP. Add CLI interpreter by clicking "+" icon and select `From Docker, Vagrant, VM, WSL ...`, everything else should be configured automatically.
+
+To start debugging CLI commands, just add a breakpoint to your code and run the command.
 
 ### Tutorials
 
