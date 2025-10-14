@@ -2342,7 +2342,7 @@ For debugging purposes you can use xDebug. Follow the steps below to set it up:
     - Port: 2000
     - Debugger: Xdebug
     - Use path mappings: checked
-    - Map the project root to `/data-director-bundle`
+    - Map your local project root to `/data-director-bundle`
     ![xdebug server config](img/xdebug-servers.png)
 3. Install xDebug browser extension for [Firefox](https://addons.mozilla.org/firefox/addon/xdebug-helper-for-firefox/) or [Chrome](https://chromewebstore.google.com/detail/xdebug-chrome-extension/oiofkammbajfehgpleginfomeppgnglk)
 4. In the browser extension settings set IDE key to `PHPSTORM`
