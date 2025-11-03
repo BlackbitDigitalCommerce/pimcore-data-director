@@ -2337,13 +2337,14 @@ For debugging purposes you can use xDebug. Follow the steps below to set it up:
     - Force break at first line when no path mapping specified: unchecked
     ![xDebug config](img/xdebug-config.png)
 2. In PhpStorm under PHP > Servers, add a new server with the following settings:
-    - Name: Data Director Demo
+    - Name: localhost
     - Host: localhost
     - Port: 2000
     - Debugger: Xdebug
     - Use path mappings: checked
     - Map your local project root to `/data-director-bundle`
     ![xdebug server config](img/xdebug-servers.png)
+    - optionally: also map `/[local project root]/vendor` -> `/var/www/html/vendor` to also be able to add breakpoints to vendor libraries
 3. Install xDebug browser extension for [Firefox](https://addons.mozilla.org/firefox/addon/xdebug-helper-for-firefox/) or [Chrome](https://chromewebstore.google.com/detail/xdebug-chrome-extension/oiofkammbajfehgpleginfomeppgnglk)
 4. In the browser extension settings set IDE key to `PHPSTORM`
 
@@ -2354,6 +2355,8 @@ For debugging [CLI commands](#how-to-trigger-imports-and-exports), go to PhpStor
 To start debugging CLI commands, just add a breakpoint to your code and run the command, e.g. `bin/console dd:extract 1`.
 
 Breakpoints can also be added to callback functions by adding `xdebug_break();`.
+
+Hint: When you do not want to debug something, disable `Start Listening for PHP Debug Connections` in PhpStorm, otherwise it will be quite slow.
 
 #### Profiling / Performance Analysis
 
