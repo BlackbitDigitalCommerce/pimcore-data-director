@@ -1147,6 +1147,10 @@ Behind the scenes to configured input data in only one part of the prompt. Some 
 
 If you prefer to create the prompt on your own, you can add `<no-prompt-extension>` together with your custom prompt in the callback function.
 
+#### Database queries in callback function
+
+In some cases you may want to access the Pimcore database within a callback function. Beside Pimcore's default way, Data Director offers a shortcut function `DD\sql('SQL query')`. This will return an array with the found records.
+
 ### Tags
 
 You can import one or multiple [tags](https://pimcore.com/docs/latest/Development_Documentation/Tools_and_Features/Tags.html). Tag levels should be separated by `/`. You can either just assign a raw data field or use a callback function like this
