@@ -1149,7 +1149,10 @@ If you prefer to create the prompt on your own, you can add `<no-prompt-extensio
 
 #### Database queries in callback function
 
-In some cases you may want to access the Pimcore database within a callback function. Beside Pimcore's default way, Data Director offers a shortcut function `DD\sql('SQL query')`. This will return an array with the found records.
+In some cases you may want to access the Pimcore database within a callback function. Beside Pimcore's default way, Data Director offers a shortcut function `DD\sql('SQL query')`. This will return an array with the found records. It also supports prepared statements by providing parameters as second argument, e.g.
+```php
+$data = DD\sql('SELECT field FROM object_123 WHERE otherField=?', [$params['rawItemData']['otherField']['value']]);
+```
 
 ### Tags
 
