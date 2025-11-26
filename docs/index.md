@@ -988,16 +988,16 @@ Glossaries will automatically get applied for the current pair of source and tar
 
 When using DeepL glossaries, you should decide where the glossary will be maintained:
 
-- Glossaries maintained in Pimcore
-DeepL Glossaries which got created via Pimcore translations always have the suffix “_DD”.
-Pimcore acts as the master system for these glossaries.
-This means that if you modify such a glossary directly in DeepL, any changes will be overwritten during the next synchronization from Pimcore.
-- Glossaries maintained directly in DeepL 
-Glossaries created manually in DeepL (without the “_DD” suffix) always have priority over Pimcore-generated glossaries.
+- Glossaries maintained in Pimcore  
+DeepL Glossaries which got created via Pimcore translations always have the suffix “_DD”.  
+Pimcore acts as the master system for these glossaries.  
+This means that if you modify such a glossary directly in DeepL, any changes will be overwritten during the next   synchronization from Pimcore.
+- Glossaries maintained directly in DeepL  
+Glossaries created manually in DeepL (without the “_DD” suffix) always have priority over Pimcore-generated glossaries.  
 If only DeepL-created glossaries exist for a language pair, these will get used.
-- When both Pimcore and DeepL glossaries exist for the same language pair
-In this case, multiple glossaries technically exist for the same source/target language combination.
-However, DeepL can apply only one glossary per translation. 
+- When both Pimcore and DeepL glossaries exist for the same language pair  
+In this case, multiple glossaries technically exist for the same source/target language combination.  
+However, DeepL can apply only one glossary per translation.   
 Therefore, the manually created DeepL glossary always takes precedence, and the Pimcore glossary will not get applied.
 
 ###### Context and other API parameters
