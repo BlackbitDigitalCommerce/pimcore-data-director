@@ -2156,7 +2156,7 @@ One use-case which the Data Director already supports out-of-the-box is a depend
 
 By default Pimcore does not support translating element names. This leads to the problem that you have to decide which language to use for folder names and object keys. This complicates understanding the system for foreign language data maintainers.
 
-Data Director includes this feature (for Pimcore >= 11). If the user's language differs from the configured system default language, the element keys are tried to be translated via admin translations. Initially they will not exist, so the displayed element names will stay the same. But this way you can translate folder names or object keys if you want to. The element name gets used as translation key, so you can go to admin translations, search for the element key and then translate it in the desired language.
+Data Director includes this feature. If the user's language differs from the configured system default language, the element keys are tried to be translated via admin translations. Initially they will not exist, so the displayed element names will stay the same. But this way you can translate folder names or object keys if you want to. The element name gets used as translation key, so you can go to admin translations, search for the element key and then translate it in the desired language.
 
 ## Mouseover information in element tree (tooltip)
 
