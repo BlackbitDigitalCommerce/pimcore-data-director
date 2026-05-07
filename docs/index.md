@@ -1838,7 +1838,13 @@ You can use `{{ VARIABLE NAME }}` as a placeholder in the callback functions. Th
   This will create a virtual field `OTHER OBJECT` where we could have `return 'Category:name:'.$params['value'];` as callback function. This virtual Field will try to find a Category object with the field `name` being equal to the assigned raw data field. In the field with above callback function we then return either the content of `Field1` or if this is empty then the content of `Field2` of the returned Category.
 - reusable templates can contain virtual fields. For example the bundle provides a template for uploading export files via FTP. The template defines the virtual fields `FTP Host`, `FTP Port`, `FTP username`, `FTP password`, `FTP Path`. You do not have to edit the code provided by the template but can just change the values for these virtual fields.
 
-Virtual fields support getting values from `app/config/parameters.yml` and `.env` files. For example when you create export dataports for a shop API, you could put your API credentials in one of those files, in this example in `app/config(/parameters.yml`:
+Virtual fields support getting values from Pimcore parameters 
+- Pimcore version <=10 `app/config/parameters.yml` 
+- Pimcore version >=11 `config/services.yaml`
+
+and `.env` files. For example when you create export dataports for a shop API, you could put your API credentials in one of those files, in this example in:
+- Pimcore version <=10 `app/config/parameters.yml`
+- Pimcore version >=11 `config/services.yaml`
 
 ```yaml
 parameters:
