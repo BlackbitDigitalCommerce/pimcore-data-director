@@ -1,3 +1,241 @@
+# 3.10
+
+Pimcore 12 (Platform Version 2025) Compatibility
+------------------------
+
+Data Director 3.10 is compatible with Pimcore 12 (and still everything is still compatible down to Pimcore 6). Pimcore's new Studio UI is not supported yet, but we are working on this.
+
+Dry-Run Mode
+------------
+
+Complete dry-run functionality for testing imports without saving data. This allows you to test imports without making permanent changes to your data. Features include:
+
+- dry-run support for newly created objects
+
+- dry-run filter in history panel for easy navigation
+
+- context menu for dry-run mode in summary window
+
+- pass dry-run parameter to follow-up dataports
+
+- lock data system to prevent saving during dry-run tests
+
+
+Sophisticated control over which fields get imported:
+
+- skip specific fields for certain dataport/element combinations
+
+- option to ignore all fields for all objects of an import run
+
+- bulk ignore options via context menu
+
+- display of ignored import values in attribute mapping
+
+- support for ignoring values in localized fields
+
+XLSX Grid Import
+----------------
+
+Support for complete Excel workflow: Export from Pimcore to XLSX → Edit data in Excel → Import back to Pimcore. This enables non-technical users to work with data using familiar tools while maintaining data integrity.
+
+Data Synchronization
+--------------------
+
+Sync objects between multiple Pimcore systems:
+
+- complete object import functionality: `self` data query selector to get all fields of current object
+
+- sync via one field mapping
+
+- support for syncing without any mapping at all
+
+Disk Space Monitoring
+---------------------
+
+Automatic monitoring and management of disk space:
+
+- auto-disable logging when free disk space is below threshold (default: 1 GB)
+
+- configurable threshold via Pimcore website settings
+
+- warning messages when threshold is reached
+
+- log last error before disk space warning occurred
+
+Performance Improvements
+------------------------
+
+### Data Object Tree Loading
+
+Significant performance enhancements for tree view operations (3-5x faster on large datasets):
+
+- eliminated unnecessary SQL queries
+
+- optimized Listing, Dao and dataobject assignments
+
+- added condition to avoid triggering in Search→DataObjects
+
+- cache ClassDefinitions (RuntimeCache was being cleared after batches of 100 items)
+
+### Memory & Queue Processing
+
+- reduced memory usage across the board
+
+- enqueue new jobs automatically without waiting for slowest job to finish
+
+- better parallelization of independent jobs
+
+- split number of raw items to `<number of parallel processes>*2` jobs instead of global maximum
+
+### Other Performance Enhancements
+
+- performance optimization for importing images from URLs
+
+- accelerated marking old raw items for deletion after successful runs
+
+- use OPTIMIZE TABLE instead of manual table recreation on `pimcore:cache:clear`
+
+- register PHP error handler only once
+
+- cache CLI executable paths
+
+- remove non-printable characters via stream filter for all import files
+
+Symfony 7 & PHP 8.4 Support
+---------------------------
+
+Full compatibility with Symfony 7 framework and PHP 8.4, ensuring forward compatibility.
+
+Translation & Localization
+--------------------------
+
+- support for translation keys longer than 190 characters
+
+- possibility of making translations in the tree or in the tab header of editors configurable
+
+- allow uppercase chars in language code (e.g., en_GB)
+
+User Interface Improvements
+---------------------------
+
+- configurable AJAX timeout with endpoint for dynamic timeout retrieval
+
+- show translated field title instead of technical field name in summary window
+
+- don't show loading indicator for background requests
+
+- wrap long WYSIWYG texts in grid view
+
+- support website setting "custom.css" for overriding Pimcore backend CSS
+
+- add additional parameters 'force' and 'importType' to context
+
+Logging & Monitoring
+--------------------
+
+- gzip log files automatically to save disk space
+
+- new parameter `blackbit_pim.raw_item_logger.ignore_log_levels` to define which log levels should be skipped
+
+- check for remote storage logger initialization
+
+- enhanced notifications for updated assets
+
+Import/Export Features
+----------------------
+
+- support importing base64-encoded images
+
+- support importing hotspots for "image advanced" field type
+
+- support wildcard path queries (e.g., `Image:path:/Product images/*/abc.png`)
+
+- new helper function DD\sql() to simplify database queries within callback functions
+
+- support Content-Disposition header RFC 5987/6266 syntax for asset imports
+
+- use filename from HTTP header when importing assets via URL
+
+- try to convert non-allowed units to configured default/allowed units for quantity values
+
+- use GPT-5-mini model for OpenAI integration (much faster)
+
+- when auto-creating non-existing relation elements, create them in folder with common prefix structure
+
+- support filling query tables for inheriting children if data of parent gets changed
+
+Bug Fixes
+---------
+
+- correct regex pattern for SQL IN condition matching in PimcoreParser (GHG-22)
+
+- fix "Unknown column 'maintype'" error during search/relation-objects-list request
+
+- fix "Serialization of 'Closure' is not allowed in Serializer.php" error for Classification store objects
+
+- handle null WYSIWYG field comparison in HTML sanitizer
+
+- preserve precision for numeric values
+
+- change detection for video fields now works correctly
+
+- multiple fixes for remote storage for application logs
+
+- summary window did not show newly created elements
+
+- progress bar incorrect for exports with dependent dataports
+
+- restore context when calling dependent dataports
+
+- prevent error if folder gets saved in live-update
+
+- if node got moved, update old and new parent nodes in element tree
+
+- repair "changes" selector
+
+- fix offset > 100 did not work
+
+- load environment variables even if php.ini setting "variables_order" does not contain "E"
+
+- prevent infinite loop if parent-child hierarchy is damaged in "closestOfClass" data query selector
+
+- prevent fatal error in callback function if it contains `declare(strict_types=0);`
+
+- clean up edit locks after aborted imports
+
+- save version on separate transaction to prevent deadlocks
+
+Import Type & Process Management
+--------------------------------
+
+- changed import type logic to use bit-logic (Database Migration: Version20251210124404)
+
+- added dry-run filter to history panel (Database Migration: Version20251125082742)
+
+- immediate abort process on CMD+C or SIGTERM signal
+
+- execute only automatic dataports of same class when object is saved immediately; all others via queue
+
+Code Quality
+------------
+
+- output error if migration cannot be executed
+
+- remove non-printable characters via stream filter for all import files
+
+- improve compatibility checks in response handling and method existence verification
+
+- add xDebug configuration support
+
+Other Changes
+-------------
+
+- enhanced Adminer integration for Pimcore version compatibility
+
+- initially filter status panel by done > 0 to not show 0/0 runs
+
+- filter raw data runs by STATUS_FINISHED and use null-safe item count comparison
+
 # 3.9.0
 
 Pimcore 12 (Platform Version 2025) Compatibility
@@ -190,13 +428,13 @@ Up to now, Data Director was licensed under GPLv3. Thus you could only use it wi
 >
 > - use Blackbit software under GPLv3 with the Pimcore Community Edition under GPLv3 or
 > - combine Blackbit software under a commercial licence and Pimcore under a commercial licence.
-> 
+>
 > You can use the software under the terms of the GNU General Public Licence, Version 3 (GPLv3). This brings with it many rights of use and freedoms:
 > - Open source: You can view the unencrypted programme code of our software.
 > - Customisation: You can adapt the software to your needs and develop it further as you wish.
 > - Distribution: You can copy, distribute and even sell the software or further developments of the software as long as you comply with the GNU GPL v3 licence. Because you become the owner of the code when you purchase the bundle, there is no warranty and no free service.
-> 
-> Alternatively, you can use the software under the Blackbit Commercial Licence. This means that the software remains the property of Blackbit and may be used in one instance per licence. Blackbit grants the user a limited right of use and eliminates defects and errors and provides updates free of charge during the contract period. 
+>
+> Alternatively, you can use the software under the Blackbit Commercial Licence. This means that the software remains the property of Blackbit and may be used in one instance per licence. Blackbit grants the user a limited right of use and eliminates defects and errors and provides updates free of charge during the contract period.
 
 Job processing
 --------------
@@ -488,7 +726,7 @@ action.
 
   2. user changes ibject of class A
 
-  3. automatic dataport for source class B gets started for objects which depend on the just saved product of class 
+  3. automatic dataport for source class B gets started for objects which depend on the just saved product of class
   4. previously: error because triggering user does not have permission for class B -> inconsistent state now: dataport gets executed
 
 # 3.6.0
@@ -647,11 +885,11 @@ The `data-director:deployment:dataport-rebuild` can now also be used to synchron
 
 - `GET http(s)://<YOUR-DOMAIN>/api/dataports?apikey=<API key>`
 
-    - returns a JSON list of dataports which the user given by `apikey` is allowed to configure
+  - returns a JSON list of dataports which the user given by `apikey` is allowed to configure
 
 - `GET http(s)://<YOUR-DOMAIN>/api/dataports/<dataport id or name>?apikey=<API key>`
 
-    - returns the dataport configuration as JSON (which can be used to set up dataports via `data-director:deployment:dataport-rebuild` command (same as when exporting dataport configuration or when using Git for storing JSON configuration files)
+  - returns the dataport configuration as JSON (which can be used to set up dataports via `data-director:deployment:dataport-rebuild` command (same as when exporting dataport configuration or when using Git for storing JSON configuration files)
 
 To import dataports from a remote system, you can call `bin/console data-director:deployment:dataport-rebuild --source=https://other-pimcore.com --api-key=<API key>`. As optional argument you can provide the dataport id / name to retrieve - otherwise all dataports will get fetched.
 
@@ -684,9 +922,9 @@ via [Pimcore's WebDAV interface](https://pimcore.com/docs/pimcore/10.6/Developme
 
 - simplify accessing complex import resources
 
-    - support direct input of PHP / shell code, e.g. to access data from OAuth2 APIs → no need to create a separate script file anymore
+  - support direct input of PHP / shell code, e.g. to access data from OAuth2 APIs → no need to create a separate script file anymore
 
-    - support using PHP code as import resource which returns a URL (e.g. HTTP, FTP, Pimcore Asset path) -> this way the script can focus on the logic to generate the URL while delegating the code to actually access the resource to Data Director
+  - support using PHP code as import resource which returns a URL (e.g. HTTP, FTP, Pimcore Asset path) -> this way the script can focus on the logic to generate the URL while delegating the code to actually access the resource to Data Director
 
 - support querying asset metadata fields in SQL condition via their name, e.g. metaField=1
 
@@ -723,13 +961,13 @@ Other changes
 
 - change virtual field resolving priority, e.g. {{ field }}:
 
-    - if the field "field" really exists in the target class, use the return value of this (for reusing return values of other fields)
+  - if the field "field" really exists in the target class, use the return value of this (for reusing return values of other fields)
 
-    - use the request parameter "field"
+  - use the request parameter "field"
 
-    - use the raw item data field with name "field"
+  - use the raw item data field with name "field"
 
-    - and 3. were the other way around which caused problems with dependent dataport parameters when the called dataport had a raw data field with the same name - then there was no way to access the parameter
+  - and 3. were the other way around which caused problems with dependent dataport parameters when the called dataport had a raw data field with the same name - then there was no way to access the parameter
 
 - serialization bugfix: export boolean values as 0/1 -> was "true"/"false" in some cases
 
@@ -994,21 +1232,21 @@ Other changes
 
 - enhance recognition of quantity value field's value and unit when provided as string. Following strings have been successfully tested to be imported to quantity value fields:
 
-    - 1,23m
+  - 1,23m
 
-    - 1.23m
+  - 1.23m
 
-    - 1.23 m
+  - 1.23 m
 
-    - -10°C
+  - -10°C
 
-    - 10°C
+  - 10°C
 
-    - 10 °C
+  - 10 °C
 
-    - 12 turns per minute
+  - 12 turns per minute
 
-    - € 12
+  - € 12
 
 - when there were queued processes which refer to dataport resource ids which got deleted in the meantime (e.g. by deleting raw data in preview panel), the corresponding SQL conditions got created as standalone dataport resources -> this could lead to very much dataport resources for those automatic
   dataports -> all of them had to be checked when an object got saved -> slow saving
@@ -1198,27 +1436,27 @@ Minor Features
 
 - history panel:
 
-    - do not show started but still queued jobs in -> caused irritation that 2 processes existed (1 running and 1 queued) but this is actually the queued job which is running
+  - do not show started but still queued jobs in -> caused irritation that 2 processes existed (1 running and 1 queued) but this is actually the queued job which is running
 
-    - support to filter by "done" and "total" items which were processed in the dataport run, e.g.
+  - support to filter by "done" and "total" items which were processed in the dataport run, e.g.
 
-        - done > 0
+    - done > 0
 
-        - done > 1000
+    - done > 1000
 
-        - total > 1000
+    - total > 1000
 
-        - done < total
+    - done < total
 
-        - done = total
+    - done = total
 
-    - do not delete logs / history when clearing raw data or when dataport resources get deleted -> e.g. to know when a dataport was last executed
+  - do not delete logs / history when clearing raw data or when dataport resources get deleted -> e.g. to know when a dataport was last executed
 
 - preview panel:
 
-    - when processing single raw item in preview panel, make logs window maximizable
+  - when processing single raw item in preview panel, make logs window maximizable
 
-    - better performance for search
+  - better performance for search
 
 ### Others
 
@@ -1500,8 +1738,8 @@ This shirt is made of cotton and polyester.
 
 Properties:
 <ul>
-    <li>Color: black</li>
-    <li>Size: XL</li>
+  <li>Color: black</li>
+  <li>Size: XL</li>
 </ul>
 ```
 
@@ -1599,9 +1837,9 @@ UI
 
 - raw items fields panel:
 
-    - add option to copy raw item field
+  - add option to copy raw item field
 
-    - add option to move clicked field after currently selected field
+  - add option to move clicked field after currently selected field
 
 # 2.6.0
 
@@ -1612,14 +1850,14 @@ You can use placeholder variables in the import resource path / URL, e.g.:
 
 - `http://example.org/api/fetch-product-data?sku={{ sku }}`
 
-    - The goal is to exchange the parameter `sku` by the SKU of the just saved product. This is useful for automatic imports: The variable `$sku` refers to the field `sku` of the dataport's configured target class. The variable in the import resource URL gets resolved when an object of this target
-      class gets saved and with this resolved URL a dataport run gets queued for import.\
-      You can also use the notation `http://example.org/api/fetch-product-data?sku=$sku`
+  - The goal is to exchange the parameter `sku` by the SKU of the just saved product. This is useful for automatic imports: The variable `$sku` refers to the field `sku` of the dataport's configured target class. The variable in the import resource URL gets resolved when an object of this target
+    class gets saved and with this resolved URL a dataport run gets queued for import.\
+    You can also use the notation `http://example.org/api/fetch-product-data?sku=$sku`
 
 - `http://example.org/api/fetch-product-data?username={{ ApiConfiguration:path:/example-org-api:username }}&password={{ ApiConfiguration:path:/example-org-api:password }}`
 
-    - In this case the goal is to store API credentials in a separate `ApiConfiguration` object (class `ApiConfiguration` is a data object class in this case). All features of data query selectors can be used here. This way the API credentials can be maintained in a separate object and not directly
-      in the dataport's import resource configuration.
+  - In this case the goal is to store API credentials in a separate `ApiConfiguration` object (class `ApiConfiguration` is a data object class in this case). All features of data query selectors can be used here. This way the API credentials can be maintained in a separate object and not directly
+    in the dataport's import resource configuration.
 
 This feature can be used with all types of import resources, like URLs, files, folder names, cURL requests, PHP scripts etc.
 
@@ -1653,15 +1891,15 @@ Other new features
 
 - Automatic translation: Support partial translation with shared translations
 
-    - Exclude terms from being translated
+  - Exclude terms from being translated
 
-    - Support custom translation for some terms via shared translations (before automatic translation gets executed)
+  - Support custom translation for some terms via shared translations (before automatic translation gets executed)
 
 - Better dataport monitoring
 
-    - Log PHP errors / warnings during dataport runs incl. grouping of similar errors
+  - Log PHP errors / warnings during dataport runs incl. grouping of similar errors
 
-    - Send notification email to users which are allowed to change a dataports' configuration when there is an error during dataport execution
+  - Send notification email to users which are allowed to change a dataports' configuration when there is an error during dataport execution
 
 - Support accessing relational fields in SQL condition of Pimcore-based dataports, e.g. for a dataport with source data class "Product" which has a relational field "categories" to class "Category" which has a field "name" you can have SQL condition: categories.name LIKE 'a%' and will only get those
   products which have at least one category assigned whose name begins with "a" → no need to implement the JOIN yourself
@@ -1670,9 +1908,9 @@ Other new features
 
 - Support for importing field type "Geographic Point"
 
-    - support different formats of geo coordinates
+  - support different formats of geo coordinates
 
-    - support geocoding addresses
+  - support geocoding addresses
 
 - pass request to result callback function + result document action to be able to change logic based on request (URL) parameters
 
@@ -1757,9 +1995,9 @@ Performance
 
 - 50 % performance increasement for imports
 
-    - not necessary to apply preUpdate event listeners to a clone of the imported object for modification check
+  - not necessary to apply preUpdate event listeners to a clone of the imported object for modification check
 
-    - less memory consumption during raw data processing
+  - less memory consumption during raw data processing
 
 - no need to execute raw data processing for deleted objects which were not present in dataport's raw data before
 
@@ -2061,9 +2299,9 @@ Performance improvements
 
 -   check if object got modified by import
 
-    -   for fields which support dirty detection, only compare values if field is dirty -> faster recognition if object got modified by import
+  -   for fields which support dirty detection, only compare values if field is dirty -> faster recognition if object got modified by import
 
-    -   do not check values of calculated fields for better performance
+  -   do not check values of calculated fields for better performance
 
 -   check earlier if import is allowed to edit existing objects -> performance increase for imports which do not allow editing
 
@@ -2080,57 +2318,57 @@ User interface improvements
 
 -   Dataport tree:
 
-    -   support multi-level grouping in tree / repair tree grouping
-    
-    -   auto-expand tree child nodes if there is only one child (especially when searching / filtering)
+  -   support multi-level grouping in tree / repair tree grouping
+
+  -   auto-expand tree child nodes if there is only one child (especially when searching / filtering)
 
 -   Dataport config:
 
-    -   raw data field config: set raw data field name automatically from data query selector, column name etc. if not filled
+  -   raw data field config: set raw data field name automatically from data query selector, column name etc. if not filled
 
-    -   use cell editing for raw data field config (instead of row editing -> you always had to click "Update" before saving)
+  -   use cell editing for raw data field config (instead of row editing -> you always had to click "Update" before saving)
 
-    -   prevent multiple requests which fetch raw data fields
+  -   prevent multiple requests which fetch raw data fields
 
-    -   load demo data for raw data fields asynchronically
+  -   load demo data for raw data fields asynchronically
 
 -   attribute mapping
 
-    -   make available variables tree for callback functions scrollable
+  -   make available variables tree for callback functions scrollable
 
-    -   allow raw data field dropdown in attribute mapping to be wider than raw data field column
+  -   allow raw data field dropdown in attribute mapping to be wider than raw data field column
 
-    -   for imports use first raw data item (ordered by raw item fields) as example data
+  -   for imports use first raw data item (ordered by raw item fields) as example data
 
-    -   do not open callback function window when clicking "Parsed" column -> be able to copy values from this column
+  -   do not open callback function window when clicking "Parsed" column -> be able to copy values from this column
 
-    -   buffer any output from callback functions -> otherwise there is an error in attribute mapping because of invalid JSON and otherwise there is no possibility to remove the debug statement in the callback function
+  -   buffer any output from callback functions -> otherwise there is an error in attribute mapping because of invalid JSON and otherwise there is no possibility to remove the debug statement in the callback function
 
-    -   JSON-encoded preview for virtual fields with complex return types
+  -   JSON-encoded preview for virtual fields with complex return types
 
 -   History panel
 
-    -   consume less memory when searching for worst error level in log
+  -   consume less memory when searching for worst error level in log
 
-    -   prevent multiple parallel requests for updating history panel data
+  -   prevent multiple parallel requests for updating history panel data
 
-    -   add search field to filter dataport logs / find dataport runs of certain element
+  -   add search field to filter dataport logs / find dataport runs of certain element
 
 -   Preview tab
 
-    -   faster rendering (reducing repaints when auto-resizing columns)
+  -   faster rendering (reducing repaints when auto-resizing columns)
 
-    -   add column header menu item to collapse / expand columns to better be able to find certain column
+  -   add column header menu item to collapse / expand columns to better be able to find certain column
 
-    -   hide columns where no raw item matches search term
+  -   hide columns where no raw item matches search term
 
-        -   if no non-locked column matches search string, show all non-locked columns
+    -   if no non-locked column matches search string, show all non-locked columns
 
-        -   if search string is found in locked column (= key column or manually locked), all columns are shown
+    -   if search string is found in locked column (= key column or manually locked), all columns are shown
 
-    -   quick search now also searches for field / column names -> easier to find column "xyz" when there are a lot of columns
+  -   quick search now also searches for field / column names -> easier to find column "xyz" when there are a lot of columns
 
-    -   support boolean search in dataport preview
+  -   support boolean search in dataport preview
 
 Other changes
 -------------
@@ -2185,9 +2423,9 @@ Other changes
 
 -   bugfix: advanced many-to-many object relations:
 
-    -   do not add object if already present in relation (and it is not allowed to assign same object multipe times)
+  -   do not add object if already present in relation (and it is not allowed to assign same object multipe times)
 
-    -   fill meta fields which have not been provided with null to ensure AdvancedManyToManyObjectRelation::getForWebserviceExport() does not throw an exception
+  -   fill meta fields which have not been provided with null to ensure AdvancedManyToManyObjectRelation::getForWebserviceExport() does not throw an exception
 
 # 2.3.0
 Optimizations for (automatic) exports
@@ -2305,7 +2543,7 @@ Minor changes
 
 -   add shortcut $ for .:.:.: in data query selectors (e.g. to be used for placeholders within texts)
 
-    -   e.g. you could have "Buy $name now" in a field for a product's SEO title. This then gets replaced to "Buy christmans socks now" when there is an input field "name" in the current object's class which has the value "christmas socks".
+  -   e.g. you could have "Buy $name now" in a field for a product's SEO title. This then gets replaced to "Buy christmans socks now" when there is an input field "name" in the current object's class which has the value "christmas socks".
 
 -   support stream wrappers for logs
 
@@ -2348,11 +2586,11 @@ Minor changes
 
 -   enhanced regognition if imported element got changed during import
 
-    -   modificatin check did not work correctly for field collections
+  -   modificatin check did not work correctly for field collections
 
-    -   trigger preUpdate event handler before comparing element with its latest version → not saving unnecessarily if custom logic in preUpdate event handler changes some object data
+  -   trigger preUpdate event handler before comparing element with its latest version → not saving unnecessarily if custom logic in preUpdate event handler changes some object data
 
-    -   do not check for importhash property in isModified
+  -   do not check for importhash property in isModified
 
 -   support importing to image gallery
 
@@ -2459,9 +2697,9 @@ Minor enhancements:
 
 -   prefix commands by "data-director:" instead of "import:"
 
-    -   rename import:rawdata to dd:extract
+  -   rename import:rawdata to dd:extract
 
-    -   rename import:pim to dd:process
+  -   rename import:pim to dd:process
 
 -   support running exports based on current raw data
 
@@ -2590,7 +2828,7 @@ Other changes
 
 -   lock objects for Pimcore-based imports so the same object does not get imported multiple times parallely by same dataport
 
-    -   especially important for automatic imports which could call themselves multiple times when the object got saved - only the hash check prevented an endless loop here but it nevertheless was not pretty when saving an object caused the same import to run multiple times
+  -   especially important for automatic imports which could call themselves multiple times when the object got saved - only the hash check prevented an endless loop here but it nevertheless was not pretty when saving an object caused the same import to run multiple times
 
 -   prevent raw data fields with duplicate names (caused raw data to be empty for this field)
 
@@ -2607,51 +2845,51 @@ This PR brings a lot of new features:
 
 -   Templates for complex import datatypes:
 
-    -   (advanced) many-to-many (object) relation,
+  -   (advanced) many-to-many (object) relation,
 
-    -   field collections,
+  -   field collections,
 
-    -   link
+  -   link
 
-    -   Checkbox
+  -   Checkbox
 
-    -   more to come... (as soon as I need them in a customer's project)
+  -   more to come... (as soon as I need them in a customer's project)
 
 -   REST API:
 
-    -   add "all" data query selector helper and support for nested data query selectors to fetch nested data for XML and JSON exports
+  -   add "all" data query selector helper and support for nested data query selectors to fetch nested data for XML and JSON exports
 
-    -   configurable tag names for exports (data query selector with aliases ("as"))
+  -   configurable tag names for exports (data query selector with aliases ("as"))
 
-    -   support for Response object (with headers) in result callback function
+  -   support for Response object (with headers) in result callback function
 
-    -   locale parameter to determine language of localized fields being accessed in data query selectors
+  -   locale parameter to determine language of localized fields being accessed in data query selectors
 
-    -   Templates for Result callback function:
+  -   Templates for Result callback function:
 
-        -   CSV,
+    -   CSV,
 
-        -   JSON,
+    -   JSON,
 
-        -   XML,
+    -   XML,
 
-        -   call dependent import
+    -   call dependent import
 
-    -   never cache REST exports without asking server
+  -   never cache REST exports without asking server
 
-    -   automatically created OpenAPI specification
+  -   automatically created OpenAPI specification
 
-    -   add redirect for REST API endpoints if dataport name changes
+  -   add redirect for REST API endpoints if dataport name changes
 
 -   UI bugfixes:
 
-    -   attribute mapping preview
+  -   attribute mapping preview
 
-    -   only reload status panel if it is really visible
+  -   only reload status panel if it is really visible
 
-    -   sort rawdata columns in preview panel by priority (drag-and-drop order)
+  -   sort rawdata columns in preview panel by priority (drag-and-drop order)
 
-    -   multiValues checkbox should be editable when in row edit mode
+  -   multiValues checkbox should be editable when in row edit mode
 
 -   cache translations to save costs for translation service provider
 
@@ -2675,25 +2913,25 @@ There are 2 REST endpoints:
 
 -   (GET|POST) http(s)://[YOUR-DOMAIN]/webservice/BlackbitPim/rest/import?apikey=[API-KEY]&dataportId=[Dataport-ID][&async=1]
 
-    -   In the request body you provide the document to be imported.
+  -   In the request body you provide the document to be imported.
 
-    -   [API-KEY] is the API key of the Pimcore user, see [Pimcore Webservice documentation](https://pimcore.com/docs/latest/Development_Documentation/Web_Services/index.html#page_Permissions "https://pimcore.com/docs/latest/Development_Documentation/Web_Services/index.html#page_Permissions"). You can only import data to objects which this user has access to.
+  -   [API-KEY] is the API key of the Pimcore user, see [Pimcore Webservice documentation](https://pimcore.com/docs/latest/Development_Documentation/Web_Services/index.html#page_Permissions "https://pimcore.com/docs/latest/Development_Documentation/Web_Services/index.html#page_Permissions"). You can only import data to objects which this user has access to.
 
-    -   Example for a CSV import:
+  -   Example for a CSV import:
 
-        POST http(s)://[YOUR-DOMAIN]/webservice/BlackbitPim/rest/import?apikey=[API-KEY]&dataportId=[Dataport-ID]
+      POST http(s)://[YOUR-DOMAIN]/webservice/BlackbitPim/rest/import?apikey=[API-KEY]&dataportId=[Dataport-ID]
 
-        Article number,name 123,My cool product
+      Article number,name 123,My cool product
 
-    -   via import callback function you can generate a response document
+  -   via import callback function you can generate a response document
 
-    -   requests with async parameter are run in the background. As response you get a URL from which you can fetch the current status and result of the started import (see next bullet point)
+  -   requests with async parameter are run in the background. As response you get a URL from which you can fetch the current status and result of the started import (see next bullet point)
 
 -   http(s)://[YOUR-DOMAIN]/webservice/BlackbitPim/rest/status?apikey=[API-KEY]&dataportId=[Dataport-ID]
 
-    -   get result of asynchronous import
+  -   get result of asynchronous import
 
-    -   as long as HTTP 102 Processing gets returned the import has not finished yet (so the response body contains only data up to the last imported item)
+  -   as long as HTTP 102 Processing gets returned the import has not finished yet (so the response body contains only data up to the last imported item)
 
 Import result function
 ----------------------
@@ -2739,25 +2977,25 @@ For convenience there are also some shortcut versions for data query selectors:
 
 -   if you enter . as Class
 
-    -   in attribute mapping the import's target class gets used
+  -   in attribute mapping the import's target class gets used
 
-        -   e.g. Product:articleNo:123 is equal to .:articleNo:123 for imports with target class Product
+    -   e.g. Product:articleNo:123 is equal to .:articleNo:123 for imports with target class Product
 
-    -   for Pimcore-based imports in raw data the source class gets used
+  -   for Pimcore-based imports in raw data the source class gets used
 
-        -   e.g. Product:articleNo:123 is equal to .:articleNo:123 for Pimcore-based imports with source class Product
+    -   e.g. Product:articleNo:123 is equal to .:articleNo:123 for Pimcore-based imports with source class Product
 
 -   if you enter a . for filterField and filterValue
 
-    -   the currently imported object gets used
+  -   the currently imported object gets used
 
-    -   e.g. Product:.:.:name:de is equal to Product:articleNo:123:name:de when an object with articleNo=123 gets fetched via the key fields of the current raw item row.
+  -   e.g. Product:.:.:name:de is equal to Product:articleNo:123:name:de when an object with articleNo=123 gets fetched via the key fields of the current raw item row.
 
 -   if you enter a . for filterValue (but have filterField set)
 
-    -   filterValue gets fetched from the current object via the set filterField
+  -   filterValue gets fetched from the current object via the set filterField
 
-    -   e.g. Product:articleNo:.:name:de is equal to Product:articleNo:123:name:de when an object with articleNo=123 gets fetched via the key fields of the current raw item row.
+  -   e.g. Product:articleNo:.:name:de is equal to Product:articleNo:123:name:de when an object with articleNo=123 gets fetched via the key fields of the current raw item row.
 
 Example:\
 For a Pimcore-based import you can access .:.:.:name as raw data field to get the name of the object being currently imported. You could for example use this as placeholder variable in a description text template which gets filled by a Pimcore-based import.
