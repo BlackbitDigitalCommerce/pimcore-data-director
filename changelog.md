@@ -235,6 +235,7 @@ Other Changes
 - initially filter status panel by done > 0 to not show 0/0 runs
 
 - filter raw data runs by STATUS_FINISHED and use null-safe item count comparison
+- declare `rubix/ml` an optional dependency. To use the auto-classification feature you need to install the package separately.
 
 # 3.9.0
 
