@@ -11,6 +11,13 @@ Import XML, CSV, JSON, Excel files to Pimcore objects, assets, documents + Expor
 
 For an overview how to use this plugin, please see our [tutorial videos](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt).
 
+## Supported Pimcore UI interface
+
+| Version | Classic UI                                                                 | Studio UI                                                                    |
+|:--------|:---------------------------------------------------------------------------|:-----------------------------------------------------------------------------|
+| v3      | ![check](https://www.readmecodegen.com/api/social-icon?name=check&size=18) | ![times](https://www.readmecodegen.com/api/social-icon?name=times&size=18)   |
+| v4      | ![times](https://www.readmecodegen.com/api/social-icon?name=times&size=18) | ![check](https://www.readmecodegen.com/api/social-icon?name=check&size=18)   |
+
 ## Installation
 
 ### Composer
@@ -254,7 +261,7 @@ The objects to be used can be restricted with the `SQL condition`. You can acces
 
 To create raw data from Pimcore objects you can enter a [data query selector](#data-query-selectors).
 
-#### Importing data from Pimcore reports
+#### Importing data from Pimcore reports (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 You can use [Pimcore custom reports](https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Custom_Reports.html) as import source. Just select the report which you want to import data from, select which columns of the report to use and you are done.
 
@@ -317,7 +324,7 @@ Automatic exports also get triggered if an element of the dataport's target clas
 
 When you enabled `Run automatically on new data` for your export dataport, another checkbox `Incremental Export` becomes available. Non-incremental exports first fetch the data from all data objects which match the configured SQL condition and thereafter update this export data when a related object gets saved. Incremental backups do not fetch the data of all matching objects. Instead they fetch the data only from the saved objects and export this data. As soon as the [result callback function](#import-result-callback--result-document-generation) does not trigger any error for the exported items and does not return `false` the raw data gets automatically deleted. Then when saving other objects the whole process is repeated.
 
-#### Exporting data from grid configuration
+#### Exporting data from grid configuration (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 This bundle ships with a grid operator `Data Query Selector` to use [data query selectors](#data-query-selectors) to show data from data objects in the Pimcore grid / folder view. This is especially interesting for complex fields like relations, field collections, object bricks as it is really difficult to extract the desired data from such complex fields with Pimcore's default grid operators.
 
@@ -382,18 +389,18 @@ By default files older than 30 days get automatically deleted from the archive f
 
 Raw data fields define which data shall be extracted from the import resource. You can specify the data to be extracted with selector queries depending on the format of the import source:
 
-| Input format               | Field selection by                               |
-|----------------------------|--------------------------------------------------|
-| XML / HTML                 | [XPath](https://devhints.io/xpath)               |
-| CSV                        | Column index or column heading                   |
-| JSON                       | [JMESPath / JSON Pointer](https://jmespath.org/) |
-| Excel                      | Column name or column heading                    |
-| Fixed-length Files         | Field length                                     |
-| Pimcore objects            | [Data query selector](#data-query-selectors)     |
-| Pimcore reports            | Report column names                              |
-| Object wizards             | Individual form fields                           |
-| Pimcore Grid configuration | Dynamic field selection via grid configuration   |
-| Files                      | CLI commands                                     |
+| Input format                                                                                                                                                                                          | Field selection by                               |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| XML / HTML                                                                                                                                                                                            | [XPath](https://devhints.io/xpath)               |
+| CSV                                                                                                                                                                                                   | Column index or column heading                   |
+| JSON                                                                                                                                                                                                  | [JMESPath / JSON Pointer](https://jmespath.org/) |
+| Excel                                                                                                                                                                                                 | Column name or column heading                    |
+| Fixed-length Files                                                                                                                                                                                    | Field length                                     |
+| Pimcore objects                                                                                                                                                                                       | [Data query selector](#data-query-selectors)     |
+| Pimcore reports (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)            | Report column names                              |
+| Object wizards (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)             | Individual form fields                           |
+| Pimcore Grid configuration (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3) | Dynamic field selection via grid configuration   |
+| Files                                                                                                                                                                                                 | CLI commands                                     |
 
 ### Define order of import
 
@@ -1224,7 +1231,7 @@ public function myListener(ElementEventInterface $e) {
 
 As the callback functions are normal PHP code, you can call any PHP classes which exist in your project. But beware that one of the main 
 
-### Dependency graphs
+### Dependency graphs (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 When a certain field gets changed by multiple dataports it can be difficult to keep track of all the dependencies. In this case it might be helpful to visualize all the dataports which use a certain field. This can be accessed by clicking the field name in the attribute mapping panel, the result looks like this:
 
@@ -1233,7 +1240,7 @@ When a certain field gets changed by multiple dataports it can be difficult to k
 In this example the dependency graph for the field `published` of class `Product` is shown. In this case 2 dataports (`Item Import ERP`, `Data Quality Check`) import to the field `published`. `Item Import ERP` might also be called as a dependent import of dataport `Pipeline import`.
 On the right side we see that the dataport `Export products to shop` accesses the field `published`.
 
-## Import preview / Ignore values from import source permanently
+## Import preview / Ignore values from import source permanently (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 With the checkbox `Data review (show what would change but not save anything)` you can run an import in dry-run mode. In the summary window (and also the import log) you see what would change. In this summary window you can also decide to ignore certain import values for a certain field and object permanently. This is useful when you have a field which gets filled by an external system but you want to keep your manually maintained values in Pimcore. In this case you can ignore the import values for this field and object combination permanently. The next time the import runs, the ignored values will not get applied anymore.
 
@@ -1921,7 +1928,7 @@ For all dataport runs which do not get started manually from Pimcore backend (e.
 
 This bundle also supports [elements-at/ProcessManager](https://github.com/elements-at/ProcessManager). With this bundle you can execute import jobs at certain times - like cronjobs but you can config those within the Pimcore GUI. Another advantage of the Process Manager is that you can configure *logging channels*. You can define which error levels shall be logged to which output channels. For example you can create a separate log file only for your imports (so they do not get mixed with the normal Pimcore log) or you can specify to get *notified via email* when critical errors happen during an import.
 
-## Notifications
+## Notifications (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Whenever there is an error during a dataport run which did not get started with the `--force` flag, all users who are allowed to configure the dataport get notified via email. You can limit the recipients by configuring `Error notification recipients` in the dataport settings.
 
@@ -1967,7 +1974,7 @@ To run the tests a `phpunit.xml` is needed. If this does not already exist in th
 
 The command will display instructions how to run to tests.
 
-## Revert imports
+## Revert imports (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Sometimes humans make mistakes but in attribute mapping and especially its callback functions small logic mistakes can have serious consequences: e.g. when the import changed thousands of Pimcore objects the wrong way. In this moment you could restore a complete backup of the Pimcore system. But this has the main disadvantage that in the meantime other objects than the corrupted ones could have been changed - restoring a backup would revert all those changes.
 
@@ -2073,7 +2080,7 @@ This `Result callback function` gets the following parameters in variable `$para
 - `logger` - Logger object which implements `\Psr\Log\Logger`
   - Usage example: `$params['logger']->error('Something 'unexpected happened');`
 
-## REST interface {#rest-interface}
+## REST interface {#rest-interface} (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 This bundle brings its own REST API interface with the following endpoints:
 
@@ -2150,7 +2157,7 @@ The endpoint to retrieve the full configuration of a dataport is
 
 This will return the full configuration as JSON, similar to the definition files in `<Pimcore-Root>/var/bundles/BlackbitDataDirector/` folder, see [deployment](#deployment).
 
-## Object Preview
+## Object Preview (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Pimcore supports a [preview tab](https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Class_Settings/Preview.html) in the object editing panel. This feature can be combined with a Data Director export. The export can create an HTML document which can be shown in the preview panel of the currently opened object. To achieve this, you have to enter `@DataDirectorPreview` in the field `General Settings` > `Preview Generator Class or Service Name` of your data object class. Afterwards when you open a data object of this class you will immediately see the out-of-the-box `Default Preview` available which shows the current object's data as known from the [versions panel](https://pimcore.com/docs/pimcore/current/Development_Documentation/Tools_and_Features/Versioning.html). But the real cool feature is when you create a [Pimcore-based dataport](#import-result-callback--result-document-generation) which generates an HTML document. You can use `o_id='{{ id }}'` as SQL condition and then add the desired raw data fields and generate the desired output in the [result callback function](
 #import-result-callback--result-document-generation).
@@ -2158,17 +2165,17 @@ Pimcore supports a [preview tab](https://pimcore.com/docs/pimcore/current/Develo
 One use-case which the Data Director already supports out-of-the-box is a dependency graph:
 ![Object dependency graph](img/object-dependency-graph.png)
 
-## Translatable element names in element tree
+## Translatable element names in element tree (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 By default Pimcore does not support translating element names. This leads to the problem that you have to decide which language to use for folder names and object keys. This complicates understanding the system for foreign language data maintainers.
 
 Data Director includes this feature. If the user's language differs from the configured system default language, the element keys are tried to be translated via admin translations. Initially they will not exist, so the displayed element names will stay the same. But this way you can translate folder names or object keys if you want to. The element name gets used as translation key, so you can go to admin translations, search for the element key and then translate it in the desired language.
 
-## Mouseover information in element tree (tooltip)
+## Mouseover information in element tree / tooltip (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 By default Pimcore only shows the element ID and type when hovering an element in the tree. Data Director extends this functionality by additionally showing all fields which are configured to be `Visible in Grid View`.
 
-## Quick search
+## Quick search (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Pimcore's default quick search searches across all element types (objects, assets, documents) and across all classes. Moreover, the order of the found items is more or less random. And because it uses MySQL's full text search, performance suffers when there are lots of elements and fields.
 
@@ -2176,7 +2183,7 @@ In the real world this makes the quick search difficult to use as the user has t
 
 Data Director changes the Quick Search behaviour: All search terms have to be present in search results and files in import archive folders of any dataport are excluded from search results (otherwise searching for a product name or SKU will often find the archived import files). This way the search results are more exact and it distinguishes the quick search from the element-specific full-text search features (e.g. data object search).
 
-## Path formatter
+## Path formatter (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Relational fields support [path formatters](https://pimcore.com/docs/pimcore/current/Development_Documentation/Objects/Object_Classes/Class_Settings/Path_Formatter.html) to define the display of the related item. Data Director comes with a universal implementation which uses the fields of the related item, which are configured to be `Visible in search Result`, also in the relation field view. To use this, set `Formatter service / class` of the relational field to `@DataDirectorSearchViewPathFormatter`.
 
@@ -2193,7 +2200,7 @@ Compared to Pimcore's default view of related items the Data Director path forma
 | Asset metadata                                    | Not accessible from relation view          | Asset metadata gets shown as tooltip                                                                                                     |
 | Direct edit of assigned assets                    | Not available                              | Supported files are displayed with a link to open the assigned asset file directly in the application (e.g. open xlsx directly in Excel) |
 
-## Element Tree Pagination
+## Element Tree Pagination (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 By default Data Director sets the number of items per page in the tree to 500 - in real projects this often means that it disables paging. This way all the elements are visible by scrolling - so it is the same behaviour as for example in tools like Windows Explorer or MacOS Finder.
 
@@ -2205,7 +2212,7 @@ pimcore:
 ```
 in your `config.yaml`.
 
-## Data option providers
+## Data option providers (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 ### Data query selector option provider
 
@@ -2215,7 +2222,7 @@ For example you can use `Brand:published:true:each(name)` to define the names of
 
 Additionally, you can access values of the currently opened object to implement dependent select fields: Imagine you have a multiselect field in the `Category` class and use `Product:category:{{ id }}:each(brand:id as value;brand:name as label)`. {{ id }} will get resolved to ID of the currently opened object (but also all other fields or chained data query selectors are possible here). In this case you will get a list of all brands of the products which have the currently opened category object assigned in their `category` field.
 
-## Class field option provider
+## Class field option provider (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 When you want to have all class fields of a certain class as select field options, you can use `@DataDirectorClassFieldsOptionProvider` in the field `Options provider class or Service Name` and set the desired class whose fields you want to list in `Options Provider Data`. This way you will automatically have all class fields as available options in the select field.
 
@@ -2223,7 +2230,7 @@ When you want to have all class fields of a certain class as select field option
 
 Configure the `Options provider class or Service Name` in your select field configuration to `@DataDirectorObjectBricksOptionProvider`. In `Options Provider Data` enter `<className>:<object brick container field>` to provide the allowed object bricks of the referenced field as select field options. You can use this to assign on category level which object brick(s) apply to all products of this category. To automatically assign the set object brick(s) to all products of this category, you have to set up a dataport which retrieves the brick name of the category and "imports" the corresponding brick to the object brick container field. Enable `Run automatically on new data` to automatically run this dataport when a product object gets saved.
 
-## Perspectives / Dashboards
+## Perspectives / Dashboards (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 Pimcore supports [perspectives](https://pimcore.com/docs/pimcore/10.6/Development_Documentation/Tools_and_Features/Perspectives.html) to customize the backend layout. Data Director provides a basic `PIM` perspective based on the data object classes' groups. All data object classes which belong to the same `group` get shown in the same perspective panel. The root folder gets automatically optimized to the lowest parent object which contains all objects of the corresponding class.
 
@@ -2233,16 +2240,16 @@ The `PIM` perspective also comes with a dashboard which includes a queue monitor
 
 ### Pimcore Core
 
-#### Custom Pimcore Backend CSS
+#### Custom Pimcore Backend CSS (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 You can add a custom CSS file to Pimcore assets and assign this to a website setting `custom.css`. This will automatically get loaded when a user accesses the Pimcore backend. This way you can customize the look and feel of the Pimcore backend or hide functions which are not configurable via permissions.
 
-### Pimcore Process Manager Bundle
+### Pimcore Process Manager Bundle (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 To run dataports periodically you can either use a real cronjob or you can use [elements/process-manager-bundle](https://github.com/elements-at/ProcessManager). With the latter you are able to configure dataport start times directly from Pimcore backend. 
 Data Director is highly integrated with the Process Manager bundle so that configured log levels, error notification and progress bars get used.
 
-### Pimcore FormBuilder
+### Pimcore FormBuilder (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 With [dachcom-digital/formbuilder](https://github.com/dachcom-digital/pimcore-formbuilder) you can create forms for your Pimcore documents. Data Director ships with an API channel for the form builder so that the entered form data can be processed in a Data Director dataport. This way form creation and processing can completely be implemented in Pimcore backend without touching any HTML, CSS or PHP files.
 
@@ -2250,13 +2257,13 @@ Create a dataport of type `Object wizard` with the desired raw data fields as in
 
 Alternatively, if you want to use the same dataport for multiple FormBuilder forms, create a raw data field `__request`. This will contain all form field data as JSON object.
 
-### Pimcore Toolbox
+### Pimcore Toolbox (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 [dachcom-digital/pimcore-toolbox](https://github.com/dachcom-digital/pimcore-toolbox) enables you to use area bricks to create Pimcore documents. In combination with Data Director this can be used for prototyping of product datasheets, workflow email notification documents etc. You can create a document which supports the toolbox area bricks by creting a new `Page` document:
 
 ![Pimcore Toolbox integration](img/toolbox-integration.png)
 
-### SEO bundle
+### SEO bundle (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
 
 [dachcom-digital/seo](https://github.com/dachcom-digital/pimcore-seo) offers an additional tab where you can enter SEO-relevant data. Data Director supports importing data into those SEO fields.
 
