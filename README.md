@@ -9,6 +9,19 @@ Pimcore plugin to optimize Pimcore concerning all PIM-related features, especial
 
 ***
 
+Supported Pimcore UI interface
+
+| Version | Classic UI                                                                 | Studio UI                                                                    |
+|:--------|:---------------------------------------------------------------------------|:-----------------------------------------------------------------------------|
+| v3      | ![check](https://www.readmecodegen.com/api/social-icon?name=check&size=18) | ![times](https://www.readmecodegen.com/api/social-icon?name=times&size=18)   |
+| v4      | ![times](https://www.readmecodegen.com/api/social-icon?name=times&size=18) | ![check](https://www.readmecodegen.com/api/social-icon?name=check&size=18)   |
+
+[Changelog v3](./changelog/v3/changelog.md)
+
+[Changelog v4](./changelog/v4/changelog.md)
+
+***
+
 ## What does this plugin do?
 
 Data Director can
