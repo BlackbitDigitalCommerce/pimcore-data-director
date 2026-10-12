@@ -1,6 +1,73 @@
 # Changelog
 
-## 4.0
+- [4.1.0](#410)
+- [4.0.4](#404)
+- [4.0.3](#403)
+- [4.0.2](#402)
+- [4.0.1](#401)
+- [4.0.0](#400)
+
+## 4.1.0
+
+### Added
+
+- Dataport icon: the Settings tab has a new **Icon** field after **Group**, using Studio's icon selector. The choice is stored in a new nullable `plugin_pim_dataport.icon` column (migration `Version20261008120000`) and is used by the dataport tree, the Import/Export toolbar dropdown and the tree context-menu submenu. Without a custom icon, the icon of the target/source class applies as before.
+- Import/Export entries in the toolbar of data objects, assets and documents, and as submenus in their tree context menus. They list the dataports compatible with the element and can start a quick run scoped to the clicked element.
+- "Restore version" under the data object tree's Advanced menu: restore chosen fields from a version, picked from a multi-select dropdown, onto one or more target objects.
+- REST API keys: open them from the Tools menu, generate a key with a chosen lifetime (including a custom expiry date and time), revoke it, change its expiry or the dataports it is limited to without regenerating it. Admins see every user's keys; user managers can no longer touch admins' keys.
+- REST API tab with interactive OpenAPI documentation on each dataport.
+- Data Director moved to the first navigation level in Studio; the Tools menu group has a settings icon.
+
+### Changed
+
+- Dataport icons render through Studio's icon component. A class icon may be a Studio icon name or an image path; both work. The built-in Asset/Document icons and the default icon are Studio icon names instead of `/bundles/pimcoreadmin/...` paths, which do not exist on Pimcore 12.
+- Saving a dataport refreshes the dataport tree, so name, group and icon changes show up without a reload.
+- The tree's tools are icon-only buttons with tooltips in a footer row.
+- A missing or invalid REST API key answers with a JSON 403; refusals from the REST run action answer with their status and message only.
+
+### Fixed
+
+- Mapping grid: virtual fields (`__virtual_*`) that no callback references any more and carry no mapping of their own are no longer listed, so stale rows can be gotten rid of. Virtual fields that still have a raw field, callback, options or key mapping stay visible until cleared.
+- Mapped dates keep the system timezone.
+- Zipping logs walks only Data Director log entries.
+- Asset checksums are calculated from the stream, so assets on remote storage no longer need a local file.
+- Serialization cache keys are cheap to build and the cache flush is re-entrancy-safe.
+- Run detail tabs stay open across a browser reload.
+- Import/Export started from an element is scoped to that element.
+- Restore version: shell arguments are escaped, log-line parsing is anchored against value-based spoofing, view/publish permissions are harmonized, sidecar log/owner files are cleaned up and the run-results endpoint guards against IDOR.
+
+## 4.0.4
+
+- Changelog updated.
+
+## 4.0.3
+
+### Fixed
+
+- Dropped the unsupported `route` key from `pimcore.context` in the bundle configuration.
+
+## 4.0.2
+
+### Added
+
+- The "Asset target folder" setting (`targetconfig.assetFolder`) is back in Studio. It decides where assets created by a mapping are placed and, for an Asset target class, is the target folder itself. It is shown in Import settings for every non-export dataport, restricted to asset drops.
+- A flag icon next to the language code in the mapping grid.
+
+### Fixed
+
+- Element deeplinks point at Studio (`{url_path}/{elementType}/{id}`) instead of the classic admin login deeplink, which does not exist on a Studio install and made the error-report email and the deeplink data-query selector abort the field's mapping.
+- A missing or non-local asset checksum no longer makes an asset unsavable.
+- Language code detection in the mapping grid.
+- `localizedfields` mappings are split into per-language rows.
+
+## 4.0.1
+
+### Fixed
+
+- Parser: a single-asset source no longer re-imports the same asset forever; `ResourceBasedParser` guards both asset branches with `SingleFileImportGuard`.
+- The progress total counts CSV records (`fgetcsv()`) and fixed-length rows (`fgets()`) instead of physical lines, so it matches what iteration can actually yield.
+
+## 4.0.0
 
 ### Breaking changes
 
