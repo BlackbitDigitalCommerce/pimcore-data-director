@@ -1,11 +1,23 @@
 # Changelog
 
+- [4.1.1](#411)
 - [4.1.0](#410)
 - [4.0.4](#404)
 - [4.0.3](#403)
 - [4.0.2](#402)
 - [4.0.1](#401)
 - [4.0.0](#400)
+
+## 4.1.1
+
+### Changed
+
+- The DataQuerySelector column definitions and the grid export/import are not part of this release. Their toolbar entries, services, controllers and translations are removed. A migration (`Version20261014120000`) drops the unused `plugin_pim_dqs_column_definition` table. The DataQuerySelector autocomplete for raw data fields and the classic admin grid export stay.
+
+### Fixed
+
+- The Import/Export entry in the data object toolbar is hidden while the folder editor shows a class grid, because the entry acts on the open element, not on the grid.
+- The relation delta snapshot is dropped before an object is saved, so the importer no longer works against a stale snapshot.
 
 ## 4.1.0
 
