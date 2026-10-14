@@ -2080,7 +2080,7 @@ This `Result callback function` gets the following parameters in variable `$para
 - `logger` - Logger object which implements `\Psr\Log\Logger`
   - Usage example: `$params['logger']->error('Something 'unexpected happened');`
 
-## REST interface {#rest-interface} (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
+## REST interface {#rest-interface}
 
 This bundle brings its own REST API interface with the following endpoints:
 
