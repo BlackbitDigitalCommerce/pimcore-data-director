@@ -1,5 +1,6 @@
 # Changelog
 
+- [4.2.0](#420)
 - [4.1.1](#411)
 - [4.1.0](#410)
 - [4.0.4](#404)
@@ -7,6 +8,37 @@
 - [4.0.2](#402)
 - [4.0.1](#401)
 - [4.0.0](#400)
+
+## 4.2.0
+
+### Added
+
+- **DataDirector extract** transformer for the advanced column of Studio's data object grid. It evaluates a DataQuerySelector expression against the object of each row, so a grid can show values reached through relations (for example the name of the related department) without a dedicated field.
+
+  How to use it:
+
+    1. Open a data object folder with the class grid and click **Add a column**, then choose **advanced** (twice: column type, then advanced column).
+    2. On the **Source field** tab choose **Simple Field** and select the system field `id`. This is required: transformers receive only the column values, not the data object, so the extract needs the object id to load the object.
+    3. On the **Transformers** tab click add and choose **Other → DataDirector extract**.
+    4. Enter the DataQuerySelector expression in the **Expression** field, for example `Department:Name`, which follows the relation `department` and returns the field `Name`. The field offers autocomplete for the fields of the grid's class.
+    5. Give the column a title and save the grid configuration. The title is shown as the column header.
+
+  Notes:
+
+    - The expression is evaluated per row, in the language of the column (set in the column configuration), which matters for localized fields.
+    - An empty expression, or a column without the `id` source field, shows an error in the cell.
+    - Each row loads its object once, so use it on moderately sized pages.
+    - The column is included in the grid export; the expression is evaluated there as well and the column title is the header.
+- Grid export from the data object grid's toolbar, based on the grid's current columns:
+    - System columns, plain class fields (localized fields as `field#locale`) and DataDirector extract columns are exported. Other columns are skipped and a warning lists them.
+    - The column titles shown in the grid are used as headers.
+    - An options dialog after choosing the format sets the CSV delimiter (default `;`) and whether inheritance is enabled (default on).
+    - `creationDate` and `modificationDate` are exported as short dates in the user's language, like in the grid.
+- **Versions** sub-tab on each dataport: version list, normalized JSON diff and restore. Studio saves write classic-format version files. The restore confirmation dialog shows paths and field names unescaped, and the list takes at most 30 % of the height so the diff gets the rest.
+- **Error monitor**, **Queue monitor** and **Tagged elements** tabs, opened from buttons in the Data Director toolbar:
+    - Error monitor: error runs across all dataports; a row opens the run detail.
+    - Queue monitor (admin only): queued and running runs, a warning for a stuck queue with an explicit Start button, and a section for failed queue jobs with per-row and bulk Restart/Delete.
+    - Tagged elements: data objects carrying all chosen tags; the tag choice is saved per user.
 
 ## 4.1.1
 
@@ -86,6 +118,12 @@
 - Pimcore floor raised to `^2025.4 || ^2026.0` (Pimcore 12.3+). The `require` entry switched from `pimcore/pimcore` to `pimcore/platform-version` -- the meta-package recommended for Pimcore 12+ that pins the entire Pimcore ecosystem (admin-ui-classic-bundle, studio-backend-bundle, generic-data-index-bundle, etc.) to a coherent version set rather than just the core. Promoted from `require-dev` to `require`. Older Pimcore versions are no longer supported. The `^2025.4` constraint does not overlap with the Pimcore 11.x line; 12.3 is the first version that satisfies it.
 - `psr/log` constraint tightened to `^3.0`.
 - PHP floor implicit at `>= 8.3`.
+
+### Dataport versions in Studio UI
+
+- Studio UI saves of a dataport (Configuration tab, Raw Data Fields grid, Mapping tab) now write version files, and the dataport editor has a **Versions** tab to compare and restore them. Versions keep the classic file format and location (`BlackbitDataDirector` in the Pimcore versions directory), so classic-era versions show up in the list.
+- `data-director:deployment:dataport-rebuild` treats dataports edited in Studio as manually edited (the newest version names a real user), the same as classic edits: it asks before overwriting them, and a non-interactive run skips them unless `--force` is passed. Before, Studio edits wrote no versions and were overwritten silently.
+- `dataport_{id}.json` may contain `restoredAt`/`restoredBy` keys after a restore in Studio UI. They mark the restore for the save-conflict check and are ignored when rebuilding dataports from the file.
 
 ### Removed back-compat scaffolding
 

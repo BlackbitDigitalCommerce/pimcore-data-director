@@ -324,13 +324,13 @@ Automatic exports also get triggered if an element of the dataport's target clas
 
 When you enabled `Run automatically on new data` for your export dataport, another checkbox `Incremental Export` becomes available. Non-incremental exports first fetch the data from all data objects which match the configured SQL condition and thereafter update this export data when a related object gets saved. Incremental backups do not fetch the data of all matching objects. Instead they fetch the data only from the saved objects and export this data. As soon as the [result callback function](#import-result-callback--result-document-generation) does not trigger any error for the exported items and does not return `false` the raw data gets automatically deleted. Then when saving other objects the whole process is repeated.
 
-#### Exporting data from grid configuration (<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3)
+#### Exporting data from grid configuration
 
 This bundle ships with a grid operator `Data Query Selector` to use [data query selectors](#data-query-selectors) to show data from data objects in the Pimcore grid / folder view. This is especially interesting for complex fields like relations, field collections, object bricks as it is really difficult to extract the desired data from such complex fields with Pimcore's default grid operators.
 
 All the grid columns can then be directly exported as CSV, JSON, XML without creating a dataport first (in the background an ad-hoc dataport will be automatically created).
 
-Another option is to create a dataport manually and choose `grid configuration` as source type. The raw data fields of such a dataport cannot be changed but get dynamically fetched from the configured saved grid configuration. So when the grid configuration gets changed, automatically also the raw data fields of the dataport get changed. In attribute mapping you can then define the export format as for usual [object-based imports](#exporting-data-from-pimcore-objects).
+(<img src="https://www.readmecodegen.com/api/social-icon?name=warning&amp;size=16&amp;color=%23ef4444" alt="warning" style="vertical-align:middle" /> Classic UI only, v3) Another option is to create a dataport manually and choose `grid configuration` as source type. The raw data fields of such a dataport cannot be changed but get dynamically fetched from the configured saved grid configuration. So when the grid configuration gets changed, automatically also the raw data fields of the dataport get changed. In attribute mapping you can then define the export format as for usual [object-based imports](#exporting-data-from-pimcore-objects).
 
 #### Importing data from filesystem
 
