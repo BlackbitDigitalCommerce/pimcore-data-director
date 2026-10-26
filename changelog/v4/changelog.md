@@ -1,5 +1,6 @@
 # Changelog
 
+- [4.2.1](#421)
 - [4.2.0](#420)
 - [4.1.1](#411)
 - [4.1.0](#410)
@@ -8,6 +9,21 @@
 - [4.0.2](#402)
 - [4.0.1](#401)
 - [4.0.0](#400)
+
+## 4.2.1
+
+### Added
+
+- **Export configuration** and **Import configuration…** in the right-click menu of a dataport in the Data Director tree ([#288](https://github.com/BlackbitDigitalCommerce/pimcore-data-director/issues/288)). Export downloads the dataport's settings, source configuration, mapping and raw fields as a JSON file. Import overwrites the selected dataport with such a file, from any dataport or system, after the dialog warns that unsaved edits in an open editor are discarded. It works like restoring a version: the state before the import is kept as a version, a name already used by another dataport becomes `<name>-restored`, and extracted raw data is only removed if the imported source settings invalidate it. Both need permission to configure the dataport.
+- The run list in the **History & Manual run** tab shows a **Download** button next to **Rerun** for export runs whose result file still exists, so you no longer have to open the run and go to the **Export output** tab ([#277](https://github.com/BlackbitDigitalCommerce/pimcore-data-director/issues/277)).
+
+### Fixed
+
+- When you start a run of a Pimcore-source dataport, the required **Language** field now opens with the system default language already selected, as it did in the classic UI. If no default is configured, or it is not one of the valid languages, the first valid language is selected. You can still pick another language or clear the field ([#277](https://github.com/BlackbitDigitalCommerce/pimcore-data-director/issues/277)).
+- On Pimcore 2026.3, the tabs of a dataport (for example **REST API** and **Preview**) can be scrolled again. Content taller than the window, such as an expanded endpoint in the **REST API** tab, was cut off.
+- Importing a relation field into an object whose child objects inherit the value no longer logs `Could not propagate inherited value of field … to descendants: Unknown column`. Relation values are not stored in the object's data tables, so the check for children with an own value looked at columns that do not exist and the children did not receive the inherited value. It now looks them up where Pimcore stores relations.
+- On Pimcore 2026.3, which removed the classic ApplicationLogger controller, the bundle no longer fails to load because its log controller extends the missing class.
+- On Pimcore 2026.3, log file objects that the maintenance task has gzipped are shown as text in Studio's application log again. Studio's own file-object endpoint returned the gzip bytes or a 404 for them ([#285](https://github.com/BlackbitDigitalCommerce/pimcore-data-director/issues/285)).
 
 ## 4.2.0
 
